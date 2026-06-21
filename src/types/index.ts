@@ -22,11 +22,12 @@ export interface BreadcrumbItem {
 }
 
 export interface ContactPayload {
-  name: string
+  nom: string
+  prenom?: string
   email: string
-  phone?: string
-  subject: string
+  telephone?: string
   message: string
+  /** Token Turnstile (Cloudflare) — vérifié côté serveur. */
   token: string
 }
 
