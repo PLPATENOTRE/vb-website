@@ -1,0 +1,19 @@
+# deps
+/node_modules
+.pnpm-store
+
+# next
+/.next
+/out
+next-env.d.ts
+*.tsbuildinfo
+
+# env
+.env*.local
+
+# test
+/playwright-report
+/test-results
+
+# os
+.DS_Store

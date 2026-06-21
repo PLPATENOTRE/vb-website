@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#FCFBF8;}
+  a{color:inherit;text-decoration:none;}
+  .ph{position:relative;background:repeating-linear-gradient(45deg,#ECEAE3,#ECEAE3 11px,#E5E2D9 11px,#E5E2D9 22px);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .ph span{font-family:'Mulish',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9b9588;background:rgba(252,251,248,.82);padding:5px 12px;border-radius:2px;}
+  .navlink{font-family:'Mulish',sans-serif;font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:#2E4739;transition:color .2s;}
+  .navlink:hover{color:#CE899E;}
+  .lk{transition:color .2s;}
+  .lk:hover{color:#CE899E;}
+  .fld{font-family:'Mulish',sans-serif;font-size:15px;color:#2E4739;background:#fff;border:1px solid #E0DDD2;border-radius:8px;padding:14px 16px;width:100%;outline:none;transition:border-color .2s;}
+  .fld:focus{border-color:#2E4739;}
+  .fld::placeholder{color:#b3afa3;}
+</style>
+</helmet>
+
+<div style="font-family:'Mulish',sans-serif;background:#FCFBF8;color:#2E4739;">
+
+  <!-- nav -->
+  <header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:20px 56px;background:rgba(252,251,248,.92);backdrop-filter:blur(8px);border-bottom:1px solid #EEEBE2;">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <a href="Accueil.dc.html" style="display:flex;align-items:center;line-height:0;"><img src="assets/logo.png" alt="Victoire Behaghel — Avocate" style="height:46px;width:auto;display:block;"></a>
+      <div style="width:1px;height:30px;background:#E4E2DA;"></div>
+      <div style="font-family:'Mulish';font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:#6B7670;line-height:1.5;">Victoire Behaghel<br><span style="color:#CE899E;">Avocate · Baux commerciaux</span></div>
+    </div>
+    <nav style="display:flex;align-items:center;gap:34px;">
+      <a class="navlink" href="A-propos.dc.html">À propos</a>
+      <a class="navlink" href="Services.dc.html">Services</a>
+      <a class="navlink" href="Actualites.dc.html">Actualités</a>
+      <a class="navlink" href="Contact.dc.html" style="color:#CE899E;">Contact</a>
+      <a href="Contact.dc.html" style="font-family:'Mulish';font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:#2E4739;background:#DDEBDD;padding:12px 22px;border-radius:30px;">Prise de rendez-vous</a>
+    </nav>
+  </header>
+
+  <!-- intro -->
+  <section style="max-width:1280px;margin:0 auto;padding:72px 56px 8px;">
+    <div style="font-family:'Mulish';font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#CE899E;margin-bottom:18px;">Contact</div>
+    <h1 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:74px;line-height:1;color:#2E4739;margin:0 0 16px;letter-spacing:-.5px;">Prenons rendez-vous</h1>
+    <p style="font-family:'Mulish';font-size:16px;line-height:1.8;color:#4f574f;max-width:620px;margin:0;">Décrivez votre situation en quelques lignes : je reviens vers vous rapidement pour convenir d'un premier échange.</p>
+  </section>
+
+  <!-- contact grid -->
+  <section style="max-width:1280px;margin:0 auto;padding:48px 56px 90px;display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:start;">
+
+    <!-- coordonnées -->
+    <div>
+      <div style="display:flex;flex-direction:column;gap:30px;">
+        <div>
+          <div style="font-family:'Mulish';font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#CE899E;margin-bottom:8px;">Adresse</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#2E4739;line-height:1.4;">ALGYR Centre d'affaires<br>20, boulevard Eugène Deruelle<br>69003 Lyon</div>
+        </div>
+        <div style="display:flex;gap:48px;flex-wrap:wrap;">
+          <div>
+            <div style="font-family:'Mulish';font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#CE899E;margin-bottom:8px;">Téléphone</div>
+            <a href="tel:0650058973" class="lk" style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#2E4739;">06 50 05 89 73</a>
+          </div>
+          <div>
+            <div style="font-family:'Mulish';font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#CE899E;margin-bottom:8px;">Réseau</div>
+            <a class="lk" style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#2E4739;">LinkedIn</a>
+          </div>
+        </div>
+        <div class="ph" style="height:300px;border-radius:8px;margin-top:6px;"><span>Plan — Lyon 3ᵉ</span></div>
+        <div style="background:#F4F2EB;border-radius:8px;padding:24px 26px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;color:#2E4739;margin-bottom:6px;">Intervention partout en France</div>
+          <p style="font-family:'Mulish';font-size:14px;line-height:1.7;color:#4f574f;margin:0;">Basée à Lyon, je me déplace dans vos locaux pour comprendre le contexte de chaque dossier.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- formulaire -->
+    <div style="background:#fff;border:1px solid #EEEBE2;border-radius:12px;padding:40px;box-shadow:0 10px 30px rgba(46,71,57,.06);">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:32px;color:#2E4739;margin:0 0 24px;">Formulaire de contact</h2>
+      <div style="display:flex;flex-direction:column;gap:18px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+          <div>
+            <label style="display:block;font-family:'Mulish';font-size:13px;color:#6B7670;margin-bottom:7px;">Nom <span style="color:#CE899E;">*</span></label>
+            <input class="fld" type="text" placeholder="Votre nom">
+          </div>
+          <div>
+            <label style="display:block;font-family:'Mulish';font-size:13px;color:#6B7670;margin-bottom:7px;">Prénom</label>
+            <input class="fld" type="text" placeholder="Votre prénom">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+          <div>
+            <label style="display:block;font-family:'Mulish';font-size:13px;color:#6B7670;margin-bottom:7px;">E-mail <span style="color:#CE899E;">*</span></label>
+            <input class="fld" type="email" placeholder="vous@exemple.fr">
+          </div>
+          <div>
+            <label style="display:block;font-family:'Mulish';font-size:13px;color:#6B7670;margin-bottom:7px;">Téléphone</label>
+            <input class="fld" type="tel" placeholder="06 …">
+          </div>
+        </div>
+        <div>
+          <label style="display:block;font-family:'Mulish';font-size:13px;color:#6B7670;margin-bottom:7px;">Votre message <span style="color:#CE899E;">*</span></label>
+          <textarea class="fld" rows="5" placeholder="Décrivez votre situation : type de local, étape du bail, question principale…" style="resize:vertical;"></textarea>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;background:#F4F2EB;border-radius:8px;padding:14px 16px;">
+          <span style="font-family:'Mulish';font-size:13px;color:#6B7670;">Captcha mathématique <span style="color:#CE899E;">*</span></span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#2E4739;">8 + 1 =</span>
+          <input class="fld" type="text" style="width:80px;background:#fff;" placeholder="?">
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:4px;">
+          <span style="font-family:'Mulish';font-size:12px;color:#9b9588;">* Champs obligatoires</span>
+          <a style="font-family:'Mulish';font-weight:700;font-size:14px;letter-spacing:1.4px;text-transform:uppercase;color:#FCFBF8;background:#2E4739;padding:16px 40px;border-radius:32px;">Envoyer</a>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- footer -->
+  <footer style="background:#1E342A;color:#cdd8cf;padding:56px;">
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;color:#FCFBF8;margin-bottom:10px;">Victoire Behaghel</div>
+        <div style="font-family:'Mulish';font-size:14px;line-height:1.8;color:#9fb0a4;">Droit immobilier · Baux commerciaux<br>Conseil &amp; contentieux</div>
+      </div>
+      <div style="font-family:'Mulish';font-size:14px;line-height:1.9;color:#9fb0a4;">ALGYR Centre d'affaires<br>20, boulevard Eugène Deruelle<br>69003 Lyon<br>06 50 05 89 73</div>
+      <div style="font-family:'Mulish';font-size:14px;line-height:1.9;color:#9fb0a4;display:flex;flex-direction:column;gap:4px;"><a class="lk">LinkedIn</a><a class="lk">Mentions légales</a><a class="lk">Cookies</a><a class="lk">RGPD</a><a class="lk" href="Honoraires.dc.html">Honoraires</a></div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+</body>
+</html>

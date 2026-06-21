@@ -1,0 +1,42 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+/* Design tokens — charte CLAUDE.md §3. @theme expose aussi les utilitaires
+   Tailwind (bg-forest, text-rose, font-cormorant…). */
+@theme {
+  --color-forest: #2e4739;
+  --color-forest-dark: #1e342a;
+  --color-rose: #ce899e;
+  --color-mint: #ddebdd;
+  --color-cream: #fcfbf8;
+  --color-sand: #f4f2eb;
+
+  --font-cormorant: "Cormorant Garamond", Georgia, serif;
+  --font-mulish: "Mulish", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-cream);
+  color: var(--color-forest);
+  font-family: var(--font-mulish);
+  font-size: 17px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
