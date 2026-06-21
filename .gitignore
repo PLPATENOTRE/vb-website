@@ -17,3 +17,7 @@ next-env.d.ts
 
 # os
 .DS_Store
+
+# playwright artifacts
+.playwright-mcp/
+/foundation-*.png

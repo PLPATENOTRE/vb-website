@@ -10,7 +10,10 @@
   },
   "linter": {
     "enabled": true,
-    "rules": { "recommended": true }
+    "rules": {
+      "recommended": true,
+      "performance": { "noImgElement": "off" }
+    }
   },
   "javascript": {
     "formatter": { "quoteStyle": "single", "semicolons": "asNeeded" }
