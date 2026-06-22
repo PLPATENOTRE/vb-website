@@ -15,20 +15,44 @@ export const metadata = pageMetadata({
   ogImage: '/assets/og-accueil.jpg',
 })
 
-const expertises = [
-  { num: '01', label: 'Négociation du contrat de bail', href: '/baux-commerciaux/negociation' },
+// Aperçu compact des expertises (remplace la bande photo) — labels courts + 1 ligne.
+const apercu = [
+  {
+    num: '01',
+    label: 'Négociation du bail',
+    desc: 'Sécuriser les clauses avant la signature.',
+    href: '/baux-commerciaux/negociation',
+  },
   {
     num: '02',
-    label: 'Accompagnement tout au long de la vie du bail',
+    label: 'Vie du bail',
+    desc: 'Révision, indexation, cession, sous-location.',
     href: '/baux-commerciaux/vie-du-bail',
   },
-  { num: '03', label: 'Contentieux du bail commercial', href: '/baux-commerciaux/contentieux' },
+  {
+    num: '03',
+    label: 'Contentieux',
+    desc: 'Défendre vos intérêts devant le juge.',
+    href: '/baux-commerciaux/contentieux',
+  },
   {
     num: '04',
-    label: 'Fin de bail : renouvellement ou congé',
+    label: 'Fin de bail',
+    desc: 'Renouvellement, congé, indemnité d’éviction.',
     href: '/baux-commerciaux/fin-de-bail',
   },
-  { num: '05', label: 'Formations', href: '/baux-commerciaux/formations' },
+  {
+    num: '05',
+    label: 'Cession de fonds & d’actions',
+    desc: 'Sécuriser la transmission de l’activité.',
+    href: '/baux-commerciaux/cession-fonds-actions',
+  },
+  {
+    num: '06',
+    label: 'Formations',
+    desc: 'Monter en compétence sur le bail.',
+    href: '/baux-commerciaux/formations',
+  },
 ]
 
 const ARTICLE_TITLES = [
@@ -71,17 +95,57 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-        {/* Portrait — Victoire Behaghel */}
+        {/* Portrait — Victoire Behaghel (image portrait, bonnes dimensions) */}
         <img
-          src="/assets/photo_accueil_light.webp"
+          src="/assets/photo_accueil_portrait_2x.webp"
           alt="Victoire Behaghel, avocate en baux commerciaux à Lyon"
-          width={520}
-          height={480}
-          className="mt-10 h-[320px] w-full rounded object-cover md:mt-0 md:h-[480px]"
+          width={900}
+          height={1030}
+          className="mt-10 h-[420px] w-full rounded object-cover object-top md:mt-0 md:h-[520px]"
         />
       </section>
 
-      {/* Citation — avant la photo des rues de Lyon */}
+      {/* Aperçu des expertises — rangée 6 colonnes (remplace la bande photo).
+          gap-px + bg sur le conteneur = filets fins entre cellules, quel que soit le wrap. */}
+      <section className="border-y border-[#EEEBE2] bg-sand">
+        <div className="mx-auto max-w-[1280px] px-6 py-12 md:px-14">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="mb-3 font-mulish text-[12px] uppercase tracking-[3px] text-rose">
+                Les expertises
+              </p>
+              <h2 className="m-0 font-cormorant text-[34px] font-semibold leading-tight text-forest md:text-[42px]">
+                Le bail commercial, de A à Z
+              </h2>
+            </div>
+            <Link
+              href="/baux-commerciaux"
+              className="border-b border-rose pb-[3px] font-mulish text-sm font-semibold tracking-[1px] text-forest transition-colors hover:text-rose"
+            >
+              Toutes les expertises
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-px bg-[#E0DDD2] sm:grid-cols-2 lg:grid-cols-6">
+            {apercu.map(({ num, label, desc, href }) => (
+              <Link
+                key={num}
+                href={href}
+                className="bg-sand px-6 py-9 transition-colors hover:bg-[#efece3]"
+              >
+                <span className="font-cormorant text-[15px] italic tracking-wide text-rose">
+                  {num}
+                </span>
+                <h3 className="mt-3 mb-2 font-cormorant text-[21px] font-semibold leading-[1.15] text-forest">
+                  {label}
+                </h3>
+                <p className="m-0 font-mulish text-[13px] leading-[1.6] text-[#6b726b]">{desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Citation */}
       <section className="flex justify-center px-6 py-24">
         <blockquote className="m-0 max-w-[1000px] text-center font-cormorant text-[26px] font-medium italic leading-[1.45] text-forest md:text-[34px]">
           <span
@@ -101,18 +165,6 @@ export default function HomePage() {
           </span>
         </blockquote>
       </section>
-
-      {/* Bande photo rue */}
-      <div className="mx-auto max-w-[1280px] px-6 md:px-14">
-        <img
-          src="/assets/photo_rue.webp"
-          alt="Rue commerçante — illustration du droit des baux commerciaux"
-          width={1168}
-          height={380}
-          className="w-full rounded object-cover"
-          style={{ height: '380px' }}
-        />
-      </div>
 
       {/* Le cabinet — texte pleine largeur (sans photo) */}
       <section className="mx-auto max-w-[1280px] px-6 pb-24 md:px-14">
@@ -137,42 +189,6 @@ export default function HomePage() {
         >
           En savoir plus
         </Link>
-      </section>
-
-      {/* Expertises */}
-      <section className="border-y border-[#EEEBE2] bg-sand">
-        <div className="mx-auto max-w-[1280px] px-6 py-[84px] md:px-14">
-          <div className="mb-[42px] flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="mb-3 font-mulish text-[12px] uppercase tracking-[3px] text-rose">
-                Les expertises
-              </p>
-              <h2 className="m-0 font-cormorant text-[38px] font-semibold text-forest md:text-[46px]">
-                Le bail commercial, de A à Z
-              </h2>
-            </div>
-            <Link
-              href="/baux-commerciaux"
-              className="border-b border-rose pb-[3px] font-mulish text-sm font-semibold tracking-[1px] text-forest transition-colors hover:text-rose"
-            >
-              Toutes les expertises
-            </Link>
-          </div>
-          <div className="flex flex-col">
-            {expertises.map(({ num, label, href }, i) => (
-              <Link
-                key={num}
-                href={href}
-                className={`grid grid-cols-[56px_1fr] items-baseline gap-7 border-t border-[#E0DDD2] py-[26px] transition-opacity hover:opacity-70 md:grid-cols-[64px_1fr]${i === expertises.length - 1 ? ' border-b' : ''}`}
-              >
-                <span className="font-cormorant text-[28px] text-rose md:text-[34px]">{num}</span>
-                <span className="font-cormorant text-[24px] font-semibold text-forest md:text-[30px]">
-                  {label}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* Actualités */}
