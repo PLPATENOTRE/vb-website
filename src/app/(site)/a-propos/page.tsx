@@ -52,12 +52,14 @@ export default function AProposPage() {
 
       {/* Portrait + bio */}
       <section className="mx-auto max-w-[1280px] gap-16 px-6 pb-24 pt-10 md:grid md:grid-cols-[0.9fr_1.1fr] md:px-14">
-        {/* Placeholder portrait */}
-        <div className="mb-10 flex h-[360px] items-center justify-center rounded bg-sand md:sticky md:top-[110px] md:mb-0 md:h-[600px]">
-          <span className="rounded-sm bg-cream/80 px-3 py-1.5 font-mulish text-[11px] uppercase tracking-[2px] text-[#9b9588]">
-            Portrait — Me Victoire Behaghel
-          </span>
-        </div>
+        {/* Portrait — Me Victoire Behaghel */}
+        <img
+          src="/assets/photo_portrait_victoire.webp"
+          alt="Victoire Behaghel, avocate en baux commerciaux à Lyon"
+          width={797}
+          height={1056}
+          className="mb-10 h-[360px] w-full rounded object-cover object-top md:sticky md:top-[110px] md:mb-0 md:h-[600px]"
+        />
 
         {/* Bio */}
         <div>
