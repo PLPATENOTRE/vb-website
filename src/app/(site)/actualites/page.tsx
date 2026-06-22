@@ -45,14 +45,13 @@ export default async function ActualitesPage() {
         <section className="mx-auto max-w-[1280px] px-6 pb-4 md:px-14">
           <Link
             href={`/actualites/${featured.slug}`}
-            className="grid items-center gap-12 overflow-hidden rounded-md bg-sand md:grid-cols-[1.05fr_1fr]"
+            className="grid items-center gap-10 overflow-hidden rounded-md bg-sand px-6 py-10 md:grid-cols-[1.05fr_1fr] md:gap-14 md:px-12 md:py-14"
           >
-            <div className="flex h-[280px] items-center justify-center bg-[#ECEAE3] md:h-[380px]">
-              <span className="font-mulish text-[11px] uppercase tracking-[2px] text-[#9b9588]">
-                {featured.category}
-              </span>
-            </div>
-            <div className="px-6 pb-10 md:py-12 md:pl-0 md:pr-12">
+            {/* Le titre prend la place de l'ancien placeholder image */}
+            <h2 className="m-0 font-cormorant text-[34px] font-semibold leading-[1.08] text-forest md:text-[48px]">
+              {featured.title}
+            </h2>
+            <div>
               <div className="mb-4 flex items-center gap-3.5">
                 <span className="rounded-full bg-forest px-3 py-1 font-mulish text-[11px] uppercase tracking-[2px] text-cream">
                   À la une
@@ -61,9 +60,6 @@ export default async function ActualitesPage() {
                   {formatFrenchDate(featured.publishedDate)}
                 </span>
               </div>
-              <h2 className="mb-4 font-cormorant text-[32px] font-semibold leading-[1.1] text-forest md:text-[40px]">
-                {featured.title}
-              </h2>
               <p className="mb-6 font-mulish text-[16px] leading-[1.8] text-[#4f574f]">
                 {featured.excerpt}
               </p>
