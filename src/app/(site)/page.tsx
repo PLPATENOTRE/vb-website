@@ -125,12 +125,12 @@ export default function HomePage() {
               Toutes les expertises
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-px bg-[#E0DDD2] sm:grid-cols-2 lg:grid-cols-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6">
             {apercu.map(({ num, label, desc, href }) => (
               <Link
                 key={num}
                 href={href}
-                className="bg-sand px-6 py-9 transition-colors hover:bg-[#efece3]"
+                className="border-[#E0DDD2] border-t bg-sand px-6 py-9 transition-colors first:border-t-0 hover:bg-[#efece3] sm:[&:nth-child(2)]:border-t-0 sm:[&:nth-child(even)]:border-l lg:border-t-0 lg:[&:not(:first-child)]:border-l"
               >
                 <span className="font-cormorant text-[24px] italic tracking-wide text-rose">
                   {num}
