@@ -15,18 +15,18 @@ export const metadata = pageMetadata({
 const PRINCIPLES = [
   {
     num: '01',
-    title: 'Une expertise concentrée',
-    text: "Le bail commercial est une matière technique. M'y consacrer pleinement, c'est anticiper les risques avant qu'ils ne deviennent des litiges.",
+    title: 'De bout en bout',
+    text: "Du bail commercial à la cession du fonds ou des titres, j'interviens sur l'ensemble du cycle de vie de l'actif — sans rupture entre les étapes, sans perte de contexte.",
   },
   {
     num: '02',
-    title: 'Une proximité réelle',
-    text: "Je me déplace sur le terrain pour comprendre l'usage des lieux et le contexte de chaque dossier, condition d'un conseil juste.",
+    title: 'Au plus près du dossier',
+    text: "Comprendre l'activité, les locaux, le contexte économique de chaque client — c'est la condition d'un conseil utile, pas seulement correct.",
   },
   {
     num: '03',
     title: 'Un cap clair',
-    text: `Privilégier l’accord lorsqu’il protège vos intérêts, plaider avec détermination lorsqu’il faut les défendre.`,
+    text: "Trouver l'accord lorsqu'il protège vos intérêts, défendre avec détermination lorsqu'il faut les faire valoir. Sans ambiguïté sur l'objectif.",
   },
 ]
 
@@ -46,7 +46,7 @@ export default function AProposPage() {
           Le cabinet
         </p>
         <h1 className="m-0 max-w-[900px] font-cormorant text-[52px] font-semibold leading-none tracking-[-0.5px] text-forest md:text-[74px]">
-          Une avocate dédiée au bail commercial
+          Du bail à la cession, un accompagnement complet
         </h1>
       </section>
 
@@ -62,23 +62,24 @@ export default function AProposPage() {
         {/* Bio */}
         <div>
           <p className="mb-8 font-cormorant text-[22px] italic leading-[1.4] text-[#5b6b60] md:text-[28px]">
-            Le bail commercial conditionne la vie de l'entreprise. J'en fais mon unique terrain
-            d'expertise, pour des décisions éclairées et des relations sécurisées.
+            Du bail commercial à la cession du fonds ou des titres, je couvre l'ensemble du cycle de
+            vie de l'actif commercial — pour des décisions éclairées et des relations sécurisées.
           </p>
           <p className="mb-[18px] font-mulish text-[16px] leading-[1.85] text-[#4f574f]">
-            J'interviens à chaque étape de la vie du bail commercial — négociation, signature,
-            cession, révision, renouvellement, fin de bail — en conseil comme en contentieux. Mon
-            exercice est concentré sur cette matière, ce qui me permet d'en maîtriser les subtilités
-            et les évolutions de jurisprudence.
+            J'interviens à chaque étape — négociation, signature, révision, renouvellement, fin de
+            bail — en conseil comme en contentieux. Lorsque l'activité se transmet, j'accompagne
+            également la cession du fonds de commerce et la cession des titres de la société, en
+            sécurisant le sort du bail et les garanties associées.
           </p>
           <p className="mb-[18px] font-mulish text-[16px] leading-[1.85] text-[#4f574f]">
-            J'accompagne des acteurs de tous secteurs — artisans, commerçants, industriels,
-            investisseurs — confrontés à un enjeu sur leur local : une clause à sécuriser, un loyer
-            à fixer, une indemnité à défendre, une échéance à anticiper.
+            J'accompagne des acteurs de tous secteurs — artisans, commerçants, hôteliers,
+            industriels, investisseurs — confrontés à un enjeu sur leur local ou leur activité : une
+            clause à sécuriser, un loyer à fixer, une indemnité à défendre, une transmission à
+            structurer.
           </p>
           <p className="mb-9 font-mulish text-[16px] leading-[1.85] text-[#4f574f]">
-            Attachée à comprendre la réalité de chaque dossier, je privilégie un accompagnement de
-            proximité et sur mesure. Basée à Lyon, j'interviens partout en France.
+            Concentrée sur cette matière, je maîtrise ses subtilités et ses évolutions de
+            jurisprudence. Basée à Lyon, j'interviens partout en France.
           </p>
 
           {/* Key figures */}
@@ -86,7 +87,7 @@ export default function AProposPage() {
             <div>
               <div className="font-cormorant text-[40px] font-semibold text-forest">100 %</div>
               <div className="font-mulish text-[13px] tracking-[1px] text-[#6B7670]">
-                baux commerciaux
+                immobilier commercial
               </div>
             </div>
             <div>
@@ -96,9 +97,9 @@ export default function AProposPage() {
               </div>
             </div>
             <div>
-              <div className="font-cormorant text-[40px] font-semibold text-forest">Sur place</div>
+              <div className="font-cormorant text-[40px] font-semibold text-forest">Conseil</div>
               <div className="font-mulish text-[13px] tracking-[1px] text-[#6B7670]">
-                dans vos locaux
+                &amp; contentieux
               </div>
             </div>
           </div>
