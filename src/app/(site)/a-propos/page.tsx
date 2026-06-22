@@ -106,8 +106,8 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Approche — 3 principes */}
-      <section className="border-b border-[#EEEBE2] border-t bg-sand">
+      {/* Approche — 3 principes. mb = intervalle cream avant le CTA (séparation visuelle). */}
+      <section className="mb-16 border-t border-[#EEEBE2] bg-sand md:mb-24">
         <div className="mx-auto max-w-[1280px] px-6 py-20 md:px-14 md:py-[84px]">
           <p className="mb-3 font-mulish text-xs uppercase tracking-[3px] text-rose">
             Mon approche
