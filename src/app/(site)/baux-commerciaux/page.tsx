@@ -73,37 +73,37 @@ const sectors = [
   {
     label: 'Commerçants',
     description: 'Destination, charges de galerie, cession du fonds',
-    href: '/bail-commercial-commercants',
+    href: '/bail-commercial-commercant',
   },
   {
     label: 'Restaurateurs',
     description: 'Destination, travaux, terrasse, bail dérogatoire',
-    href: '/bail-commercial-restaurateurs',
+    href: '/bail-commercial-restaurateur',
   },
   {
     label: 'Professions libérales',
     description: "Bail pro vs commercial, droits à l'échéance",
-    href: '/bail-commercial-professions-liberales',
+    href: '/bail-commercial-profession-liberale',
   },
   {
     label: 'Investisseurs',
     description: 'Rédaction, garanties, révision, refus de renouvellement',
-    href: '/bail-commercial-investisseurs',
+    href: '/bail-commercial-investisseur',
   },
   {
     label: 'Industriels',
     description: 'Destination, travaux lourds, ILAT, ICPE',
-    href: '/bail-commercial-industriels',
+    href: '/bail-commercial-industriel',
   },
   {
     label: 'Hôteliers',
     description: "Fonds hôtelier, mise aux normes, indemnité d'éviction",
-    href: '/bail-commercial-hoteliers',
+    href: '/bail-commercial-hotelier',
   },
   {
     label: 'Logisticiens',
     description: 'Entrepôt, ILAT, travaux, clause de sortie triennale',
-    href: '/bail-commercial-logisticiens',
+    href: '/bail-commercial-entrepot-logistique',
   },
 ] as const
 
