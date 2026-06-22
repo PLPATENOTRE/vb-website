@@ -132,13 +132,13 @@ export default function HomePage() {
                 href={href}
                 className="bg-sand px-6 py-9 transition-colors hover:bg-[#efece3]"
               >
-                <span className="font-cormorant text-[15px] italic tracking-wide text-rose">
+                <span className="font-cormorant text-[24px] italic tracking-wide text-rose">
                   {num}
                 </span>
-                <h3 className="mt-3 mb-2 font-cormorant text-[21px] font-semibold leading-[1.15] text-forest">
+                <h3 className="mt-3 mb-2.5 font-cormorant text-[27px] font-semibold leading-[1.12] text-forest">
                   {label}
                 </h3>
-                <p className="m-0 font-mulish text-[13px] leading-[1.6] text-[#6b726b]">{desc}</p>
+                <p className="m-0 font-mulish text-[17px] leading-[1.7] text-[#6b726b]">{desc}</p>
               </Link>
             ))}
           </div>
@@ -166,29 +166,31 @@ export default function HomePage() {
         </blockquote>
       </section>
 
-      {/* Le cabinet — texte pleine largeur (sans photo) */}
-      <section className="mx-auto max-w-[1280px] px-6 pb-24 md:px-14">
-        <p className="mb-[14px] font-mulish text-[12px] uppercase tracking-[3px] text-rose">
-          Le cabinet
-        </p>
-        <h2 className="m-0 mb-6 font-cormorant text-[38px] font-semibold leading-[1.05] text-forest md:text-[46px]">
-          Un accompagnement sur mesure
-        </h2>
-        <p className="m-0 mb-[18px] max-w-[900px] font-mulish text-[17px] leading-[1.85] text-[#4f574f]">
-          J&apos;interviens à chaque étape de la vie du bail commercial — négociation, cession,
-          révision, renouvellement — en conseil comme en contentieux (loyers, indemnités…), auprès
-          d&apos;acteurs de tous secteurs : artisans, commerçants, industriels, investisseurs.
-        </p>
-        <p className="m-0 mb-7 max-w-[900px] font-mulish text-[17px] leading-[1.85] text-[#4f574f]">
-          Attachée à comprendre la réalité de chaque dossier, je privilégie un accompagnement de
-          proximité, sur mesure. Basée à Lyon, j&apos;interviens partout en France.
-        </p>
-        <Link
-          href="/a-propos"
-          className="border-b border-rose pb-[3px] font-mulish text-sm font-semibold tracking-[1px] text-forest transition-colors hover:text-rose"
-        >
-          En savoir plus
-        </Link>
+      {/* Le cabinet — fond taupe pour couper avec la citation et les actualités */}
+      <section className="border-y border-[#EEEBE2] bg-sand">
+        <div className="mx-auto max-w-[1280px] px-6 py-[84px] md:px-14">
+          <p className="mb-[14px] font-mulish text-[12px] uppercase tracking-[3px] text-rose">
+            Le cabinet
+          </p>
+          <h2 className="m-0 mb-6 font-cormorant text-[38px] font-semibold leading-[1.05] text-forest md:text-[46px]">
+            Un accompagnement sur mesure
+          </h2>
+          <p className="m-0 mb-[18px] max-w-[900px] font-mulish text-[17px] leading-[1.85] text-[#4f574f]">
+            J&apos;interviens à chaque étape de la vie du bail commercial — négociation, cession,
+            révision, renouvellement — en conseil comme en contentieux (loyers, indemnités…), auprès
+            d&apos;acteurs de tous secteurs : artisans, commerçants, industriels, investisseurs.
+          </p>
+          <p className="m-0 mb-7 max-w-[900px] font-mulish text-[17px] leading-[1.85] text-[#4f574f]">
+            Attachée à comprendre la réalité de chaque dossier, je privilégie un accompagnement de
+            proximité, sur mesure. Basée à Lyon, j&apos;interviens partout en France.
+          </p>
+          <Link
+            href="/a-propos"
+            className="border-b border-rose pb-[3px] font-mulish text-sm font-semibold tracking-[1px] text-forest transition-colors hover:text-rose"
+          >
+            En savoir plus
+          </Link>
+        </div>
       </section>
 
       {/* Actualités */}
