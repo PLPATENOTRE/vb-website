@@ -15,28 +15,32 @@
   --font-mulish: "Mulish", system-ui, sans-serif;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+/* Reset dans @layer base : sinon les règles hors-layer (ex. `a { color: inherit }`)
+   battent les utilitaires Tailwind layered (text-cream/text-rose…) sur les liens. */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-html {
-  -webkit-text-size-adjust: 100%;
-}
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
 
-body {
-  margin: 0;
-  background: var(--color-cream);
-  color: var(--color-forest);
-  font-family: var(--font-mulish);
-  font-size: 17px;
-  line-height: 1.85;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
+  body {
+    margin: 0;
+    background: var(--color-cream);
+    color: var(--color-forest);
+    font-family: var(--font-mulish);
+    font-size: 17px;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
