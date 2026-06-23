@@ -89,13 +89,21 @@ export default async function ArticlePage({ params }: PageProps) {
           </p>
         </header>
 
-        {/* Visuel */}
+        {/* Couverture — image si renseignée dans Keystatic, sinon placeholder catégorie */}
         <div className="mx-auto max-w-[1080px] px-6 pt-10 md:px-14">
-          <div className="flex h-[260px] items-center justify-center rounded bg-sand md:h-[460px]">
-            <span className="font-mulish text-[11px] uppercase tracking-[2px] text-[#9b9588]">
-              {article.category}
-            </span>
-          </div>
+          {article.coverImage ? (
+            <img
+              src={article.coverImage}
+              alt={article.title}
+              className="h-[260px] w-full rounded object-cover md:h-[460px]"
+            />
+          ) : (
+            <div className="flex h-[260px] items-center justify-center rounded bg-sand md:h-[460px]">
+              <span className="font-mulish text-[11px] uppercase tracking-[2px] text-[#9b9588]">
+                {article.category}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Corps + aside */}
