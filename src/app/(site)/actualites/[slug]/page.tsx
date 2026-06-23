@@ -108,7 +108,9 @@ export default async function ArticlePage({ params }: PageProps) {
 
         {/* Corps + aside */}
         <div className="mx-auto grid max-w-[1180px] items-start gap-16 px-6 py-14 md:px-14 lg:grid-cols-[1fr_320px]">
-          <div>
+          {/* min-w-0 : laisse la colonne 1fr rétrécir ; break-words (hérité) : casse les
+              chaînes longues/URLs au lieu de déborder horizontalement. */}
+          <div className="min-w-0 break-words">
             <DocumentRenderer document={article.content} renderers={renderers} />
           </div>
 
