@@ -1,0 +1,54 @@
+# Firebase App Hosting — behaghel-avocat.com
+# App Hosting build & exécute le Next.js COMPLET sur Cloud Run.
+# Les routes API (/api/contact via Resend, /api/keystatic) sont donc préservées —
+# contrairement à un export statique Firebase Hosting qui les supprimerait.
+#
+# Build : buildpack Cloud Build → détecte pnpm (champ "packageManager" du package.json)
+#         + Node 22 (champ "engines.node"). Lance `pnpm install` puis `pnpm build`.
+#
+# Réf : https://firebase.google.com/docs/app-hosting/configure
+
+runConfig:
+  minInstances: 0 # scale-to-zero : aucun coût à vide (site vitrine, faible trafic)
+  maxInstances: 2 # plafond — borne le coût et tout emballement
+  concurrency: 80 # requêtes simultanées par instance avant scale-up
+  cpu: 1
+  memoryMiB: 512
+
+# Variables d'environnement.
+#   value:  valeur en clair — UNIQUEMENT pour des données publiques
+#           (les NEXT_PUBLIC_* finissent dans le bundle client).
+#   secret: référence un secret Google Secret Manager.
+#           Le créer AVANT le premier rollout, sinon il échoue :
+#             firebase apphosting:secrets:set RESEND_API_KEY
+env:
+  # --- Publiques (build + runtime) ---
+  - variable: NEXT_PUBLIC_SITE_URL
+    value: https://behaghel-avocat.com
+    availability:
+      - BUILD
+      - RUNTIME
+
+  # Clé publique Turnstile : inlinée au BUILD → doit être dispo au build.
+  # ⚠️ Valeur actuelle = clé de TEST Cloudflare. Remplacer par la clé de production.
+  - variable: NEXT_PUBLIC_TURNSTILE_SITE_KEY
+    value: '1x00000000000000000000AA'
+    availability:
+      - BUILD
+      - RUNTIME
+
+  # --- Secrets runtime (formulaire de contact) ---
+  # Prérequis : `firebase apphosting:secrets:set <NOM>` pour chacun.
+  - variable: RESEND_API_KEY
+    secret: RESEND_API_KEY
+  - variable: RESEND_TO
+    secret: RESEND_TO
+  - variable: TURNSTILE_SECRET_KEY
+    secret: TURNSTILE_SECRET_KEY
+# --- À AJOUTER plus tard, quand ces briques seront branchées ---
+# Keystatic en mode GitHub (autonomie de contenu de Victoire) :
+#   - variable: KEYSTATIC_GITHUB_CLIENT_ID   (value, public)
+#   - variable: KEYSTATIC_GITHUB_CLIENT_SECRET  (secret)
+#   - variable: KEYSTATIC_SECRET               (secret)
+# Sentry (prod) :
+#   - variable: NEXT_PUBLIC_SENTRY_DSN         (value)
