@@ -1,0 +1,42 @@
+# Contrôle qualité automatique. Tourne à chaque push sur main ET sur chaque PR vers main
+# (Victoire pousse en général directement sur main, donc le déclencheur `push` est essentiel).
+# Pas de règle de PR bloquante : ce workflow signale, il ne verrouille pas le merge.
+# Bloque rien à installer : tout vient du dépôt (lockfile + packageManager).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Annule un run précédent encore en cours sur la même branche (évite les doublons).
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # pnpm lit la version depuis "packageManager" dans package.json (pnpm@11.x).
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint + format (Biome)
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
