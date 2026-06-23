@@ -300,5 +300,4 @@ Biome (`biome.json`) : quotes simples, point-virgules `asNeeded`, indent 2 espac
 
 ---
 
-*Source de vérité design : repo `behaghel-avocat-maquettes` (fichiers `.dc.html`).*  
-*Source de vérité stack : `MEMO-STACK.md` (relevé `eqxia-web` au 2026-06-20).*
+*Source de vérité design : repo `behaghel-avocat-maquettes` (fichiers `.dc.html`).*
