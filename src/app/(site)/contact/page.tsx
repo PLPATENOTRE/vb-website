@@ -85,24 +85,6 @@ export default function ContactPage() {
                 </Link>
               </div>
             </div>
-
-            {/* Placeholder plan */}
-            <div className="flex h-[300px] items-center justify-center rounded-lg bg-sand">
-              <span className="rounded bg-cream/80 px-3 py-1 font-mulish text-[11px] uppercase tracking-[2px] text-[#9b9588]">
-                Plan — Lyon 3ᵉ
-              </span>
-            </div>
-
-            {/* Intervention France */}
-            <div className="rounded-lg bg-sand px-6 py-6">
-              <p className="mb-1.5 font-cormorant text-[22px] font-semibold text-forest">
-                Intervention partout en France
-              </p>
-              <p className="m-0 font-mulish text-[14px] leading-[1.7] text-[#4f574f]">
-                Basée à Lyon, je me déplace dans vos locaux pour comprendre le contexte de chaque
-                dossier.
-              </p>
-            </div>
           </div>
 
           {/* Colonne droite — formulaire */}
