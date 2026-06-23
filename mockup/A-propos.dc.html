@@ -1,121 +1,239 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./support.js"></script>
 </head>
+
 <body>
-<x-dc>
-<helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  *{box-sizing:border-box;}
-  body{margin:0;background:#FCFBF8;}
-  a{color:inherit;text-decoration:none;}
-  .ph{position:relative;background:repeating-linear-gradient(45deg,#ECEAE3,#ECEAE3 11px,#E5E2D9 11px,#E5E2D9 22px);display:flex;align-items:center;justify-content:center;overflow:hidden;}
-  .ph span{font-family:'Mulish',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9b9588;background:rgba(252,251,248,.82);padding:5px 12px;border-radius:2px;}
-  .navlink{font-family:'Mulish',sans-serif;font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:#2E4739;transition:color .2s;}
-  .navlink:hover{color:#CE899E;}
-  .lk{transition:color .2s;}
-  .lk:hover{color:#CE899E;}
-</style>
-</helmet>
+  <x-dc>
+    <helmet>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Mulish:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+      <style>
+        * {
+          box-sizing: border-box;
+        }
 
-<div style="font-family:'Mulish',sans-serif;background:#FCFBF8;color:#2E4739;">
+        body {
+          margin: 0;
+          background: #FCFBF8;
+        }
 
-  <!-- nav -->
-  <header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:20px 56px;background:rgba(252,251,248,.92);backdrop-filter:blur(8px);border-bottom:1px solid #EEEBE2;">
-    <div style="display:flex;align-items:center;gap:14px;">
-      <a href="Accueil.dc.html" style="display:flex;align-items:center;line-height:0;"><img src="assets/logo.png" alt="Victoire Behaghel — Avocate" style="height:46px;width:auto;display:block;"></a>
-      <div style="width:1px;height:30px;background:#E4E2DA;"></div>
-      <div style="font-family:'Mulish';font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:#6B7670;line-height:1.5;">Victoire Behaghel<br><span style="color:#CE899E;">Avocate · Baux commerciaux</span></div>
-    </div>
-    <nav style="display:flex;align-items:center;gap:34px;">
-      <a class="navlink" href="A-propos.dc.html" style="color:#CE899E;">À propos</a>
-      <a class="navlink" href="Services.dc.html">Services</a>
-      <a class="navlink" href="Actualites.dc.html">Actualités</a>
-      <a class="navlink" href="Contact.dc.html">Contact</a>
-      <a href="Contact.dc.html" style="font-family:'Mulish';font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:#2E4739;background:#DDEBDD;padding:12px 22px;border-radius:30px;">Prise de rendez-vous</a>
-    </nav>
-  </header>
+        a {
+          color: inherit;
+          text-decoration: none;
+        }
 
-  <!-- page intro -->
-  <section style="max-width:1280px;margin:0 auto;padding:72px 56px 28px;">
-    <div style="font-family:'Mulish';font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#CE899E;margin-bottom:18px;">Le cabinet</div>
-    <h1 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:74px;line-height:1;color:#2E4739;margin:0;max-width:900px;letter-spacing:-.5px;">Une avocate dédiée au bail commercial</h1>
-  </section>
+        .ph {
+          position: relative;
+          background: repeating-linear-gradient(45deg, #ECEAE3, #ECEAE3 11px, #E5E2D9 11px, #E5E2D9 22px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
 
-  <!-- portrait + bio -->
-  <section style="max-width:1280px;margin:0 auto;padding:40px 56px 90px;display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start;">
-    <div class="ph" style="height:600px;border-radius:3px;position:sticky;top:110px;"><span>Portrait — Me Victoire Behaghel</span></div>
-    <div>
-      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:28px;line-height:1.4;color:#5b6b60;margin:0 0 32px;">Le bail commercial conditionne la vie de l'entreprise. J'en fais mon unique terrain d'expertise, pour des décisions éclairées et des relations sécurisées.</p>
-      <p style="font-family:'Mulish';font-size:16px;line-height:1.85;color:#4f574f;margin:0 0 18px;">J'interviens à chaque étape de la vie du bail commercial — négociation, signature, cession, révision, renouvellement, fin de bail — en conseil comme en contentieux. Mon exercice est concentré sur cette matière, ce qui me permet d'en maîtriser les subtilités et les évolutions de jurisprudence.</p>
-      <p style="font-family:'Mulish';font-size:16px;line-height:1.85;color:#4f574f;margin:0 0 18px;">J'accompagne des acteurs de tous secteurs — artisans, commerçants, industriels, investisseurs — confrontés à un enjeu sur leur local : une clause à sécuriser, un loyer à fixer, une indemnité à défendre, une échéance à anticiper.</p>
-      <p style="font-family:'Mulish';font-size:16px;line-height:1.85;color:#4f574f;margin:0 0 36px;">Attachée à comprendre la réalité de chaque dossier, je privilégie un accompagnement de proximité et sur mesure. Basée à Lyon, j'interviens partout en France.</p>
-      <div style="display:flex;gap:48px;flex-wrap:wrap;border-top:1px solid #E4E2DA;padding-top:30px;">
-        <div><div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;color:#2E4739;">100 %</div><div style="font-family:'Mulish';font-size:13px;letter-spacing:1px;color:#6B7670;">baux commerciaux</div></div>
-        <div><div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;color:#2E4739;">Lyon</div><div style="font-family:'Mulish';font-size:13px;letter-spacing:1px;color:#6B7670;">partout en France</div></div>
-        <div><div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;color:#2E4739;">Sur place</div><div style="font-family:'Mulish';font-size:13px;letter-spacing:1px;color:#6B7670;">dans vos locaux</div></div>
-      </div>
-    </div>
-  </section>
+        .ph span {
+          font-family: 'Mulish', monospace;
+          font-size: 11px;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: #9b9588;
+          background: rgba(252, 251, 248, .82);
+          padding: 5px 12px;
+          border-radius: 2px;
+        }
 
-  <!-- approche -->
-  <section style="background:#F4F2EB;border-top:1px solid #EEEBE2;border-bottom:1px solid #EEEBE2;">
-    <div style="max-width:1280px;margin:0 auto;padding:84px 56px;">
-      <div style="font-family:'Mulish';font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#CE899E;margin-bottom:12px;">Mon approche</div>
-      <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:46px;color:#2E4739;margin:0 0 48px;">Trois principes de travail</h2>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;">
-        <div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#CE899E;margin-bottom:14px;">01</div>
-          <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:27px;color:#2E4739;margin:0 0 12px;line-height:1.2;">Une expertise concentrée</h3>
-          <p style="font-family:'Mulish';font-size:15px;line-height:1.8;color:#4f574f;margin:0;">Le bail commercial est une matière technique. M'y consacrer pleinement, c'est anticiper les risques avant qu'ils ne deviennent des litiges.</p>
+        .navlink {
+          font-family: 'Mulish', sans-serif;
+          font-size: 13px;
+          letter-spacing: 1.6px;
+          text-transform: uppercase;
+          color: #2E4739;
+          transition: color .2s;
+        }
+
+        .navlink:hover {
+          color: #CE899E;
+        }
+
+        .lk {
+          transition: color .2s;
+        }
+
+        .lk:hover {
+          color: #CE899E;
+        }
+      </style>
+    </helmet>
+
+    <div style="font-family:'Mulish',sans-serif;background:#FCFBF8;color:#2E4739;">
+
+      <!-- nav -->
+      <header
+        style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:20px 56px;background:rgba(252,251,248,.92);backdrop-filter:blur(8px);border-bottom:1px solid #EEEBE2;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <a href="Accueil.dc.html" style="display:flex;align-items:center;line-height:0;"><img src="assets/logo.png"
+              alt="Victoire Behaghel — Avocate" style="height:46px;width:auto;display:block;"></a>
+          <div style="width:1px;height:30px;background:#E4E2DA;"></div>
+          <div
+            style="font-family:'Mulish';font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:#6B7670;line-height:1.5;">
+            Victoire Behaghel<br><span style="color:#CE899E;">Avocate · Baux commerciaux</span></div>
         </div>
+        <nav style="display:flex;align-items:center;gap:34px;">
+          <a class="navlink" href="A-propos.dc.html" style="color:#CE899E;">À propos</a>
+          <a class="navlink" href="Services.dc.html">Services</a>
+          <a class="navlink" href="Actualites.dc.html">Actualités</a>
+          <a class="navlink" href="Contact.dc.html">Contact</a>
+          <a href="Contact.dc.html"
+            style="font-family:'Mulish';font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:#2E4739;background:#DDEBDD;padding:12px 22px;border-radius:30px;">Prise
+            de rendez-vous</a>
+        </nav>
+      </header>
+
+      <!-- page intro -->
+      <section style="max-width:1280px;margin:0 auto;padding:72px 56px 28px;">
+        <div
+          style="font-family:'Mulish';font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#CE899E;margin-bottom:18px;">
+          Le cabinet</div>
+        <h1
+          style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:74px;line-height:1;color:#2E4739;margin:0;max-width:900px;letter-spacing:-.5px;">
+          Une avocate dédiée au bail commercial</h1>
+      </section>
+
+      <!-- portrait + bio -->
+      <section
+        style="max-width:1280px;margin:0 auto;padding:40px 56px 90px;display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start;">
+        <div class="ph" style="height:600px;border-radius:3px;position:sticky;top:110px;"><span>Portrait — Me Victoire
+            Behaghel</span></div>
         <div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#CE899E;margin-bottom:14px;">02</div>
-          <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:27px;color:#2E4739;margin:0 0 12px;line-height:1.2;">Une proximité réelle</h3>
-          <p style="font-family:'Mulish';font-size:15px;line-height:1.8;color:#4f574f;margin:0;">Je me déplace sur le terrain pour comprendre l'usage des lieux et le contexte de chaque dossier, condition d'un conseil juste.</p>
+          <p
+            style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:28px;line-height:1.4;color:#5b6b60;margin:0 0 32px;">
+            Le bail commercial conditionne la vie de l'entreprise. J'en fais mon unique terrain d'expertise, pour des
+            décisions éclairées et des relations sécurisées.</p>
+          <p style="font-family:'Mulish';font-size:16px;line-height:1.85;color:#4f574f;margin:0 0 18px;">J'interviens à
+            chaque étape de la vie du bail commercial — négociation, signature, cession, révision, renouvellement, fin
+            de bail — en conseil comme en contentieux. Mon exercice est concentré sur cette matière, ce qui me permet
+            d'en maîtriser les subtilités et les évolutions de jurisprudence.</p>
+          <p style="font-family:'Mulish';font-size:16px;line-height:1.85;color:#4f574f;margin:0 0 18px;">J'accompagne
+            des acteurs de tous secteurs — artisans, commerçants, industriels, investisseurs — confrontés à un enjeu sur
+            leur local : une clause à sécuriser, un loyer à fixer, une indemnité à défendre, une échéance à anticiper.
+          </p>
+          <p style="font-family:'Mulish';font-size:16px;line-height:1.85;color:#4f574f;margin:0 0 36px;">Attachée à
+            comprendre la réalité de chaque dossier, je privilégie un accompagnement de proximité et sur mesure. Basée à
+            Lyon, j'interviens partout en France.</p>
+          <div style="display:flex;gap:48px;flex-wrap:wrap;border-top:1px solid #E4E2DA;padding-top:30px;">
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;color:#2E4739;">100 %
+              </div>
+              <div style="font-family:'Mulish';font-size:13px;letter-spacing:1px;color:#6B7670;">baux commerciaux</div>
+            </div>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;color:#2E4739;">Lyon
+              </div>
+              <div style="font-family:'Mulish';font-size:13px;letter-spacing:1px;color:#6B7670;">et partout en France
+              </div>
+            </div>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;color:#2E4739;">Sur
+                place</div>
+              <div style="font-family:'Mulish';font-size:13px;letter-spacing:1px;color:#6B7670;">dans vos locaux</div>
+            </div>
+          </div>
         </div>
-        <div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#CE899E;margin-bottom:14px;">03</div>
-          <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:27px;color:#2E4739;margin:0 0 12px;line-height:1.2;">Un cap clair</h3>
-          <p style="font-family:'Mulish';font-size:15px;line-height:1.8;color:#4f574f;margin:0;">Privilégier l'accord lorsqu'il protège vos intérêts, plaider avec détermination lorsqu'il faut les défendre.</p>
+      </section>
+
+      <!-- approche -->
+      <section style="background:#F4F2EB;border-top:1px solid #EEEBE2;border-bottom:1px solid #EEEBE2;">
+        <div style="max-width:1280px;margin:0 auto;padding:84px 56px;">
+          <div
+            style="font-family:'Mulish';font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#CE899E;margin-bottom:12px;">
+            Mon approche</div>
+          <h2
+            style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:46px;color:#2E4739;margin:0 0 48px;">
+            Trois principes de travail</h2>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;">
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#CE899E;margin-bottom:14px;">01
+              </div>
+              <h3
+                style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:27px;color:#2E4739;margin:0 0 12px;line-height:1.2;">
+                Une expertise concentrée</h3>
+              <p style="font-family:'Mulish';font-size:15px;line-height:1.8;color:#4f574f;margin:0;">Le bail commercial
+                est une matière technique. M'y consacrer pleinement, c'est anticiper les risques avant qu'ils ne
+                deviennent des litiges.</p>
+            </div>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#CE899E;margin-bottom:14px;">02
+              </div>
+              <h3
+                style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:27px;color:#2E4739;margin:0 0 12px;line-height:1.2;">
+                Une proximité réelle</h3>
+              <p style="font-family:'Mulish';font-size:15px;line-height:1.8;color:#4f574f;margin:0;">Je me déplace sur
+                le terrain pour comprendre l'usage des lieux et le contexte de chaque dossier, condition d'un conseil
+                juste.</p>
+            </div>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#CE899E;margin-bottom:14px;">03
+              </div>
+              <h3
+                style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:27px;color:#2E4739;margin:0 0 12px;line-height:1.2;">
+                Un cap clair</h3>
+              <p style="font-family:'Mulish';font-size:15px;line-height:1.8;color:#4f574f;margin:0;">Privilégier
+                l'accord lorsqu'il protège vos intérêts, plaider avec détermination lorsqu'il faut les défendre.</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- CTA -->
-  <section style="max-width:1280px;margin:0 auto;padding:90px 56px;">
-    <div style="background:#DDEBDD;border-radius:4px;padding:64px 56px;display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center;">
-      <div>
-        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:46px;line-height:1.05;color:#2E4739;margin:0 0 16px;">Échangeons sur votre situation</h2>
-        <p style="font-family:'Mulish';font-size:16px;line-height:1.7;color:#3f4d44;max-width:460px;margin:0;">Un premier rendez-vous permet d'identifier les enjeux de votre bail et la marche à suivre.</p>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:14px;">
-        <a href="Contact.dc.html" style="font-family:'Mulish';font-weight:700;font-size:14px;letter-spacing:1.4px;text-transform:uppercase;color:#FCFBF8;background:#2E4739;padding:18px 34px;border-radius:32px;text-align:center;">Prise de rendez-vous</a>
-        <div style="font-family:'Mulish';font-size:14px;color:#3f4d44;text-align:center;">06 50 05 89 73 · Lyon 3ᵉ</div>
-      </div>
-    </div>
-  </section>
+      <!-- CTA -->
+      <section style="max-width:1280px;margin:0 auto;padding:90px 56px;">
+        <div
+          style="background:#DDEBDD;border-radius:4px;padding:64px 56px;display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center;">
+          <div>
+            <h2
+              style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:46px;line-height:1.05;color:#2E4739;margin:0 0 16px;">
+              Échangeons sur votre situation</h2>
+            <p style="font-family:'Mulish';font-size:16px;line-height:1.7;color:#3f4d44;max-width:460px;margin:0;">Un
+              premier rendez-vous permet d'identifier les enjeux de votre bail et la marche à suivre.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <a href="Contact.dc.html"
+              style="font-family:'Mulish';font-weight:700;font-size:14px;letter-spacing:1.4px;text-transform:uppercase;color:#FCFBF8;background:#2E4739;padding:18px 34px;border-radius:32px;text-align:center;">Prise
+              de rendez-vous</a>
+            <div style="font-family:'Mulish';font-size:14px;color:#3f4d44;text-align:center;">06 50 05 89 73 · Lyon 3ᵉ
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <!-- footer -->
-  <footer style="background:#1E342A;color:#cdd8cf;padding:56px;">
-    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;">
-      <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;color:#FCFBF8;margin-bottom:10px;">Victoire Behaghel</div>
-        <div style="font-family:'Mulish';font-size:14px;line-height:1.8;color:#9fb0a4;">Droit immobilier · Baux commerciaux<br>Conseil &amp; contentieux</div>
-      </div>
-      <div style="font-family:'Mulish';font-size:14px;line-height:1.9;color:#9fb0a4;">ALGYR Centre d'affaires<br>20, boulevard Eugène Deruelle<br>69003 Lyon<br>06 50 05 89 73</div>
-      <div style="font-family:'Mulish';font-size:14px;line-height:1.9;color:#9fb0a4;display:flex;flex-direction:column;gap:4px;"><a class="lk">LinkedIn</a><a class="lk">Mentions légales</a><a class="lk">Cookies</a><a class="lk">RGPD</a><a class="lk" href="Honoraires.dc.html">Honoraires</a></div>
-    </div>
-  </footer>
+      <!-- footer -->
+      <footer style="background:#1E342A;color:#cdd8cf;padding:56px;">
+        <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;">
+          <div>
+            <div
+              style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;color:#FCFBF8;margin-bottom:10px;">
+              Victoire Behaghel</div>
+            <div style="font-family:'Mulish';font-size:14px;line-height:1.8;color:#9fb0a4;">Droit immobilier · Baux
+              commerciaux<br>Conseil &amp; contentieux</div>
+          </div>
+          <div style="font-family:'Mulish';font-size:14px;line-height:1.9;color:#9fb0a4;">ALGYR Centre d'affaires<br>20,
+            boulevard Eugène Deruelle<br>69003 Lyon<br>06 50 05 89 73</div>
+          <div
+            style="font-family:'Mulish';font-size:14px;line-height:1.9;color:#9fb0a4;display:flex;flex-direction:column;gap:4px;">
+            <a class="lk">LinkedIn</a><a class="lk">Mentions légales</a><a class="lk">Cookies</a><a
+              class="lk">RGPD</a><a class="lk" href="Honoraires.dc.html">Honoraires</a></div>
+        </div>
+      </footer>
 
-</div>
-</x-dc>
+    </div>
+  </x-dc>
 </body>
+
 </html>

@@ -95,7 +95,7 @@ export default function AProposPage() {
             <div>
               <div className="font-cormorant text-[40px] font-semibold text-forest">Lyon</div>
               <div className="font-mulish text-[13px] tracking-[1px] text-[#6B7670]">
-                partout en France
+                et partout en France
               </div>
             </div>
             <div>

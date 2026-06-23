@@ -41,10 +41,6 @@ export const SECTEURS: Secteur[] = [
         label: 'Quand',
         content: "Avant la signature, lors d'une révision, à la cession ou au renouvellement",
       },
-      {
-        label: 'Où',
-        content: 'Cabinet à Lyon — intervention partout en France',
-      },
     ],
     sections: [
       {
@@ -108,10 +104,6 @@ export const SECTEURS: Secteur[] = [
       {
         label: 'Quand',
         content: "À la signature, lors de travaux, avant la cession ou l'échéance",
-      },
-      {
-        label: 'Où',
-        content: 'Cabinet à Lyon — intervention partout en France',
       },
     ],
     sections: [
@@ -177,10 +169,6 @@ export const SECTEURS: Secteur[] = [
         label: 'Quand',
         content: 'Avant la signature, lors de travaux, en cas de cession ou fin de bail',
       },
-      {
-        label: 'Où',
-        content: 'Cabinet à Lyon — intervention partout en France',
-      },
     ],
     sections: [
       {
@@ -244,10 +232,6 @@ export const SECTEURS: Secteur[] = [
       {
         label: 'Quand',
         content: "Mise en location, révision, arbitrage à l'échéance",
-      },
-      {
-        label: 'Où',
-        content: 'Cabinet à Lyon — intervention partout en France',
       },
     ],
     sections: [
@@ -313,10 +297,6 @@ export const SECTEURS: Secteur[] = [
         label: 'Quand',
         content: "Avant signature, lors de travaux ou d'une révision de surface",
       },
-      {
-        label: 'Où',
-        content: 'Cabinet à Lyon — intervention partout en France',
-      },
     ],
     sections: [
       {
@@ -381,10 +361,6 @@ export const SECTEURS: Secteur[] = [
         label: 'Quand',
         content: "À la signature, lors d'un désaccord, à l'approche de l'échéance",
       },
-      {
-        label: 'Où',
-        content: 'Cabinet à Lyon — intervention partout en France',
-      },
     ],
     sections: [
       {
@@ -444,10 +420,6 @@ export const SECTEURS: Secteur[] = [
       {
         label: 'Quand',
         content: 'Avant la signature, lors de travaux, en cas de changement de concept',
-      },
-      {
-        label: 'Où',
-        content: 'Cabinet à Lyon — intervention partout en France',
       },
     ],
     sections: [
