@@ -1,9 +1,17 @@
 import { collection, config, fields } from '@keystatic/core'
 
-// CMS Keystatic — actualités/articles. Stockage LOCAL (fichiers .mdoc dans le repo) :
-// buildable sans secret. Pour la prod, basculer en storage GitHub (KEYSTATIC_GITHUB_*).
+// CMS Keystatic — actualités/articles.
+// storage = OÙ l'éditeur écrit (pas comment l'app lit : le reader, lui, lit toujours
+// les .mdoc du repo checké-out au build via createReader).
+//   - dev   : `local` → écrit sur le disque, aucune auth (pratique en local).
+//   - prod  : `github` → l'éditeur commit dans le repo après login GitHub (OAuth).
+//             Chaque commit déclenche un rollout App Hosting → contenu en ligne.
+// Nécessite en prod : KEYSTATIC_GITHUB_CLIENT_ID/SECRET + KEYSTATIC_SECRET (GitHub App).
 export default config({
-  storage: { kind: 'local' },
+  storage:
+    process.env.NODE_ENV === 'production'
+      ? { kind: 'github', repo: 'PLPATENOTRE/vb-website' }
+      : { kind: 'local' },
   ui: {
     brand: { name: 'Victoire Behaghel — Avocate' },
   },
