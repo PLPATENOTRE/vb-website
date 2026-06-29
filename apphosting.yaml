@@ -45,10 +45,25 @@ env:
     secret: RESEND_TO
   - variable: TURNSTILE_SECRET_KEY
     secret: TURNSTILE_SECRET_KEY
-# --- À AJOUTER plus tard, quand ces briques seront branchées ---
-# Keystatic en mode GitHub (autonomie de contenu de Victoire) :
-#   - variable: KEYSTATIC_GITHUB_CLIENT_ID   (value, public)
-#   - variable: KEYSTATIC_GITHUB_CLIENT_SECRET  (secret)
-#   - variable: KEYSTATIC_SECRET               (secret)
+
+  # --- Keystatic mode GitHub (éditeur de contenu) ---
+  # ⚠️ BUILD + RUNTIME : Keystatic valide ces 3 vars dès le build (collecte des routes),
+  # pas seulement à l'exécution. Sans elles au build, `next build` échoue.
+  - variable: KEYSTATIC_GITHUB_CLIENT_ID
+    secret: KEYSTATIC_GITHUB_CLIENT_ID
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: KEYSTATIC_GITHUB_CLIENT_SECRET
+    secret: KEYSTATIC_GITHUB_CLIENT_SECRET
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: KEYSTATIC_SECRET
+    secret: KEYSTATIC_SECRET
+    availability:
+      - BUILD
+      - RUNTIME
+# --- À AJOUTER plus tard ---
 # Sentry (prod) :
 #   - variable: NEXT_PUBLIC_SENTRY_DSN         (value)
