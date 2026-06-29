@@ -32,5 +32,47 @@ function getWithPublicOrigin(req: NextRequest): Promise<Response> {
   return handlers.GET(new NextRequest(url, { headers: req.headers }))
 }
 
-export const GET = blockedInProd ? notFound : getWithPublicOrigin
+// ⚠️ DIAGNOSTIC TEMPORAIRE — à retirer. Refait le token exchange et renvoie la
+// réponse brute de GitHub (sans dumper access_token/refresh_token).
+async function diagnoseCallback(code: string): Promise<Response> {
+  const clientId = process.env.KEYSTATIC_GITHUB_CLIENT_ID ?? ''
+  const clientSecret = process.env.KEYSTATIC_GITHUB_CLIENT_SECRET ?? ''
+  const u = new URL('https://github.com/login/oauth/access_token')
+  u.searchParams.set('client_id', clientId)
+  u.searchParams.set('client_secret', clientSecret)
+  u.searchParams.set('code', code)
+  const res = await fetch(u, { method: 'POST', headers: { Accept: 'application/json' } })
+  const text = await res.text()
+  const info: Record<string, unknown> = {
+    githubStatus: res.status,
+    clientIdPrefix: clientId.slice(0, 7),
+    clientSecretLen: clientSecret.length,
+    keystaticSecretLen: (process.env.KEYSTATIC_SECRET ?? '').length,
+  }
+  try {
+    const o: unknown = JSON.parse(text)
+    if (o && typeof o === 'object') {
+      const rec = o as Record<string, unknown>
+      info.responseKeys = Object.keys(rec) // refresh_token présent ? expires_in ?
+      if ('error' in rec) {
+        info.error = rec.error
+        info.error_description = rec.error_description
+      }
+    }
+  } catch {
+    info.rawNonJson = text.slice(0, 200)
+  }
+  return Response.json(info)
+}
+
+function getHandler(req: NextRequest): Promise<Response> {
+  const url = new URL(req.url)
+  const code = url.searchParams.get('code')
+  if (url.pathname.endsWith('/github/oauth/callback') && code) {
+    return diagnoseCallback(code)
+  }
+  return getWithPublicOrigin(req)
+}
+
+export const GET = blockedInProd ? notFound : getHandler
 export const POST = blockedInProd ? notFound : handlers.POST
