@@ -14,6 +14,27 @@ Document destiné à **Victoire**. La base technique du site (structure, vitesse
 
 ---
 
+## 🧭 Décision de stratégie — jusqu'où élargir ? (à trancher ensemble)
+
+**Le constat.** Le site est aujourd'hui 100 % baux commerciaux, et c'est sa force : sur « avocat bail commercial Lyon », un site ultra-ciblé bat un généraliste. On veut élargir la visibilité (capter plus de recherches « droit immobilier ») **sans** casser cette force ni te faire revendiquer des domaines que tu ne pratiques pas — c'est interdit en déontologie et pénalisé par Google sur les sujets juridiques.
+
+**Ce qu'on NE fera PAS :** créer des pages « avocat copropriété / urbanisme / vente immobilière / bail d'habitation ». Ça diluerait ton autorité sur les baux commerciaux et attirerait un trafic qui ne se transforme pas en clients.
+
+**Ce qu'on fera à la place — 3 leviers sûrs, mais qui demandent tes arbitrages :**
+
+1. **Positionnement « ombrelle ».** Te présenter aussi comme experte en **« droit immobilier de l'entreprise / droit immobilier commercial »** (le bail commercial en est une branche). Ça capte l'intention « droit immobilier » sans rien exagérer.
+   → *Question pour toi : ce positionnement te convient-il ? Existe-t-il des sujets immobiliers connexes que tu pratiques réellement (vente de fonds, location-gérance, construction pour tes clients pros…) qu'on pourrait légitimement mettre en avant ?*
+
+2. **Approfondir le fonds de commerce.** C'est adjacent à ta pratique (cession) et très recherché. On pourrait en faire un axe à part entière (cession, achat/vente, location-gérance, nantissement).
+   → *Question pour toi : veux-tu développer cet axe, et jusqu'où le pratiques-tu ?*
+
+3. **Vocabulaire grand public.** Les non-juristes tapent « bail 3-6-9 » et « loi Pinel » — presque absents de tes titres aujourd'hui. On les intègre (titres, FAQ, articles) pour capter ces recherches.
+   → *Rien à fournir, juste ton feu vert éditorial.*
+
+> Ces leviers passent surtout par les **articles** (section 4) et de petits ajustements de vocabulaire — **pas** par de nouvelles pages de service. C'est le moyen d'élargir le haut du funnel sans risque.
+
+---
+
 ## 1. 🔴 Tes informations professionnelles (la brique de crédibilité)
 
 **Pourquoi.** C'est le signal n°1 pour un avocat. Les moteurs et les IA répondent à une question implicite : *« pourquoi recommander cette personne plutôt qu'une autre ? »*. Aujourd'hui, la page **À propos** décrit ton activité mais ne prouve **rien sur toi**. Une bio précise et vérifiable change tout — c'est aussi ce qui te distingue d'un annuaire.
@@ -91,6 +112,14 @@ Document destiné à **Victoire**. La base technique du site (structure, vitesse
 9. La procédure de fixation du loyer devant le juge des loyers commerciaux.
 10. Déspécialisation : changer l'activité autorisée par le bail.
 
+**Sujets « haut de funnel » (attirent large, puis renvoient vers tes pages) — issus de la décision de stratégie ci-dessus :**
+11. Bail commercial, bail professionnel, bail d'habitation : quelles différences ?
+12. Qu'est-ce qu'un fonds de commerce ? (définition, valeur, ce qui se cède)
+13. La loi Pinel expliquée simplement : ce qui a changé pour les baux commerciaux.
+14. Le bail commercial 3-6-9 : tout comprendre en 5 minutes.
+
+> Les sujets 1–10 assoient ton **autorité** sur le cœur de métier ; les sujets 11–14 **élargissent le trafic** (recherches « droit immobilier » plus larges) tout en ramenant vers tes pages baux commerciaux. Mixe les deux.
+
 **Format qui marche (exemple d'introduction) :**
 
 > **Titre :** *Indemnité d'éviction : comment est-elle calculée ?*
@@ -152,14 +181,29 @@ Document destiné à **Victoire**. La base technique du site (structure, vitesse
 
 ---
 
+## 9. 🟠 Fiche Google (Google Business Profile) — la visibilité locale n°1
+
+**Pourquoi.** Pour « avocat Lyon » et les recherches sur Google Maps, le **premier facteur de classement n'est pas le site** mais ta **fiche d'établissement Google**. C'est gratuit, hors du site, et aucun réglage technique ne le remplace. C'est probablement le meilleur ratio effort / visibilité locale une fois le site en ligne.
+
+**À faire (toi) :**
+- Créer ou revendiquer la fiche « Victoire Behaghel, Avocate » à l'adresse du cabinet.
+- Catégorie principale : « Avocat » (+ catégories secondaires si proposées).
+- Cohérence stricte nom / adresse / téléphone avec le site (déjà en ligne : 20 boulevard Eugène Deruelle, 69003 Lyon ; 06 50 05 89 73).
+- Lien vers le site, horaires, une ou deux photos.
+- Solliciter quelques avis clients, dans le respect de la déontologie.
+
+---
+
 ## Récapitulatif des priorités
 
 | Priorité | Sujet | Qui agit |
 |---|---|---|
+| 🧭 | Décision de périmètre (ombrelle immobilier, fonds de commerce, vocabulaire) | **Toi** (arbitrages) → je mets en œuvre |
 | 🔴 | Bio professionnelle (Barreau, parcours, publications) | **Toi** → je rédige/intègre |
 | 🔴 | Pages légales (mentions + confidentialité) | **Toi** (avec ton Ordre) → je prépare le squelette |
+| 🟠 | Fiche Google (Business Profile) — visibilité locale | **Toi** |
 | 🟠 | Honoraires : afficher une fourchette ou non | **Toi** (décision + montants) |
-| 🟠 | Articles : 1–2 / mois, sujets ci-dessus | **Toi** (rédaction ou notes) |
+| 🟠 | Articles : 1–2 / mois, sujets ci-dessus (cœur + haut de funnel) | **Toi** (rédaction ou notes) |
 | 🟠 | Glossaire baux commerciaux | **Toi** (définitions) → je crée la page |
 | 🟢 | Exemples de dossiers anonymisés | **Toi** |
 | 🟢 | Compléter `llms.txt` | Automatique une fois la bio fournie |
@@ -169,6 +213,6 @@ Document destiné à **Victoire**. La base technique du site (structure, vitesse
 
 ### Par où commencer ?
 
-Les deux 🔴 d'abord : **ta bio** et les **infos pour les pages légales**. Avec ça, le site passe de « bien construit » à « crédible et conforme ». Le reste (articles, glossaire) se construit ensuite, au fil de l'eau.
+Les deux 🔴 d'abord : **ta bio** et les **infos pour les pages légales**. Avec ça, le site passe de « bien construit » à « crédible et conforme ». En parallèle, un échange rapide sur la **décision de périmètre** 🧭 (tes arbitrages ne prennent que quelques minutes) et la création de ta **fiche Google** débloquent la visibilité. Le reste (articles, glossaire) se construit ensuite, au fil de l'eau.
 
 *Tout ce qui touche au droit applicable et aux mentions obligatoires doit être validé par tes soins / ton Ordre : ce document est une aide à la production de contenu, pas un avis juridique ni déontologique.*
