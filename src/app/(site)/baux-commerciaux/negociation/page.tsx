@@ -40,7 +40,7 @@ const FAQ_ITEMS = [
   {
     question: 'Peut-on négocier un bail commercial type ?',
     answer:
-      "Oui. Au-delà du statut d'ordre public, de nombreuses clauses — charges, travaux, garanties, indexation, destination — se négocient avant la signature.",
+      "Oui. Au-delà du statut d'ordre public, de nombreuses clauses (charges, travaux, garanties, indexation, destination) se négocient avant la signature.",
   },
   {
     question: 'Qui paie quelles charges ?',
@@ -89,7 +89,7 @@ export default function NegociationPage() {
         </h1>
         <p className="mb-8 max-w-[760px] font-mulish text-[17px] leading-[1.7] text-[#4f574f] md:text-[19px]">
           Un bail commercial engage votre entreprise sur neuf ans. Avant la signature, chaque clause
-          — destination, charges, indexation, garanties — pèse sur votre activité. Je négocie et
+          (destination, charges, indexation, garanties) pèse sur votre activité. Je négocie et
           sécurise votre bail pour qu'il protège durablement vos intérêts.
         </p>
         <div className="flex flex-wrap items-center gap-6">
@@ -124,9 +124,9 @@ export default function NegociationPage() {
             <p className="mb-5 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]">
               Le bail commercial est régi par un statut protecteur d'ordre public (articles L.145-1
               et suivants du Code de commerce), mais il laisse une large place à la liberté
-              contractuelle. Beaucoup de clauses déterminantes — répartition des charges, travaux,
-              conditions de cession, indexation du loyer — se décident au moment de la rédaction.
-              Une fois le bail signé, ces équilibres sont difficiles à corriger.
+              contractuelle. Beaucoup de clauses déterminantes (répartition des charges, travaux,
+              conditions de cession, indexation du loyer) se décident au moment de la rédaction. Une
+              fois le bail signé, ces équilibres sont difficiles à corriger.
             </p>
             <p className="mb-5 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]">
               Intervenir en amont, c'est éviter qu'une clause défavorable ne se transforme, des
@@ -149,7 +149,7 @@ export default function NegociationPage() {
               </li>
               <li className="font-mulish text-[16px] leading-[1.7] text-[#3f4d44]">
                 <strong>La clause d'indexation</strong> (échelle mobile) : choix de l'indice (ILC,
-                ILAT), base et périodicité — une rédaction imprécise peut être contestée.
+                ILAT), base et périodicité, une rédaction imprécise peut être contestée.
               </li>
               <li className="font-mulish text-[16px] leading-[1.7] text-[#3f4d44]">
                 <strong>Les travaux et l'état des lieux</strong> : un état des lieux d'entrée et de

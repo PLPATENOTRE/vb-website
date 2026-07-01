@@ -176,8 +176,8 @@ export default function HomePage() {
             Un accompagnement sur mesure
           </h2>
           <p className="m-0 mb-[18px] max-w-[900px] font-mulish text-[17px] leading-[1.85] text-[#4f574f]">
-            J&apos;interviens à chaque étape de la vie du bail commercial — négociation, cession,
-            révision, renouvellement — en conseil comme en contentieux (loyers, indemnités…), auprès
+            J&apos;interviens à chaque étape de la vie du bail commercial (négociation, cession,
+            révision, renouvellement) en conseil comme en contentieux (loyers, indemnités…), auprès
             d&apos;acteurs de tous secteurs : artisans, commerçants, industriels, investisseurs.
           </p>
           <p className="m-0 mb-7 max-w-[900px] font-mulish text-[17px] leading-[1.85] text-[#4f574f]">

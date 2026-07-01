@@ -137,8 +137,8 @@ export default function BauxCommerciauxPage() {
           de A à Z
         </h1>
         <p className="mx-auto max-w-[560px] font-mulish text-[17px] leading-[1.8] text-[#4f574f]">
-          Un accompagnement complet à chaque étape de la vie de votre bail — du conseil en amont à
-          la défense de vos intérêts devant le juge.
+          Un accompagnement complet à chaque étape de la vie de votre bail, du conseil en amont à la
+          défense de vos intérêts devant le juge.
         </p>
         <div
           aria-hidden="true"
