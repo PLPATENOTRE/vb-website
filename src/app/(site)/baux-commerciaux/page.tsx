@@ -38,7 +38,7 @@ const expertises = [
   {
     num: '03',
     title: 'Contentieux du bail commercial',
-    description: 'Défendre vos intérêts devant le juge, avec rigueur et détermination.',
+    description: 'Défendre vos intérêts face à la partie adverse et devant le juge.',
     keywords: ['Fixation du loyer', 'Impayés', 'Indemnités'],
     href: '/baux-commerciaux/contentieux',
     bg: 'bg-cream',

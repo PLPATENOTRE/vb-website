@@ -20,19 +20,19 @@ export const metadata = pageMetadata({
 const EN_BREF_ITEMS = [
   {
     label: 'Pour qui',
-    content: 'Réseaux, foncières, gestionnaires, équipes immobilières ou juridiques',
+    content: 'Réseaux, foncières, gestionnaires, équipes immobilières ou juridiques.',
   },
   {
     label: 'Format',
-    content: 'Sur mesure, en intra-entreprise ou à distance, cas pratiques',
+    content: 'Sur mesure, en intra-entreprise ou à distance, cas pratiques.',
   },
   {
     label: 'Thèmes',
-    content: 'Statut, clauses, charges, révision, fin de bail, éviction',
+    content: 'Statut, clauses, charges, révision, fin de bail, éviction.',
   },
   {
     label: 'Où',
-    content: 'Cabinet à Lyon — intervention partout en France',
+    content: 'Cabinet à Lyon, intervention partout en France.',
   },
 ]
 
@@ -177,10 +177,11 @@ export default function FormationsPage() {
               {/* CTA card */}
               <div className="rounded-[10px] bg-forest p-[26px]">
                 <p className="mb-3 font-cormorant text-[24px] font-semibold leading-[1.15] text-cream">
-                  Former vos équipes ?
+                  Parlons de votre besoin de formation
                 </p>
                 <p className="mb-5 font-mulish text-[14px] leading-[1.7] text-[#9fb0a4]">
-                  Parlez-moi de vos enjeux : je construis un programme sur mesure.
+                  Vous souhaitez monter en compétence ? Je vous guide et vous accompagne dans cette
+                  évolution.
                 </p>
                 <a
                   href="/contact"

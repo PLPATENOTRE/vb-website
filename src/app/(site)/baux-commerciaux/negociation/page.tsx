@@ -20,19 +20,19 @@ export const metadata = pageMetadata({
 const EN_BREF_ITEMS = [
   {
     label: 'Pour qui',
-    content: 'Toute partie à un bail commercial, avant de signer ou de renouveler',
+    content: 'Toute partie à un bail commercial, avant de signer ou de renouveler.',
   },
   {
     label: 'Ce que je traite',
-    content: 'Destination, durée, loyer & charges, travaux, garanties, indexation',
+    content: 'Destination, durée, loyer & charges, travaux, garanties, indexation.',
   },
   {
     label: 'Quand',
-    content: 'Idéalement avant toute signature ou engagement ferme',
+    content: 'Idéalement avant toute signature ou engagement ferme.',
   },
   {
     label: 'Où',
-    content: 'Cabinet à Lyon — intervention partout en France',
+    content: 'Cabinet à Lyon, intervention partout en France.',
   },
 ]
 
@@ -50,7 +50,7 @@ const FAQ_ITEMS = [
   {
     question: 'Quelle durée pour un bail commercial ?',
     answer:
-      'En principe neuf ans, avec le plus souvent une faculté de résiliation à chaque échéance triennale (bail « 3-6-9 »).',
+      'En principe neuf ans, avec le plus souvent une faculté de résiliation pour le preneur à chaque échéance triennale (bail « 3-6-9 »).',
   },
 ]
 

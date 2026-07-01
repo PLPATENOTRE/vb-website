@@ -32,7 +32,7 @@ const apercu = [
   {
     num: '03',
     label: 'Contentieux',
-    desc: 'Défendre vos intérêts devant le juge.',
+    desc: 'Défendre vos intérêts face à la partie adverse et devant le juge.',
     href: '/baux-commerciaux/contentieux',
   },
   {

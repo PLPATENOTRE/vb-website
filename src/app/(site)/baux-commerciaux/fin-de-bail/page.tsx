@@ -20,19 +20,19 @@ export const metadata = pageMetadata({
 const EN_BREF_ITEMS = [
   {
     label: 'Pour qui',
-    content: "Toute partie à l'approche de l'échéance de son bail",
+    content: "Toute partie à l'approche de l'échéance de son bail.",
   },
   {
     label: 'Ce que je traite',
-    content: "Renouvellement, congé, refus, indemnité d'éviction",
+    content: "Renouvellement, congé, refus, indemnité d'éviction.",
   },
   {
     label: 'Quand',
-    content: "Plusieurs mois avant l'échéance — les délais sont stricts",
+    content: "Plusieurs mois avant l'échéance, les délais sont stricts.",
   },
   {
     label: 'Où',
-    content: 'Cabinet à Lyon — intervention partout en France',
+    content: 'Cabinet à Lyon, intervention partout en France.',
   },
 ]
 
@@ -50,7 +50,7 @@ const FAQ_ITEMS = [
   {
     question: 'Le renouvellement du bail commercial est-il automatique ?',
     answer:
-      "Non. Le preneur bénéficie d'un droit au renouvellement, mais celui-ci suppose le respect de la procédure (demande de renouvellement ou congé avec offre). À défaut de renouvellement, l'indemnité d'éviction peut être due.",
+      "Non. Le preneur bénéficie d'un droit au renouvellement, mais celui-ci suppose le respect de la procédure (demande de renouvellement ou congé avec offre). À défaut, le bail se prolonge tacitement.",
   },
 ]
 
@@ -133,10 +133,10 @@ export default function FinDeBailPage() {
               Le congé et ses délais
             </h2>
             <p className="mb-5 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]">
-              Le <strong>congé</strong> met fin au bail à l&apos;échéance. Il doit en principe être
-              donné <strong>au moins six mois à l&apos;avance</strong>, par acte de commissaire de
-              justice (huissier) ou, dans certains cas, par lettre recommandée. Le non-respect des
-              délais ou des formes peut rendre le congé inopérant : l&apos;anticipation est
+              Le <strong>congé</strong>&nbsp;met fin au bail à l&apos;échéance. Il doit en principe
+              être donné <strong>au moins six mois à l&apos;avance</strong>, par acte de commissaire
+              de justice (huissier) ou, dans certains cas, par lettre recommandée. Le non-respect
+              des délais ou des formes peut rendre le congé inopérant : l&apos;anticipation est
               essentielle.
             </p>
 

@@ -16,7 +16,7 @@ const PRINCIPLES = [
   {
     num: '01',
     title: 'De bout en bout',
-    text: "Du bail commercial à la cession du fonds ou des titres, j'interviens sur l'ensemble du cycle de vie de l'actif — sans rupture entre les étapes, sans perte de contexte.",
+    text: "De la négociation du contrat de bail à sa fin, en passant par la cession, j'interviens sur l'ensemble du cycle de vie de l'actif, sans rupture entre les étapes, sans perte de contexte.",
   },
   {
     num: '02',
@@ -46,7 +46,7 @@ export default function AProposPage() {
           Le cabinet
         </p>
         <h1 className="m-0 max-w-[900px] font-cormorant text-[52px] font-semibold leading-none tracking-[-0.5px] text-forest md:text-[74px]">
-          Du bail à la cession, un accompagnement complet
+          De la signature à la fin du bail, en passant par la cession, un accompagnement complet
         </h1>
       </section>
 
@@ -64,12 +64,13 @@ export default function AProposPage() {
         {/* Bio */}
         <div>
           <p className="mb-8 font-cormorant text-[22px] italic leading-[1.4] text-[#5b6b60] md:text-[28px]">
-            Du bail commercial à la cession du fonds ou des titres, je couvre l'ensemble du cycle de
-            vie de l'actif commercial — pour des décisions éclairées et des relations sécurisées.
+            De la négociation du contrat de bail à sa fin, en passant par la cession, je couvre
+            l'ensemble du cycle de vie de l'actif commercial, pour des décisions éclairées et des
+            relations sécurisées.
           </p>
           <p className="mb-[18px] font-mulish text-[16px] leading-[1.85] text-[#4f574f]">
-            J'interviens à chaque étape — négociation, signature, révision, renouvellement, fin de
-            bail — en conseil comme en contentieux. Lorsque l'activité se transmet, j'accompagne
+            J'interviens à chaque étape (négociation, signature, révision, renouvellement, fin de
+            bail) en conseil comme en contentieux. Lorsque l'activité se transmet, j'accompagne
             également la cession du fonds de commerce et la cession des titres de la société, en
             sécurisant le sort du bail et les garanties associées.
           </p>

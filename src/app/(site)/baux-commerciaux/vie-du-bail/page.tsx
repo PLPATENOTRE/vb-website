@@ -22,19 +22,19 @@ export const metadata = pageMetadata({
 const enBrefItems = [
   {
     label: 'Pour qui',
-    content: 'Toute partie confrontée à une étape de la vie de son bail',
+    content: 'Toute partie confrontée à une étape de la vie de son bail.',
   },
   {
     label: 'Ce que je traite',
-    content: 'Révision, indexation, cession, sous-location, déspécialisation',
+    content: 'Révision, indexation, cession, sous-location, déspécialisation.',
   },
   {
     label: 'Quand',
-    content: "À l'approche d'une révision, d'une cession ou d'un changement d'activité",
+    content: "À l'approche d'une révision, d'une cession ou d'un changement d'activité.",
   },
   {
     label: 'Où',
-    content: 'Cabinet à Lyon — intervention partout en France',
+    content: 'Cabinet à Lyon, intervention partout en France.',
   },
 ]
 
