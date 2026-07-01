@@ -21,7 +21,7 @@ const PRINCIPLES = [
   {
     num: '02',
     title: 'Au plus près du dossier',
-    text: "Comprendre l'activité, les locaux, le contexte économique de chaque client — c'est la condition d'un conseil utile, pas seulement correct.",
+    text: "Comprendre l'activité, les locaux, le contexte économique de chaque client, c'est la condition d'un conseil utile, pas seulement correct.",
   },
   {
     num: '03',
@@ -75,8 +75,8 @@ export default function AProposPage() {
             sécurisant le sort du bail et les garanties associées.
           </p>
           <p className="mb-[18px] font-mulish text-[16px] leading-[1.85] text-[#4f574f]">
-            J'accompagne des acteurs de tous secteurs — artisans, commerçants, hôteliers,
-            industriels, investisseurs — confrontés à un enjeu sur leur local ou leur activité : une
+            J'accompagne des acteurs de tous secteurs (artisans, commerçants, hôteliers,
+            industriels, investisseurs) confrontés à un enjeu sur leur local ou leur activité : une
             clause à sécuriser, un loyer à fixer, une indemnité à défendre, une transmission à
             structurer.
           </p>

@@ -147,7 +147,7 @@ export default function FinDeBailPage() {
               Le bailleur peut refuser le renouvellement, mais ce refus a un coût : sauf motif grave
               et légitime ou droit de reprise, il doit verser une{' '}
               <strong>indemnité d&apos;éviction</strong> (article L.145-14 du Code de commerce).
-              Celle-ci vise à réparer le préjudice subi par le preneur — valeur du fonds, frais de
+              Celle-ci vise à réparer le préjudice subi par le preneur : valeur du fonds, frais de
               réinstallation, indemnités accessoires. Son évaluation est souvent au cœur de la
               négociation ou du contentieux.
             </p>

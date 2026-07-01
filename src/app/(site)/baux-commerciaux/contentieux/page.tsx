@@ -122,8 +122,8 @@ export default function ContentieuxPage() {
               La fixation judiciaire du loyer
             </h2>
             <p className="mb-5 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]">
-              En cas de désaccord sur le montant du loyer — lors d'une révision ou d'un
-              renouvellement — la décision revient au <strong>juge des loyers commerciaux</strong>.
+              En cas de désaccord sur le montant du loyer (lors d'une révision ou d'un
+              renouvellement), la décision revient au <strong>juge des loyers commerciaux</strong>.
               La procédure obéit à un formalisme strict : elle débute par un{' '}
               <strong>mémoire préalable</strong> et s'appuie sur l'analyse de la valeur locative
               (caractéristiques du local, facteurs de commercialité, prix pratiqués). Une expertise

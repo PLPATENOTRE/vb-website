@@ -134,7 +134,7 @@ export default function CessionFondsActionsPage() {
               <div className="flex gap-3">
                 <span className="mt-[7px] h-2 w-2 flex-none rounded-[2px] bg-rose" />
                 <p className="font-mulish text-[15px] leading-[1.6] text-[#3f4d44]">
-                  Le bail est transmis avec le fonds — en principe, le bailleur ne peut
+                  Le bail est transmis avec le fonds, en principe le bailleur ne peut
                   l&apos;interdire
                 </p>
               </div>
@@ -209,7 +209,7 @@ export default function CessionFondsActionsPage() {
               Le sort du bail lors d&apos;une cession de fonds
             </h2>
             <p className="mb-5 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]">
-              La cession du fonds de commerce emporte en principe celle du bail commercial —
+              La cession du fonds de commerce emporte en principe celle du bail commercial,
               c&apos;est une protection d&apos;ordre public que le bailleur ne peut pas écarter. Le
               bail peut toutefois encadrer l&apos;opération : clause d&apos;information préalable,
               clause d&apos;agrément (validité limitée par la jurisprudence), obligation de garantie
@@ -223,7 +223,7 @@ export default function CessionFondsActionsPage() {
             <p className="mb-5 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]">
               Lors d&apos;une cession de titres (actions ou parts sociales), la société locataire ne
               change pas : c&apos;est son actionnariat qui évolue. Le bail n&apos;est donc pas
-              formellement transmis et, en principe, le bailleur n&apos;a pas à être consulté — sauf
+              formellement transmis et, en principe, le bailleur n&apos;a pas à être consulté, sauf
               si le bail contient une <strong>clause de changement de contrôle</strong> (
               <em>change of control</em>). Cette clause, de plus en plus fréquente dans les baux de
               grande surface ou de centre commercial, prévoit l&apos;information ou l&apos;agrément

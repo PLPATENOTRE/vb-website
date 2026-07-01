@@ -26,7 +26,7 @@ const enBrefItems = [
   },
   {
     label: 'Premier échange',
-    content: 'Gratuit — appel de qualification pour cerner votre situation',
+    content: 'Gratuit, appel de qualification pour cerner votre situation',
   },
 ]
 
@@ -95,13 +95,13 @@ export default function HonorairesPage() {
           Forfait ou temps passé : selon la nature du dossier
         </h2>
         <p className="mb-5 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]">
-          Pour les <strong>missions ponctuelles et délimitées</strong> — relecture et analyse d'un
-          projet de bail, consultation juridique, rédaction d'un avenant — les honoraires sont fixés
+          Pour les <strong>missions ponctuelles et délimitées</strong> (relecture et analyse d'un
+          projet de bail, consultation juridique, rédaction d'un avenant), les honoraires sont fixés
           au <strong>forfait</strong>, déterminé en amont après analyse du dossier.
         </p>
         <p className="mb-5 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]">
-          Pour les <strong>dossiers de contentieux ou d'accompagnement dans la durée</strong> —
-          représentation devant le juge, suivi d'un litige, accompagnement au fil du bail — les
+          Pour les <strong>dossiers de contentieux ou d'accompagnement dans la durée</strong> (
+          représentation devant le juge, suivi d'un litige, accompagnement au fil du bail), les
           honoraires sont calculés <strong>au temps passé</strong>, sur la base d'un taux horaire
           convenu dans la convention.
         </p>
@@ -123,7 +123,7 @@ export default function HonorairesPage() {
           Avant tout engagement, je propose un <strong>appel de qualification gratuit</strong>. Il
           permet d'identifier la nature de votre situation, d'évaluer si elle relève de mes
           expertises et de vous indiquer les étapes à suivre. Si une intervention est utile, je vous
-          soumets une convention d'honoraires chiffrée — sans engagement de votre part.
+          soumets une convention d'honoraires chiffrée, sans engagement de votre part.
         </p>
 
         <h2 className="mb-4 mt-12 font-cormorant text-[34px] font-semibold leading-[1.15] text-forest">
