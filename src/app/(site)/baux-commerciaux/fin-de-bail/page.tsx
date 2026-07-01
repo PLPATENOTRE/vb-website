@@ -30,10 +30,6 @@ const EN_BREF_ITEMS = [
     label: 'Quand',
     content: "Plusieurs mois avant l'échéance, les délais sont stricts.",
   },
-  {
-    label: 'Où',
-    content: 'Cabinet à Lyon, intervention partout en France.',
-  },
 ]
 
 const FAQ_ITEMS = [

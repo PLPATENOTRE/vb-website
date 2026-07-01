@@ -30,10 +30,6 @@ const EN_BREF_ITEMS = [
     label: 'Thèmes',
     content: 'Statut, clauses, charges, révision, fin de bail, éviction.',
   },
-  {
-    label: 'Où',
-    content: 'Cabinet à Lyon, intervention partout en France.',
-  },
 ]
 
 const FAQ_ITEMS = [

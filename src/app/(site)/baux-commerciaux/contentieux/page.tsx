@@ -30,10 +30,6 @@ const EN_BREF_ITEMS = [
     label: 'Quand',
     content: "Dès la naissance du désaccord, ou à réception d'un acte de Commissaire de Justice.",
   },
-  {
-    label: 'Où',
-    content: 'Cabinet à Lyon, intervention partout en France.',
-  },
 ]
 
 const FAQ_ITEMS = [

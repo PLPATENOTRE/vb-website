@@ -30,10 +30,6 @@ const EN_BREF_ITEMS = [
     label: 'Quand',
     content: 'Idéalement avant toute signature ou engagement ferme.',
   },
-  {
-    label: 'Où',
-    content: 'Cabinet à Lyon, intervention partout en France.',
-  },
 ]
 
 const FAQ_ITEMS = [
