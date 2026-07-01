@@ -20,19 +20,19 @@ export const metadata = pageMetadata({
 const EN_BREF_ITEMS = [
   {
     label: 'Pour qui',
-    content: 'Toute partie confrontée à un litige sur son bail commercial',
+    content: 'Toute partie confrontée à un litige sur son bail commercial.',
   },
   {
     label: 'Ce que je traite',
-    content: 'Fixation du loyer, impayés, clause résolutoire, indemnités',
+    content: 'Fixation du loyer, impayés, clause résolutoire, indemnités.',
   },
   {
     label: 'Quand',
-    content: 'Dès la naissance du désaccord, ou à réception d’un acte',
+    content: "Dès la naissance du désaccord, ou à réception d'un acte de Commissaire de Justice.",
   },
   {
     label: 'Où',
-    content: 'Cabinet à Lyon — intervention partout en France',
+    content: 'Cabinet à Lyon, intervention partout en France.',
   },
 ]
 
@@ -136,9 +136,10 @@ export default function ContentieuxPage() {
             <p className="mb-5 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]">
               Le défaut de paiement peut entraîner la délivrance d'un{' '}
               <strong>commandement de payer visant la clause résolutoire</strong>, qui ouvre en
-              principe un délai d'un mois pour régulariser. Réagir vite est déterminant : selon la
-              situation, il est possible de contester l'acte, de négocier un échéancier ou de
-              solliciter des délais en référé pour suspendre les effets de la clause.
+              principe un délai d'un mois pour régulariser. Réagir vite est déterminant : chaque
+              mois d'inaction est un mois de loyer perdu. Engager la procédure rapidement permet de
+              contenir la dette, de retrouver la jouissance du local et de le remettre en location
+              avant que la situation ne devienne irréversible.
             </p>
 
             <h2 className="mb-4 mt-[46px] font-cormorant text-[28px] font-semibold leading-[1.15] text-forest md:text-[34px]">

@@ -40,4 +40,11 @@ jobs:
         run: pnpm typecheck
 
       - name: Build
+        # Keystatic passe en storage `github` en prod (NODE_ENV=production au build) et
+        # valide la présence de ces 3 vars DÈS le build. Valeurs factices, CI uniquement
+        # (jamais déployées ; les vraies vivent dans Firebase Secret Manager pour App Hosting).
+        env:
+          KEYSTATIC_GITHUB_CLIENT_ID: ci-build-stub
+          KEYSTATIC_GITHUB_CLIENT_SECRET: ci-build-stub
+          KEYSTATIC_SECRET: ci-build-stub-secret-at-least-32-characters-long
         run: pnpm build

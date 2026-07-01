@@ -19,15 +19,15 @@ export const metadata = pageMetadata({
 const EN_BREF_ITEMS = [
   {
     label: 'Pour qui',
-    content: `Cédants et acquéreurs d'une activité commerciale, locaux compris`,
+    content: `Cédants et acquéreurs d'une activité commerciale, locaux compris.`,
   },
   {
     label: 'Ce que je traite',
-    content: `Sort du bail, clauses d'agrément, garantie du cédant, change of control`,
+    content: `Sort du bail, clauses d'agrément, garantie du cédant, clause de changement de contrôle.`,
   },
   {
     label: 'Quand',
-    content: `Dès la structuration du projet, avant la signature de tout acte`,
+    content: `Dès la structuration du projet, avant la signature de tout acte.`,
   },
 ]
 
@@ -191,8 +191,8 @@ export default function CessionFondsActionsPage() {
               <div className="flex gap-3">
                 <span className="mt-[7px] h-2 w-2 flex-none rounded-[2px] bg-rose" />
                 <p className="font-mulish text-[15px] leading-[1.6] text-[#3f4d44]">
-                  L&apos;acquéreur reprend la société avec son actif <strong>et</strong> son passif
-                  : un audit préalable (dont du bail) s&apos;impose
+                  L&apos;acquéreur reprend la société avec son actif <strong>et</strong>&nbsp;son
+                  passif : un audit préalable (dont du bail) s&apos;impose
                 </p>
               </div>
             </div>
@@ -263,10 +263,11 @@ export default function CessionFondsActionsPage() {
               {/* CTA card */}
               <div className="rounded-[10px] bg-forest p-[26px]">
                 <p className="mb-3 font-cormorant text-[24px] font-semibold leading-[1.15] text-cream">
-                  Un projet de cession ?
+                  Parlons de votre projet de cession
                 </p>
                 <p className="mb-5 font-mulish text-[14px] leading-[1.7] text-[#9fb0a4]">
-                  Analysons ensemble la structure et les clauses du bail avant de signer.
+                  Clause d'agrément, droit de préemption du bailleur, loyer révisable au moment de
+                  la cession : autant de points à vérifier avant de signer.
                 </p>
                 <a
                   href="/contact"
