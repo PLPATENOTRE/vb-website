@@ -29,10 +29,10 @@ env:
       - BUILD
       - RUNTIME
 
-  # Clé publique Turnstile : inlinée au BUILD → doit être dispo au build.
-  # ⚠️ Valeur actuelle = clé de TEST Cloudflare. Remplacer par la clé de production.
+  # Clé publique Turnstile (prod) : inlinée au BUILD → doit être dispo au build.
+  # Site key du widget Cloudflare Turnstile (hostname .hosted.app autorisé).
   - variable: NEXT_PUBLIC_TURNSTILE_SITE_KEY
-    value: '1x00000000000000000000AA'
+    value: '0x4AAAAAADtv7ESmW_fY03le'
     availability:
       - BUILD
       - RUNTIME
