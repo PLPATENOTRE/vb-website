@@ -32,10 +32,6 @@ const enBrefItems = [
     label: 'Quand',
     content: "À l'approche d'une révision, d'une cession ou d'un changement d'activité.",
   },
-  {
-    label: 'Où',
-    content: 'Cabinet à Lyon, intervention partout en France.',
-  },
 ]
 
 const faqItems = [
