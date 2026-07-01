@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { getArticleSlugs } from '@/lib/articles'
+import { getAllArticles } from '@/lib/articles'
 import { SECTEURS } from '@/lib/secteurs-data'
 import { SITE } from '@/lib/site'
 
@@ -24,11 +24,15 @@ const STATIC_PATHS = [
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const slugs = await getArticleSlugs()
-  const paths = [
-    ...STATIC_PATHS,
-    ...SECTEURS.map((s) => s.canonical),
-    ...slugs.map((slug) => `/actualites/${slug}`),
-  ]
-  return paths.map((path) => ({ url: `${SITE.url}${path}` }))
+  // Pages statiques + secteurs : pas de lastModified (pas de date réelle → ne rien inventer).
+  const staticEntries = [...STATIC_PATHS, ...SECTEURS.map((s) => s.canonical)].map((path) => ({
+    url: `${SITE.url}${path}`,
+  }))
+  // Articles : lastModified = date de publication (seul signal de fraîcheur réel).
+  const articles = await getAllArticles()
+  const articleEntries = articles.map((a) => ({
+    url: `${SITE.url}/actualites/${a.slug}`,
+    lastModified: a.publishedDate || undefined,
+  }))
+  return [...staticEntries, ...articleEntries]
 }

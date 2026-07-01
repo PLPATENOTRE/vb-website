@@ -167,8 +167,16 @@ export default async function ArticlePage({ params }: PageProps) {
           '@type': 'BlogPosting',
           headline: article.title,
           description: article.excerpt,
+          image: `${SITE.url}${article.coverImage ?? '/assets/og-actualites.jpg'}`,
           datePublished: article.publishedDate,
-          author: { '@type': 'Person', name: SITE.founder, jobTitle: SITE.jobTitle },
+          // Pas de champ « modifié » en base → on reflète la date de publication.
+          dateModified: article.publishedDate,
+          author: {
+            '@type': 'Person',
+            name: SITE.founder,
+            jobTitle: SITE.jobTitle,
+            url: `${SITE.url}/a-propos`,
+          },
           publisher: { '@type': 'Organization', name: SITE.name },
           mainEntityOfPage: `${SITE.url}/actualites/${slug}`,
           articleSection: article.category,
