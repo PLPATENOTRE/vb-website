@@ -13,6 +13,7 @@
 //
 // Tourne dans GitHub Actions (cron hebdo) — jamais dans le site Next.js.
 
+import Anthropic from '@anthropic-ai/sdk'
 import { z } from 'zod'
 
 // ---------------------------------------------------------------------------
@@ -142,6 +143,92 @@ export function isRelevant(d: Decision): boolean {
 }
 
 // ---------------------------------------------------------------------------
+// Scoring de pertinence (Claude API, sorties structurées)
+// ---------------------------------------------------------------------------
+
+const scoreResultSchema = z.object({
+  scores: z.array(
+    z.object({
+      id: z.string(),
+      score: z.number(),
+      pourquoi: z.string(),
+      angle: z.string(),
+    }),
+  ),
+})
+type Scored = Decision & { score: number; pourquoi: string; angle: string }
+
+// JSON Schema envoyé à l'API (contraintes numériques non supportées → bornes en description).
+const SCORE_JSON_SCHEMA = {
+  type: 'object',
+  properties: {
+    scores: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: "id Judilibre de la décision, recopié tel quel" },
+          score: { type: 'integer', description: 'pertinence de 0 (hors sujet) à 10 (majeur)' },
+          pourquoi: { type: 'string', description: 'justification en une phrase' },
+          angle: { type: 'string', description: "angle d'article suggéré, une phrase" },
+        },
+        required: ['id', 'score', 'pourquoi', 'angle'],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: ['scores'],
+  additionalProperties: false,
+} as const
+
+const SCORING_SYSTEM = `Tu évalues des arrêts de la Cour de cassation pour la veille éditoriale
+d'une avocate dont la pratique est : baux commerciaux (négociation, vie du bail, contentieux,
+fin de bail, indemnité d'éviction) et cession de fonds de commerce. Elle publie des articles
+courts commentant les arrêts importants pour ses clients (bailleurs ET preneurs, commerçants,
+investisseurs). Pour chaque décision fournie, note la pertinence de 0 à 10 :
+10 = revirement ou précision de principe en plein cœur de sa matière ;
+5 = intéressant mais périphérique ; 0 = hors sujet. Propose un angle d'article concret
+(la question pratique que l'arrêt tranche). Réponds pour TOUTES les décisions fournies.`
+
+async function scoreCandidates(candidates: Decision[]): Promise<Scored[]> {
+  requireEnv('ANTHROPIC_API_KEY') // le SDK la lit seul ; échec précoce si absente
+  const anthropic = new Anthropic()
+
+  const payload = candidates.map((d) => ({
+    id: d.id,
+    chambre: d.chamber,
+    date: d.decision_date,
+    numero: d.number,
+    themes: d.themes,
+    sommaire: d.summary,
+    extrait: d.text?.slice(0, 4_000),
+  }))
+
+  const response = await anthropic.messages.create({
+    model: 'claude-opus-4-8',
+    max_tokens: 16000,
+    thinking: { type: 'adaptive' },
+    system: SCORING_SYSTEM,
+    output_config: { format: { type: 'json_schema', schema: SCORE_JSON_SCHEMA } },
+    messages: [{ role: 'user', content: JSON.stringify(payload) }],
+  })
+
+  const textBlock = response.content.find((b) => b.type === 'text')
+  if (!textBlock || textBlock.type !== 'text') {
+    throw new Error(`Scoring : pas de bloc texte (stop_reason=${response.stop_reason})`)
+  }
+  const parsed = scoreResultSchema.parse(JSON.parse(textBlock.text))
+
+  const byId = new Map(parsed.scores.map((s) => [s.id, s]))
+  return candidates
+    .map((d) => {
+      const s = byId.get(d.id)
+      return { ...d, score: s?.score ?? 0, pourquoi: s?.pourquoi ?? '', angle: s?.angle ?? '' }
+    })
+    .sort((a, b) => b.score - a.score)
+}
+
+// ---------------------------------------------------------------------------
 // Self-test (aucun appel réseau) — `node … digest.ts --selftest`
 // ---------------------------------------------------------------------------
 
@@ -173,8 +260,10 @@ async function main(): Promise<void> {
   const decisions = await fetchRecentDecisions(token)
   const candidates = decisions.filter(isRelevant)
   console.log(`${decisions.length} décision(s) collectée(s), ${candidates.length} retenue(s)`)
-  for (const d of candidates) {
-    console.log(`- ${d.chamber ?? '?'} ${d.decision_date ?? '?'} n° ${d.number ?? d.id}`)
+
+  const scored = candidates.length > 0 ? await scoreCandidates(candidates) : []
+  for (const d of scored) {
+    console.log(`- [${d.score}/10] ${d.chamber ?? '?'} ${d.decision_date ?? '?'} n° ${d.number ?? d.id} — ${d.angle}`)
   }
 }
 
