@@ -101,6 +101,7 @@ export default function HomePage() {
           alt="Victoire Behaghel, avocate en baux commerciaux à Lyon"
           width={900}
           height={1030}
+          fetchPriority="high"
           className="mt-10 h-[420px] w-full rounded object-cover object-top md:mt-0 md:h-[520px]"
         />
       </section>

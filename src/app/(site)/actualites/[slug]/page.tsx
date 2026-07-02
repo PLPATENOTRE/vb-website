@@ -6,6 +6,7 @@ import type { ReactNode } from 'react'
 import { BreadcrumbNav } from '@/components/seo/BreadcrumbNav'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { formatFrenchDate, getAllArticles, getArticle, getArticleSlugs } from '@/lib/articles'
+import { ENTITY } from '@/lib/jsonld'
 import { pageMetadata } from '@/lib/metadata'
 import { SITE } from '@/lib/site'
 
@@ -95,6 +96,8 @@ export default async function ArticlePage({ params }: PageProps) {
             <img
               src={article.coverImage}
               alt={article.title}
+              width={1200}
+              height={630}
               className="h-[260px] w-full rounded object-cover md:h-[460px]"
             />
           ) : (
@@ -171,13 +174,15 @@ export default async function ArticlePage({ params }: PageProps) {
           datePublished: article.publishedDate,
           // Pas de champ « modifié » en base → on reflète la date de publication.
           dateModified: article.publishedDate,
+          // @id : même auteur/éditeur que le graphe d'entité (accueil) → consolidation.
           author: {
             '@type': 'Person',
+            '@id': ENTITY.person,
             name: SITE.founder,
             jobTitle: SITE.jobTitle,
             url: `${SITE.url}/a-propos`,
           },
-          publisher: { '@type': 'Organization', name: SITE.name },
+          publisher: { '@type': 'Organization', '@id': ENTITY.cabinet, name: SITE.name },
           mainEntityOfPage: `${SITE.url}/actualites/${slug}`,
           articleSection: article.category,
         }}
