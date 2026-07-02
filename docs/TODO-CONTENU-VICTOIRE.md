@@ -12,6 +12,8 @@ Document destiné à **Victoire**. La base technique du site (structure, vitesse
 
 **Comment me transmettre :** mail, doc Google, ou même du vrac — je structure et j'intègre dans le site. Pour les articles, tu peux aussi les saisir directement dans l'interface (voir `GUIDE-ARTICLES.md`).
 
+> 📘 **Nouveau : `GUIDE-QUOTIDIEN-VICTOIRE.md`** — tes réflexes au fil de l'eau (comment écrire un article qui ranke et se fait citer par les IA, les liens internes, la déontologie). À lire une fois, à garder sous la main.
+
 ---
 
 ## 🧭 Décision de stratégie — jusqu'où élargir ? (à trancher ensemble)
@@ -98,7 +100,8 @@ Document destiné à **Victoire**. La base technique du site (structure, vitesse
 - Une **cadence réaliste** : 1 à 2 articles par mois valent mieux que 10 d'un coup puis plus rien.
 - **Une question = un article = une page.** Titre = la question que se pose le client.
 - Réponse **claire dès les premières lignes**, puis développement.
-- Terminer par un lien vers la page service correspondante (ex. un article sur l'indemnité d'éviction → page *Fin de bail*).
+- ⭐ **Des liens internes dans chaque article** (2-3 vers une page service, ancre = le mot-clé exact — ex. « fixation judiciaire du loyer » → page *Contentieux*). **C'est le réflexe le plus rentable et le plus oublié : tes 3 articles actuels n'en ont aucun.** Détail et exemples dans `GUIDE-QUOTIDIEN-VICTOIRE.md` (§2).
+- ⚠️ **Ne jamais publier un « [À compléter] ».** Un article en ligne en contient un aujourd'hui (« plafond 3,5 % ») — à corriger. Un placeholder publié est le pire signal de sérieux.
 
 **Idées de sujets (classés par intention de recherche réelle) :**
 1. Indemnité d'éviction : comment est-elle calculée ?
@@ -194,6 +197,20 @@ Document destiné à **Victoire**. La base technique du site (structure, vitesse
 
 ---
 
+## 10. 🟠 Finitions éditoriales du site (tes arbitrages)
+
+**Pourquoi.** Un audit fin a relevé des réglages de texte qui touchent au référencement mais relèvent de **ton choix éditorial** (ton, image, nommage). Je ne les applique qu'avec ton feu vert — voici les décisions attendues :
+
+- **Titres Google trop longs.** Plusieurs titres dépassent 60 caractères et sont donc **coupés** dans les résultats Google (ex. « Révision, indexation et cession du bail commercial — Avocate Lyon | Victoire Behaghel »). Je propose de les raccourcir (quitte à alléger le « | Victoire Behaghel » sur les pages profondes). → *Ton accord de principe suffit ; je te soumets la liste avant/après.*
+- **Titre principal de l'accueil = « Victoire Behaghel ».** Le mot-clé « avocate en baux commerciaux » est aujourd'hui en sous-titre. Option : « Victoire Behaghel — Avocate en baux commerciaux à Lyon » comme titre visible. → *Personal branding pur, ou branding + mot-clé ?*
+- **Nom du menu « Services ».** Le lien de navigation le plus répété du site s'appelle « Services » (mot vide pour Google). Proposition : « Baux commerciaux ». → *OK pour renommer ?*
+- **Descriptions Google en série.** Elles finissent toutes par « Lyon, partout en France. » — efficace mais uniforme. On peut en différencier quelques-unes. → *Bonus, à faire si tu as le temps.*
+- **Une FAQ sur la page d'accueil.** C'est la page la plus vue et elle n'a aucun bloc question/réponse (le format que les IA citent le plus). → *Me fournir 3-4 questions/réponses courtes « grand public ».*
+
+> Aucune de ces finitions n'invente de fait te concernant : ce sont des arbitrages de forme. Dis-moi oui/non sur chaque point et j'exécute.
+
+---
+
 ## Récapitulatif des priorités
 
 | Priorité | Sujet | Qui agit |
@@ -205,6 +222,7 @@ Document destiné à **Victoire**. La base technique du site (structure, vitesse
 | 🟠 | Honoraires : afficher une fourchette ou non | **Toi** (décision + montants) |
 | 🟠 | Articles : 1–2 / mois, sujets ci-dessus (cœur + haut de funnel) | **Toi** (rédaction ou notes) |
 | 🟠 | Glossaire baux commerciaux | **Toi** (définitions) → je crée la page |
+| 🟠 | Finitions éditoriales (titres, menu, FAQ accueil) | **Toi** (oui/non par point) → j'exécute |
 | 🟢 | Exemples de dossiers anonymisés | **Toi** |
 | 🟢 | Compléter `llms.txt` | Automatique une fois la bio fournie |
 | 🟢 | Médias (photo cabinet, visuel partage) | **Toi** (facultatif) |
