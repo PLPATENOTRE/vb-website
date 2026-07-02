@@ -14,6 +14,7 @@
 // Tourne dans GitHub Actions (cron hebdo) — jamais dans le site Next.js.
 
 import Anthropic from '@anthropic-ai/sdk'
+import { Resend } from 'resend'
 import { z } from 'zod'
 
 // ---------------------------------------------------------------------------
@@ -229,6 +230,64 @@ async function scoreCandidates(candidates: Decision[]): Promise<Scored[]> {
 }
 
 // ---------------------------------------------------------------------------
+// Digest email (Resend) — envoyé même vide : signal que la chaîne est vivante
+// ---------------------------------------------------------------------------
+
+/** Page publique de la décision sur le site de la Cour de cassation. */
+const decisionUrl = (d: Decision): string => `https://www.courdecassation.fr/decision/${d.id}`
+
+const CHAMBRES: Record<string, string> = {
+  civ3: '3e chambre civile',
+  comm: 'Chambre commerciale',
+}
+
+function digestHtml(scored: Scored[], examined: number): string {
+  if (scored.length === 0) {
+    return `<p>Rien de pertinent cette semaine — 0 décision retenue sur ${examined} examinée(s) (Cass. civ. 3e + com., Bulletin).</p>`
+  }
+  const items = scored
+    .map(
+      (d) => `<li style="margin-bottom:14px">
+  <strong>[${d.score}/10]</strong> ${CHAMBRES[d.chamber ?? ''] ?? d.chamber ?? '?'} — ${d.decision_date ?? '?'} —
+  <a href="${decisionUrl(d)}">n° ${d.number ?? d.id}</a><br>
+  ${d.pourquoi}<br>
+  <em>Angle d'article : ${d.angle}</em>
+</li>`,
+    )
+    .join('\n')
+  return `<p>${scored.length} décision(s) pertinente(s) sur ${examined} examinée(s) cette semaine :</p>
+<ol>${items}</ol>
+<p style="color:#666;font-size:13px">Veille automatique Judilibre (Cass. civ. 3e + com., Bulletin) — scores et angles générés par IA, à vérifier avant toute rédaction.</p>`
+}
+
+function digestText(scored: Scored[], examined: number): string {
+  if (scored.length === 0) {
+    return `Rien de pertinent cette semaine — 0 décision retenue sur ${examined} examinée(s).`
+  }
+  return scored
+    .map(
+      (d) =>
+        `[${d.score}/10] ${d.chamber ?? '?'} ${d.decision_date ?? '?'} n° ${d.number ?? d.id}\n${decisionUrl(d)}\n${d.pourquoi}\nAngle : ${d.angle}`,
+    )
+    .join('\n\n')
+}
+
+async function sendDigest(scored: Scored[], examined: number): Promise<void> {
+  const resend = new Resend(requireEnv('RESEND_API_KEY'))
+  const to = requireEnv('VEILLE_TO').split(',').map((s) => s.trim())
+  const semaine = isoDate(new Date())
+  const { error } = await resend.emails.send({
+    from: 'Veille baux commerciaux <noreply@behaghel-avocat.com>',
+    to,
+    subject: `Veille jurisprudence — ${scored.length} décision(s) — semaine du ${semaine}`,
+    html: digestHtml(scored, examined),
+    text: digestText(scored, examined),
+  })
+  if (error) throw new Error(`Resend : ${error.message}`)
+  console.log(`Digest envoyé à ${to.join(', ')}`)
+}
+
+// ---------------------------------------------------------------------------
 // Self-test (aucun appel réseau) — `node … digest.ts --selftest`
 // ---------------------------------------------------------------------------
 
@@ -265,6 +324,13 @@ async function main(): Promise<void> {
   for (const d of scored) {
     console.log(`- [${d.score}/10] ${d.chamber ?? '?'} ${d.decision_date ?? '?'} n° ${d.number ?? d.id} — ${d.angle}`)
   }
+
+  if (process.env.VEILLE_DRY_RUN === '1') {
+    console.log('\nDRY RUN — email non envoyé. Aperçu texte :\n')
+    console.log(digestText(scored, decisions.length))
+    return
+  }
+  await sendDigest(scored, decisions.length)
 }
 
 main().catch((err) => {
