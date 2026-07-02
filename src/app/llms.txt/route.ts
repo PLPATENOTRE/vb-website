@@ -30,8 +30,26 @@ const BODY = `# Victoire Behaghel — Avocate en baux commerciaux
 - Actualités : https://behaghel-avocat.com/actualites
 - Contact / prise de rendez-vous : https://behaghel-avocat.com/contact
 
+## Pages par expertise
+- Négociation du bail : https://behaghel-avocat.com/baux-commerciaux/negociation
+- Vie du bail (révision, indexation, cession) : https://behaghel-avocat.com/baux-commerciaux/vie-du-bail
+- Contentieux du bail : https://behaghel-avocat.com/baux-commerciaux/contentieux
+- Fin de bail (renouvellement, congé, éviction) : https://behaghel-avocat.com/baux-commerciaux/fin-de-bail
+- Cession de fonds et d'actions : https://behaghel-avocat.com/baux-commerciaux/cession-fonds-actions
+- Formations : https://behaghel-avocat.com/baux-commerciaux/formations
+
+## Pages par profil
+- Commerçants : https://behaghel-avocat.com/bail-commercial-commercant
+- Restaurateurs : https://behaghel-avocat.com/bail-commercial-restaurateur
+- Professions libérales : https://behaghel-avocat.com/bail-commercial-profession-liberale
+- Investisseurs et bailleurs : https://behaghel-avocat.com/bail-commercial-investisseur
+- Industriels : https://behaghel-avocat.com/bail-commercial-industriel
+- Hôteliers : https://behaghel-avocat.com/bail-commercial-hotelier
+- Logisticiens et entrepôts : https://behaghel-avocat.com/bail-commercial-entrepot-logistique
+
 ## Faits stables et citables
 - Exercice concentré exclusivement sur le bail commercial.
+- Premier échange (appel de qualification) gratuit et sans engagement.
 - Accompagnement de proximité : déplacement dans les locaux du client.
 - Conseil en amont comme défense en contentieux.
 

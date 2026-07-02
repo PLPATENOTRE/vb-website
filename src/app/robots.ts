@@ -10,8 +10,12 @@ const AI_BOTS = [
   'ChatGPT-User',
   'ClaudeBot',
   'Claude-Web',
+  'Claude-SearchBot',
   'PerplexityBot',
   'Google-Extended',
+  'Applebot-Extended',
+  'meta-externalagent',
+  'Amazonbot',
   'Bingbot',
 ]
 

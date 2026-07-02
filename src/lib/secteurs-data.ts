@@ -287,7 +287,7 @@ export const SECTEURS: Secteur[] = [
     enBref: [
       {
         label: 'Pour qui',
-        content: 'Logisticiens, 3PL, e-commercants, opérateurs de supply chain',
+        content: 'Logisticiens, 3PL, e-commerçants, opérateurs de supply chain',
       },
       {
         label: 'Enjeux clés',
@@ -411,7 +411,7 @@ export const SECTEURS: Secteur[] = [
     enBref: [
       {
         label: 'Pour qui',
-        content: 'Restaurateurs, hôtes de restauration rapide, bistrots, brasseries',
+        content: 'Restaurateurs, enseignes de restauration rapide, bistrots, brasseries',
       },
       {
         label: 'Enjeux clés',
