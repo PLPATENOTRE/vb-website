@@ -1,6 +1,6 @@
 # Veille jurisprudence — activation
 
-Chaîne automatique hebdomadaire : **Judilibre** (arrêts Cass. civ. 3e + com., publiés au Bulletin, ajoutés à la base sur les 8 derniers jours) → **filtre baux commerciaux** (mots-clés, déterministe) → **scoring de pertinence** (OpenAI `gpt-4.1-mini`, note 0-10 + angle d'article) → **digest email** (Resend).
+Chaîne automatique hebdomadaire : **Judilibre** (arrêts Cass. civ. 3e + com., publiés au Bulletin, ajoutés à la base sur les 8 derniers jours) → **filtre baux commerciaux** (mots-clés, déterministe) → **scoring de pertinence** (OpenAI `gpt-4.1-mini`, note 0-10 + angle d'article) → **digest email** (Resend), avec le **texte intégral en pièce jointe `.txt`** des décisions détaillées (les 5 mieux notées).
 
 Tourne dans **GitHub Actions** (`.github/workflows/veille.yml`, lundi ~6h30 Paris + déclenchement manuel). Jamais dans le site Next.js. C'est la **Phase 1** du plan (veille seule — pas de rédaction automatique) ; Phase 2 (brouillons d'articles `draft: true` dans Keystatic) et Phase 3 (articles ILC/ILAT trimestriels) viendront après validation du signal.
 

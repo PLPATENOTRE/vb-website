@@ -248,22 +248,37 @@ const CHAMBRES: Record<string, string> = {
   comm: 'Chambre commerciale',
 }
 
+/** Nb max de décisions détaillées dans le corps du mail (les autres = simple compteur). */
+const MAX_LISTED = 5
+
+/** Nom de fichier .txt sûr pour une décision. */
+function attachmentName(d: Decision): string {
+  const base = `${d.chamber ?? 'cass'}-${d.decision_date ?? ''}-${d.number ?? d.id}`
+  return `${base.replace(/[^\w.-]+/g, '_')}.txt`
+}
+
 function digestHtml(scored: Scored[], examined: number): string {
   if (scored.length === 0) {
     return `<p>Rien de pertinent cette semaine — 0 décision retenue sur ${examined} examinée(s) (Cass. civ. 3e + com., Bulletin).</p>`
   }
-  const items = scored
+  const shown = scored.slice(0, MAX_LISTED)
+  const items = shown
     .map(
       (d) => `<li style="margin-bottom:14px">
   <strong>[${d.score}/10]</strong> ${CHAMBRES[d.chamber ?? ''] ?? d.chamber ?? '?'} — ${d.decision_date ?? '?'} —
-  <a href="${decisionUrl(d)}">n° ${d.number ?? d.id}</a><br>
+  <a href="${decisionUrl(d)}">n° ${d.number ?? d.id}</a> — texte intégral en pièce jointe<br>
   ${d.pourquoi}<br>
   <em>Angle d'article : ${d.angle}</em>
 </li>`,
     )
     .join('\n')
+  const extra = scored.length - shown.length
+  const extraNote =
+    extra > 0
+      ? `<p>+${extra} autre(s) décision(s) retenue(s), non détaillée(s) ici (score inférieur).</p>`
+      : ''
   return `<p>${scored.length} décision(s) pertinente(s) sur ${examined} examinée(s) cette semaine :</p>
-<ol>${items}</ol>
+<ol>${items}</ol>${extraNote}
 <p style="color:#666;font-size:13px">Veille automatique Judilibre (Cass. civ. 3e + com., Bulletin) — scores et angles générés par IA, à vérifier avant toute rédaction.</p>`
 }
 
@@ -271,27 +286,39 @@ function digestText(scored: Scored[], examined: number): string {
   if (scored.length === 0) {
     return `Rien de pertinent cette semaine — 0 décision retenue sur ${examined} examinée(s).`
   }
-  return scored
+  const shown = scored.slice(0, MAX_LISTED)
+  const body = shown
     .map(
       (d) =>
         `[${d.score}/10] ${d.chamber ?? '?'} ${d.decision_date ?? '?'} n° ${d.number ?? d.id}\n${decisionUrl(d)}\n${d.pourquoi}\nAngle : ${d.angle}`,
     )
     .join('\n\n')
+  const extra = scored.length - shown.length
+  return extra > 0 ? `${body}\n\n+${extra} autre(s) décision(s) retenue(s), non détaillée(s).` : body
 }
 
 async function sendDigest(scored: Scored[], examined: number): Promise<void> {
   const resend = new Resend(requireEnv('RESEND_API_KEY'))
   const to = requireEnv('VEILLE_TO').split(',').map((s) => s.trim())
   const semaine = isoDate(new Date())
+
+  // PJ .txt : uniquement les décisions détaillées dans le corps (les MAX_LISTED premières),
+  // et seulement si le texte intégral est disponible (Judilibre le fournit dans /export).
+  const attachments = scored
+    .slice(0, MAX_LISTED)
+    .filter((d) => d.text?.trim())
+    .map((d) => ({ filename: attachmentName(d), content: Buffer.from(d.text as string, 'utf8') }))
+
   const { error } = await resend.emails.send({
     from: 'Veille baux commerciaux <noreply@behaghel-avocat.com>',
     to,
     subject: `Veille jurisprudence — ${scored.length} décision(s) — semaine du ${semaine}`,
     html: digestHtml(scored, examined),
     text: digestText(scored, examined),
+    ...(attachments.length > 0 ? { attachments } : {}),
   })
   if (error) throw new Error(`Resend : ${error.message}`)
-  console.log(`Digest envoyé à ${to.join(', ')}`)
+  console.log(`Digest envoyé à ${to.join(', ')} (${attachments.length} PJ)`)
 }
 
 // ---------------------------------------------------------------------------
