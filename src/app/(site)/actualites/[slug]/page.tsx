@@ -2,7 +2,7 @@ import { DocumentRenderer } from '@keystatic/core/renderer'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import type { ReactNode } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 import { BreadcrumbNav } from '@/components/seo/BreadcrumbNav'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { formatFrenchDate, getAllArticles, getArticle, getArticleSlugs } from '@/lib/articles'
@@ -37,7 +37,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 // Renderers Tailwind pour le contenu Keystatic (calqués sur la maquette Article).
+// inline.link + block.list sont explicites : le reset Tailwind supprime le style
+// par défaut des liens et des puces.
 const renderers = {
+  inline: {
+    link: ({ href, children }: { href: string; children: ReactNode }) => (
+      <a
+        href={href}
+        className="font-medium text-rose underline underline-offset-2 transition-colors hover:text-forest"
+      >
+        {children}
+      </a>
+    ),
+  },
   block: {
     paragraph: ({ children }: { children: ReactNode }) => (
       <p className="mb-[22px] font-mulish text-[17px] leading-[1.85] text-[#3f4d44]">{children}</p>
@@ -57,6 +69,28 @@ const renderers = {
         {children}
       </blockquote>
     ),
+    list: ({ type, children }: { type: 'ordered' | 'unordered'; children: ReactElement[] }) => {
+      const base = 'mb-[22px] space-y-2 pl-6 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]'
+      return type === 'ordered' ? (
+        <ol className={`list-decimal ${base}`}>
+          {children.map((child, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: liste statique sans id (rendu Keystatic)
+            <li key={i} className="pl-1">
+              {child}
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <ul className={`list-disc ${base}`}>
+          {children.map((child, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: liste statique sans id (rendu Keystatic)
+            <li key={i} className="pl-1">
+              {child}
+            </li>
+          ))}
+        </ul>
+      )
+    },
   },
 }
 
