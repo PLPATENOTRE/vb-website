@@ -1,0 +1,41 @@
+# Veille jurisprudence baux commerciaux — collecte Judilibre → scoring OpenAI → digest email.
+# Cron hebdo + déclenchement manuel (avec option dry-run pour tester sans envoyer d'email).
+# Secrets requis (Settings → Secrets → Actions) : PISTE_CLIENT_ID, PISTE_CLIENT_SECRET,
+# OPENAI_API_KEY, RESEND_API_KEY, VEILLE_TO. Voir scripts/veille/README.md.
+name: Veille jurisprudence
+
+on:
+  schedule:
+    - cron: '30 5 * * 1' # lundi 05:30 UTC ≈ 06:30/07:30 Paris
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (log au lieu d'envoyer l'email)"
+        type: boolean
+        default: false
+
+jobs:
+  veille:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4 # version pnpm lue depuis packageManager
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Collecte, scoring et digest
+        run: node --experimental-strip-types scripts/veille/digest.ts
+        env:
+          PISTE_CLIENT_ID: ${{ secrets.PISTE_CLIENT_ID }}
+          PISTE_CLIENT_SECRET: ${{ secrets.PISTE_CLIENT_SECRET }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          VEILLE_TO: ${{ secrets.VEILLE_TO }}
+          VEILLE_DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
