@@ -347,56 +347,203 @@ function slugify(s: string): string {
 /** Scalaire YAML sûr (double-quoted : échappe " \\ et les sauts de ligne). */
 const yamlStr = (s: string): string => JSON.stringify(s)
 
-function draftMdoc(d: Scored): string {
+// -- Rédaction de l'article (LLM, ancrée sur le texte intégral de l'arrêt) --
+
+const SERVICE_PAGES = [
+  '/baux-commerciaux/negociation',
+  '/baux-commerciaux/vie-du-bail',
+  '/baux-commerciaux/contentieux',
+  '/baux-commerciaux/fin-de-bail',
+  '/baux-commerciaux/cession-fonds-actions',
+  '/baux-commerciaux/formations',
+]
+
+const articleSchema = z.object({
+  title: z.string(),
+  excerpt: z.string(),
+  body_markdown: z.string(),
+})
+type Article = z.infer<typeof articleSchema>
+
+const ARTICLE_JSON_SCHEMA = {
+  type: 'object',
+  properties: {
+    title: { type: 'string', description: "La question concrète que l'arrêt tranche" },
+    excerpt: { type: 'string', description: 'Réponse directe en 1-2 phrases (le chapô)' },
+    body_markdown: { type: 'string', description: 'Corps de l\'article en Markdown simple' },
+  },
+  required: ['title', 'excerpt', 'body_markdown'],
+  additionalProperties: false,
+} as const
+
+const GEN_SYSTEM = `Tu es avocate en droit des baux commerciaux. À partir du TEXTE INTÉGRAL d'un arrêt de la Cour de cassation fourni, rédige un article court de blog juridique pour le site du cabinet, destiné à ses clients (bailleurs ET preneurs, commerçants, investisseurs).
+
+Règles de fond (impératives) :
+- Fonde TOUT ce que tu affirmes SUR CET ARRÊT strictement sur le texte fourni : la solution retenue, les articles visés, les faits. N'invente JAMAIS un numéro d'article, une date, un montant, une règle ou une portée qui ne figure pas dans le texte.
+- Contexte juridique général (définitions, mécanismes) : factuel et standard ; en cas de doute, reste général plutôt que précis.
+- Contenu factuel et pédagogique — jamais un avis juridique personnalisé.
+- Déontologie : n'emploie jamais « spécialiste » ni « spécialisé » (dis « expert »).
+
+Format de sortie :
+- title : la QUESTION concrète que l'arrêt tranche (pas « Commentaire de l'arrêt… »).
+- excerpt : la réponse directe, 1-2 phrases.
+- body_markdown : Markdown SIMPLE UNIQUEMENT — titres ## et ###, **gras**, *italique*, listes à puces, liens [texte](/chemin), citations avec >, séparateur ---. INTERDIT : tableaux, images, blocs de code (\`\`\`), titres de niveau 1 (#).
+  Structure : réponse directe d'entrée de jeu, puis « Ce que dit l'arrêt », puis « Ce que ça change en pratique », et termine par 1 à 2 liens internes vers la page service la plus pertinente parmi : ${SERVICE_PAGES.join(', ')}.`
+
+async function generateArticle(openai: OpenAI, d: Scored): Promise<Article> {
+  const res = await openai.chat.completions.create({
+    model: 'gpt-4.1-mini',
+    temperature: 0.3,
+    messages: [
+      { role: 'system', content: GEN_SYSTEM },
+      {
+        role: 'user',
+        content: JSON.stringify({
+          chambre: d.chamber,
+          date: d.decision_date,
+          numero: d.number,
+          angle_suggere: d.angle,
+          texte_integral: d.text,
+        }),
+      },
+    ],
+    response_format: {
+      type: 'json_schema',
+      json_schema: { name: 'article', strict: true, schema: ARTICLE_JSON_SCHEMA },
+    },
+  })
+  const content = res.choices[0]?.message?.content
+  if (!content) throw new Error('Génération article : réponse vide')
+  return articleSchema.parse(JSON.parse(content))
+}
+
+// -- Passe anti-hallucination : liste les affirmations non étayées par la source --
+
+const checkSchema = z.object({
+  verdict: z.enum(['ok', 'a_verifier']),
+  problemes: z.array(z.object({ extrait: z.string(), probleme: z.string() })),
+})
+type Checks = z.infer<typeof checkSchema>
+
+const CHECK_JSON_SCHEMA = {
+  type: 'object',
+  properties: {
+    verdict: { type: 'string', enum: ['ok', 'a_verifier'] },
+    problemes: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          extrait: { type: 'string', description: "Passage de l'article en cause" },
+          probleme: { type: 'string', description: 'En quoi ce n\'est pas étayé par la source' },
+        },
+        required: ['extrait', 'probleme'],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: ['verdict', 'problemes'],
+  additionalProperties: false,
+} as const
+
+const CHECK_SYSTEM = `Tu vérifies un brouillon d'article juridique contre le TEXTE SOURCE d'un arrêt. Liste UNIQUEMENT les affirmations de l'article qui attribuent à CET arrêt un élément (solution, numéro d'article, fait, date, montant, portée) NON étayé par le texte source. Ignore le contexte juridique général s'il est correct. Pour chaque problème : l'extrait fautif + la nature du problème. Si tout est étayé, renvoie une liste vide et verdict "ok" ; sinon verdict "a_verifier".`
+
+async function verifyArticle(openai: OpenAI, d: Scored, article: Article): Promise<Checks> {
+  const res = await openai.chat.completions.create({
+    model: 'gpt-4.1-mini',
+    temperature: 0,
+    messages: [
+      { role: 'system', content: CHECK_SYSTEM },
+      { role: 'user', content: JSON.stringify({ article, texte_source: d.text }) },
+    ],
+    response_format: {
+      type: 'json_schema',
+      json_schema: { name: 'verification', strict: true, schema: CHECK_JSON_SCHEMA },
+    },
+  })
+  const content = res.choices[0]?.message?.content
+  if (!content) throw new Error('Vérification article : réponse vide')
+  return checkSchema.parse(JSON.parse(content))
+}
+
+// -- Assemblage du .mdoc --
+
+function draftMdoc(d: Scored, article: Article | null, checks: Checks | null): string {
   const chambre = CHAMBRES[d.chamber ?? ''] ?? d.chamber ?? 'Cour de cassation'
-  const url = decisionUrl(d)
-  return `---
-title: ${yamlStr(d.angle || `Décision ${d.number ?? d.id}`)}
+  const source = `Source : [${chambre} — n° ${d.number ?? d.id}](${decisionUrl(d)}), arrêt du ${d.decision_date ?? '?'}.`
+  const front = (title: string, excerpt: string, readingTime: string) => `---
+title: ${yamlStr(title)}
 publishedDate: ${isoDate(new Date())}
 category: "Jurisprudence"
-readingTime: ""
-excerpt: ${yamlStr(d.pourquoi || 'Brouillon à compléter.')}
+readingTime: ${yamlStr(readingTime)}
+excerpt: ${yamlStr(excerpt)}
 featured: false
 draft: true
+---`
+
+  // Fallback : pas de texte source → squelette minimal (rare).
+  if (!article) {
+    return `${front(d.angle || `Décision ${d.number ?? d.id}`, d.pourquoi || 'Brouillon à compléter.', '')}
+
+> Brouillon — texte de l'arrêt indisponible, à rédiger manuellement.
+
+${source}
+`
+  }
+
+  const words = article.body_markdown.split(/\s+/).filter(Boolean).length
+  const readingTime = `${Math.max(1, Math.round(words / 200))} min de lecture`
+  const caveat =
+    checks?.verdict === 'a_verifier' && checks.problemes.length > 0
+      ? `**⚠️ À vérifier avant publication** — points possiblement non étayés par l'arrêt :\n\n${checks.problemes
+          .map((p) => `- « ${p.extrait} » — ${p.probleme}`)
+          .join('\n')}\n\n---\n\n`
+      : ''
+
+  return `${front(article.title, article.excerpt, readingTime)}
+
+> Brouillon généré automatiquement — à relire et vérifier avant publication.
+
+${caveat}${article.body_markdown}
+
 ---
 
-Brouillon généré automatiquement à partir d'un arrêt récent — **à relire, compléter et vérifier avant publication**. Le texte intégral de la décision est joint au mail de veille.
-
-## Ce que tranche l'arrêt
-
-À rédiger à partir du texte intégral de la décision.
-
-## Pourquoi c'est important
-
-${d.pourquoi || 'À préciser.'}
-
-## En pratique
-
-À rédiger : conséquences concrètes pour bailleurs et preneurs, puis 2 à 3 liens internes vers la page service pertinente (voir GUIDE-QUOTIDIEN-VICTOIRE, §2).
-
----
-
-Source : [${chambre} — n° ${d.number ?? d.id}](${url}), arrêt du ${d.decision_date ?? '?'}.
+${source}
 `
 }
 
-/** Écrit les brouillons manquants (ne clobbe jamais un fichier existant). Retourne les slugs créés. */
-function writeDrafts(draftable: Scored[]): string[] {
+/**
+ * Pour chaque décision score>7 : rédige l'article (ancré sur le texte de l'arrêt) + vérifie,
+ * puis écrit le .mdoc (draft:true). En dry-run : génère + affiche, n'écrit rien.
+ * Ne clobbe jamais un fichier existant. Retourne les slugs créés.
+ */
+async function writeDrafts(draftable: Scored[], dryRun: boolean): Promise<string[]> {
+  if (draftable.length === 0) return []
+  const openai = new OpenAI()
   const created: string[] = []
   for (const d of draftable) {
     // ponytail: slug stable par décision (chambre+numéro) → dédup par existence de fichier
-    // (fenêtre de 8 j > cron de 7 j = chevauchement possible). Limite connue : si Victoire
-    // renomme le slug à la publication, un doublon peut réapparaître (suppression d'un clic).
-    // Upgrade éventuel : marqueur d'id de décision en frontmatter + scan.
+    // (fenêtre 8 j > cron 7 j = chevauchement possible). Limite : si Victoire renomme le slug
+    // à la publication, un doublon peut réapparaître (suppression d'un clic).
     const slug = slugify(`${d.chamber ?? 'cass'}-${d.number ?? d.id}`)
     const file = join(ARTICLES_DIR, `${slug}.mdoc`)
-    if (existsSync(file)) {
+    if (!dryRun && existsSync(file)) {
       console.log(`  brouillon déjà présent, ignoré : ${slug}`)
       continue
     }
-    writeFileSync(file, draftMdoc(d), 'utf8')
+    // ponytail: on fait confiance à l'instruction pour rester en Markdown simple ; un rare
+    // nœud non supporté serait vu par Victoire à la relecture. Sanitize à ajouter si besoin.
+    const article = d.text?.trim() ? await generateArticle(openai, d) : null
+    const checks = article ? await verifyArticle(openai, d, article) : null
+    const mdoc = draftMdoc(d, article, checks)
+    if (dryRun) {
+      console.log(`\n----- BROUILLON (dry-run) ${slug} — vérif : ${checks?.verdict ?? 'squelette'} -----`)
+      console.log(mdoc)
+      continue
+    }
+    writeFileSync(file, mdoc, 'utf8')
     created.push(slug)
-    console.log(`  brouillon créé : ${file}`)
+    console.log(`  brouillon créé : ${file} (vérif : ${checks?.verdict ?? 'squelette'})`)
   }
   return created
 }
@@ -443,17 +590,15 @@ async function main(): Promise<void> {
 
   if (process.env.VEILLE_DRY_RUN === '1') {
     console.log(
-      `\nDRY RUN — email non envoyé, ${draftable.length} brouillon(s) NON écrit(s) (score > ${DRAFT_MIN_SCORE}) :`,
+      `\nDRY RUN — email non envoyé. ${draftable.length} brouillon(s) prévisualisé(s) (score > ${DRAFT_MIN_SCORE}) :`,
     )
-    for (const d of draftable) {
-      console.log(`  → ${slugify(`${d.chamber ?? 'cass'}-${d.number ?? d.id}`)}`)
-    }
-    console.log('\nAperçu texte :\n')
+    await writeDrafts(draftable, true)
+    console.log('\nAperçu texte du mail :\n')
     console.log(digestText(scored, decisions.length))
     return
   }
 
-  const created = writeDrafts(draftable)
+  const created = await writeDrafts(draftable, false)
   console.log(`${created.length} brouillon(s) écrit(s) (score > ${DRAFT_MIN_SCORE}).`)
   await sendDigest(scored, decisions.length)
 }
