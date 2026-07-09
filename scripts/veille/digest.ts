@@ -77,7 +77,7 @@ const exportSchema = z.looseObject({
 })
 
 /**
- * Décisions AJOUTÉES à la base Judilibre dans la fenêtre (date_type=creation_date) :
+ * Décisions AJOUTÉES à la base Judilibre dans la fenêtre (date_type=creation) :
  * pas de déduplication à gérer, contrairement à un filtre sur la date de décision
  * (les arrêts sont souvent publiés plusieurs semaines après avoir été rendus).
  * Chambres : 3e civile (baux) + commerciale. Publication : Bulletin (portée de principe).
@@ -89,8 +89,9 @@ async function fetchRecentDecisions(token: string): Promise<Decision[]> {
   const all: Decision[] = []
   for (let batch = 0; batch < 10; batch++) {
     const params = new URLSearchParams({
-      type: 'arret',
-      date_type: 'creation_date',
+      // Pas de filtre `type` : les décisions Cass. sont typées `other` dans Judilibre,
+      // `type=arret` ne ramène rien. Chambre + publication suffisent à cibler.
+      date_type: 'creation',
       date_start: isoDate(start),
       date_end: isoDate(end),
       batch_size: '100',
