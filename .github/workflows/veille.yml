@@ -13,6 +13,10 @@ on:
         description: "Dry run (log au lieu d'envoyer l'email)"
         type: boolean
         default: false
+      days:
+        description: 'Fenêtre de collecte en jours (vide = 8 ; utile pour un test/rattrapage)'
+        type: string
+        default: ''
 
 jobs:
   veille:
@@ -41,6 +45,7 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           VEILLE_TO: ${{ secrets.VEILLE_TO }}
           VEILLE_DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+          VEILLE_DAYS: ${{ inputs.days }} # vide sur cron → repli 8 côté script
 
       # Publie les brouillons générés (draft:true → invisibles sur le site jusqu'à
       # validation dans Keystatic). En dry-run rien n'est écrit → l'étape no-op.

@@ -33,8 +33,9 @@ const JUDILIBRE_BASE =
   process.env.JUDILIBRE_BASE_URL ?? 'https://api.piste.gouv.fr/cassation/judilibre/v1.0'
 const PISTE_TOKEN_URL = 'https://oauth.piste.gouv.fr/api/oauth/token'
 
-/** Fenêtre de collecte en jours (8 par défaut : cron hebdo + marge). */
-const WINDOW_DAYS = Number(process.env.VEILLE_DAYS ?? 8)
+/** Fenêtre de collecte en jours (8 par défaut : cron hebdo + marge).
+ *  `|| 8` et non `?? 8` : une string vide (dispatch sans valeur) → Number('')=0 → repli sur 8. */
+const WINDOW_DAYS = Number(process.env.VEILLE_DAYS) || 8
 
 const isoDate = (d: Date): string => d.toISOString().slice(0, 10)
 
@@ -446,7 +447,10 @@ const CHECK_JSON_SCHEMA = {
   additionalProperties: false,
 } as const
 
-const CHECK_SYSTEM = `Tu vérifies un brouillon d'article juridique contre le TEXTE SOURCE d'un arrêt. Liste UNIQUEMENT les affirmations de l'article qui attribuent à CET arrêt un élément (solution, numéro d'article, fait, date, montant, portée) NON étayé par le texte source. Ignore le contexte juridique général s'il est correct. Pour chaque problème : l'extrait fautif + la nature du problème. Si tout est étayé, renvoie une liste vide et verdict "ok" ; sinon verdict "a_verifier".`
+const CHECK_SYSTEM = `Tu vérifies un brouillon d'article juridique contre le TEXTE SOURCE d'un arrêt. 
+Liste UNIQUEMENT les affirmations de l'article qui attribuent à CET arrêt un élément (solution, numéro d'article, fait, date, montant, portée) NON étayé par le texte source. 
+Ignore le contexte juridique général s'il est correct. Pour chaque problème : l'extrait fautif + la nature du problème. 
+Si tout est étayé, renvoie une liste vide et verdict "ok" ; sinon verdict "a_verifier".`
 
 async function verifyArticle(openai: OpenAI, d: Scored, article: Article): Promise<Checks> {
   const res = await openai.chat.completions.create({
@@ -496,8 +500,8 @@ ${source}
   const caveat =
     checks?.verdict === 'a_verifier' && checks.problemes.length > 0
       ? `**⚠️ À vérifier avant publication** — points possiblement non étayés par l'arrêt :\n\n${checks.problemes
-          .map((p) => `- « ${p.extrait} » — ${p.probleme}`)
-          .join('\n')}\n\n---\n\n`
+        .map((p) => `- « ${p.extrait} » — ${p.probleme}`)
+        .join('\n')}\n\n---\n\n`
       : ''
 
   return `${front(article.title, article.excerpt, readingTime)}
