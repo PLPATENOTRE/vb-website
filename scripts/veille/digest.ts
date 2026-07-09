@@ -2,18 +2,18 @@
 //
 // Chaîne : Judilibre (arrêts Cass. publiés au Bulletin, 7 derniers jours)
 //   → filtre mots-clés baux commerciaux (déterministe)
-//   → scoring de pertinence (Claude API, sorties structurées)
+//   → scoring de pertinence (OpenAI gpt-4.1-mini, structured outputs)
 //   → email digest (Resend) à VEILLE_TO.
 //
 // Exécution : node --experimental-strip-types scripts/veille/digest.ts
 //   --selftest : vérifie le filtre sans appel réseau, exit 0/1.
 // Env requis : PISTE_CLIENT_ID, PISTE_CLIENT_SECRET (OAuth Judilibre),
-//   ANTHROPIC_API_KEY (scoring), RESEND_API_KEY + VEILLE_TO (email).
+//   OPENAI_API_KEY (scoring), RESEND_API_KEY + VEILLE_TO (email).
 // Options : VEILLE_DRY_RUN=1 (log au lieu d'envoyer), VEILLE_DAYS (fenêtre, défaut 8).
 //
 // Tourne dans GitHub Actions (cron hebdo) — jamais dans le site Next.js.
 
-import Anthropic from '@anthropic-ai/sdk'
+import OpenAI from 'openai'
 import { Resend } from 'resend'
 import { z } from 'zod'
 
@@ -144,7 +144,7 @@ export function isRelevant(d: Decision): boolean {
 }
 
 // ---------------------------------------------------------------------------
-// Scoring de pertinence (Claude API, sorties structurées)
+// Scoring de pertinence (OpenAI gpt-4.1-mini, structured outputs strict)
 // ---------------------------------------------------------------------------
 
 const scoreResultSchema = z.object({
@@ -192,8 +192,8 @@ investisseurs). Pour chaque décision fournie, note la pertinence de 0 à 10 :
 (la question pratique que l'arrêt tranche). Réponds pour TOUTES les décisions fournies.`
 
 async function scoreCandidates(candidates: Decision[]): Promise<Scored[]> {
-  requireEnv('ANTHROPIC_API_KEY') // le SDK la lit seul ; échec précoce si absente
-  const anthropic = new Anthropic()
+  requireEnv('OPENAI_API_KEY') // le SDK la lit seul ; échec précoce si absente
+  const openai = new OpenAI()
 
   const payload = candidates.map((d) => ({
     id: d.id,
@@ -205,20 +205,26 @@ async function scoreCandidates(candidates: Decision[]): Promise<Scored[]> {
     extrait: d.text?.slice(0, 4_000),
   }))
 
-  const response = await anthropic.messages.create({
-    model: 'claude-opus-4-8',
-    max_tokens: 16000,
-    thinking: { type: 'adaptive' },
-    system: SCORING_SYSTEM,
-    output_config: { format: { type: 'json_schema', schema: SCORE_JSON_SCHEMA } },
-    messages: [{ role: 'user', content: JSON.stringify(payload) }],
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4.1-mini',
+    temperature: 0, // scoring déterministe autant que possible
+    messages: [
+      { role: 'system', content: SCORING_SYSTEM },
+      { role: 'user', content: JSON.stringify(payload) },
+    ],
+    response_format: {
+      type: 'json_schema',
+      json_schema: { name: 'scores', strict: true, schema: SCORE_JSON_SCHEMA },
+    },
   })
 
-  const textBlock = response.content.find((b) => b.type === 'text')
-  if (!textBlock || textBlock.type !== 'text') {
-    throw new Error(`Scoring : pas de bloc texte (stop_reason=${response.stop_reason})`)
+  const message = response.choices[0]?.message
+  if (message?.refusal) throw new Error(`Scoring refusé : ${message.refusal}`)
+  const content = message?.content
+  if (!content) {
+    throw new Error(`Scoring : réponse vide (finish_reason=${response.choices[0]?.finish_reason})`)
   }
-  const parsed = scoreResultSchema.parse(JSON.parse(textBlock.text))
+  const parsed = scoreResultSchema.parse(JSON.parse(content))
 
   const byId = new Map(parsed.scores.map((s) => [s.id, s]))
   return candidates

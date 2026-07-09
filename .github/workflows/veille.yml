@@ -1,7 +1,7 @@
-# Veille jurisprudence baux commerciaux — collecte Judilibre → scoring Claude → digest email.
+# Veille jurisprudence baux commerciaux — collecte Judilibre → scoring OpenAI → digest email.
 # Cron hebdo + déclenchement manuel (avec option dry-run pour tester sans envoyer d'email).
 # Secrets requis (Settings → Secrets → Actions) : PISTE_CLIENT_ID, PISTE_CLIENT_SECRET,
-# ANTHROPIC_API_KEY, RESEND_API_KEY, VEILLE_TO. Voir scripts/veille/README.md.
+# OPENAI_API_KEY, RESEND_API_KEY, VEILLE_TO. Voir scripts/veille/README.md.
 name: Veille jurisprudence
 
 on:
@@ -35,7 +35,7 @@ jobs:
         env:
           PISTE_CLIENT_ID: ${{ secrets.PISTE_CLIENT_ID }}
           PISTE_CLIENT_SECRET: ${{ secrets.PISTE_CLIENT_SECRET }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           VEILLE_TO: ${{ secrets.VEILLE_TO }}
           VEILLE_DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
