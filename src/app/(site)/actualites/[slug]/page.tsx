@@ -11,6 +11,8 @@ import { pageMetadata } from '@/lib/metadata'
 import { SITE } from '@/lib/site'
 
 export const dynamic = 'force-static'
+// Seuls les slugs de generateStaticParams (articles publiés) existent ; tout autre → 404.
+export const dynamicParams = false
 
 export async function generateStaticParams() {
   const slugs = await getArticleSlugs()

@@ -46,6 +46,11 @@ export default config({
           label: 'Article à la une',
           description: "Met l'article en avant sur la page Actualités.",
         }),
+        draft: fields.checkbox({
+          label: 'Brouillon',
+          description: 'Coché = invisible sur le site (liste, page, sitemap). Décocher pour publier.',
+          defaultValue: false,
+        }),
         coverImage: fields.image({
           label: 'Image de couverture',
           directory: 'public/assets/articles',

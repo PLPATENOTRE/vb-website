@@ -15,9 +15,13 @@ export interface ArticleListItem {
   coverImage: string | null
 }
 
+// Les brouillons (draft:true, générés par la veille) sont exclus PARTOUT côté public :
+// liste, accueil, « à lire aussi », generateStaticParams (pas de page détail) et sitemap.
+// Ils ne restent visibles/éditables que dans l'éditeur Keystatic.
 export async function getAllArticles(): Promise<ArticleListItem[]> {
   const entries = await reader.collections.articles.all()
   return entries
+    .filter((e) => !e.entry.draft)
     .map((e) => ({
       slug: e.slug,
       title: e.entry.title,
@@ -31,8 +35,10 @@ export async function getAllArticles(): Promise<ArticleListItem[]> {
     .sort((a, b) => (a.publishedDate < b.publishedDate ? 1 : -1))
 }
 
+// Dérivé de getAllArticles → hérite du filtre brouillons (utilisé par
+// generateStaticParams ET le sitemap : un brouillon n'a donc aucune URL publique).
 export async function getArticleSlugs(): Promise<string[]> {
-  return reader.collections.articles.list()
+  return (await getAllArticles()).map((a) => a.slug)
 }
 
 const MOIS_FR = [
@@ -64,6 +70,7 @@ export function formatFrenchDate(iso: string): string {
 export async function getArticle(slug: string) {
   const entry = await reader.collections.articles.read(slug)
   if (!entry) return null
+  if (entry.draft) return null // brouillon → 404 même si l'URL est devinée
   const content = await entry.content()
   return {
     slug,
