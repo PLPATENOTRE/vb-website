@@ -64,8 +64,21 @@ node --experimental-strip-types scripts/veille/digest.ts --selftest
 
 Variables optionnelles : `VEILLE_DAYS` (fenêtre, défaut 8), `JUDILIBRE_BASE_URL` (sandbox).
 
+## Brouillons d'articles (Phase 2, score > 7)
+
+Pour toute décision jugée **très pertinente (score > 7)**, la veille crée en plus un **brouillon d'article** :
+
+1. **Rédaction** (OpenAI) à partir du **texte intégral de l'arrêt** : titre = la question tranchée, chapô = réponse directe, corps structuré (Markdown simple compatible Keystatic) + 1-2 liens internes vers la page service pertinente.
+2. **Passe anti-hallucination** (2ᵉ appel) : chaque affirmation attribuée à l'arrêt est confrontée au texte source ; les points non étayés sont listés **en tête du brouillon** (« ⚠️ À vérifier avant publication »).
+3. Écriture d'un `src/content/articles/<slug>.mdoc` avec `draft: true`, commité sur `main` par le workflow.
+4. `draft: true` ⇒ **invisible sur le site** (liste, page, sitemap) — vérifié au build. Le brouillon n'existe que dans l'éditeur **Keystatic**.
+5. Le mail signale « → brouillon créé dans Keystatic ».
+6. Victoire ouvre le brouillon, **relit / corrige** (notamment les points signalés), **décoche « Brouillon »**, enregistre → commit → l'article passe en ligne.
+
+> ⚠️ Le contenu est **généré par IA** : indication éditoriale, jamais un avis juridique. La relecture de Victoire reste **obligatoire** avant toute publication — c'est la raison d'être du brouillon.
+
 ## Garde-fous
 
-- **Aucune publication automatique** : la chaîne produit un email, rien d'autre. La rédaction restera derrière une relecture humaine (Phase 2 : brouillons non publiés).
+- **Aucune publication automatique** : la chaîne envoie un email et dépose des **brouillons invisibles** (`draft: true`). Rien n'est publié sans le geste humain de Victoire (décocher « Brouillon » dans Keystatic).
 - Les scores et angles sont générés par IA → **indication éditoriale, pas analyse juridique**.
 - Coût total : 0 € (Judilibre + Actions gratuits) + centimes OpenAI.
