@@ -66,6 +66,49 @@ export function formatFrenchDate(iso: string): string {
   return `${Number.parseInt(d, 10)} ${mois} ${y}`
 }
 
+// --- FAQ dérivée du corps (pour le JSON-LD FAQPage) ---
+// Pas de champ FAQ dédié dans Keystatic : on extrait les paires Q/R directement
+// de la section « FAQ » rédigée dans le contenu. Une seule source de vérité.
+interface DocNode {
+  type?: string
+  level?: number
+  text?: string
+  children?: DocNode[]
+}
+
+// Texte brut d'un nœud (récursif : traverse liens, gras, listes…).
+function nodeText(node: DocNode): string {
+  if (typeof node.text === 'string') return node.text
+  return (node.children ?? []).map(nodeText).join('')
+}
+
+// Extrait les questions/réponses de la section FAQ. Retourne [] si absente.
+// Convention : un H2 « FAQ » (ou « Questions fréquentes »), puis des H3 (questions)
+// suivis de paragraphes (réponse). La section s'arrête au H2 suivant.
+export function extractFaq(content: unknown): { question: string; answer: string }[] {
+  if (!Array.isArray(content)) return []
+  const nodes = content as DocNode[]
+  const start = nodes.findIndex(
+    (n) => n.type === 'heading' && /^(faq|questions? fréquentes?)/i.test(nodeText(n).trim()),
+  )
+  if (start === -1) return []
+
+  const faq: { question: string; answer: string }[] = []
+  let current: { question: string; answer: string } | null = null
+  for (const node of nodes.slice(start + 1)) {
+    if (node.type === 'heading') {
+      if ((node.level ?? 1) <= 2) break // H2 suivant = fin de la FAQ
+      if (current) faq.push(current)
+      current = { question: nodeText(node).trim(), answer: '' }
+    } else if (current) {
+      const text = nodeText(node).trim()
+      if (text) current.answer = current.answer ? `${current.answer} ${text}` : text
+    }
+  }
+  if (current) faq.push(current)
+  return faq.filter((qa) => qa.question && qa.answer)
+}
+
 // Retourne les métadonnées + le contenu résolu (DocumentElement[]) pour le rendu.
 export async function getArticle(slug: string) {
   const entry = await reader.collections.articles.read(slug)
