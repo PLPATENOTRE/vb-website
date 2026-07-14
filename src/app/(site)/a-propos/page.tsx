@@ -30,6 +30,38 @@ const PRINCIPLES = [
   },
 ]
 
+const PARCOURS = [
+  {
+    year: '2017',
+    text: 'Prestation de serment au Barreau de Paris. Premières années en immobilier commercial au sein du cabinet L. Viollet & Associés : baux commerciaux, cessions de fonds de commerce et de titres de sociétés hôtelières.',
+  },
+  {
+    year: '2021',
+    text: "Intègre le pôle immobilier de LINK & Associés, à Lyon. Pratique approfondie du contentieux locatif commercial : fixation du loyer, indemnités d'éviction et d'occupation, acquisition de la clause résolutoire.",
+  },
+  {
+    year: '2023',
+    text: 'Crée son cabinet à Lyon, dédié au droit des baux commerciaux, en conseil comme en contentieux.',
+  },
+  {
+    year: '2024',
+    text: 'Inscription au Barreau de Lyon.',
+  },
+]
+
+const FORMATION = [
+  'Université Paris Nanterre — Master 2 Juriste européen des affaires',
+  'CAPA — Haute École des Avocats Conseils (HEDAC)',
+  "Ancienne assistante de justice à la Cour d'appel de Versailles",
+]
+
+const ENGAGEMENTS = [
+  'Membre de la commission baux commerciaux du Barreau de Lyon',
+  'Co-organisatrice du colloque « Bail commercial : digitalisation, mutations et valeur verte » (Barreau de Lyon, 2025)',
+  "Formations auprès de professionnels de l'immobilier",
+  'Langues de travail : français, anglais',
+]
+
 export default function AProposPage() {
   return (
     <>
@@ -104,6 +136,58 @@ export default function AProposPage() {
               <div className="font-mulish text-[13px] tracking-[1px] text-[#6B7670]">
                 &amp; contentieux
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Parcours — repères de carrière factuels (levier E-E-A-T / crawlable). */}
+      <section className="mx-auto max-w-[1280px] border-t border-[#EEEBE2] px-6 py-16 md:px-14 md:py-20">
+        <p className="mb-3 font-mulish text-xs uppercase tracking-[3px] text-rose">Parcours</p>
+        <h2 className="mb-12 mt-0 font-cormorant text-[36px] font-semibold text-forest md:text-[46px]">
+          Un parcours dédié à l&apos;immobilier commercial
+        </h2>
+        <div className="grid gap-x-16 gap-y-12 md:grid-cols-[1.15fr_0.85fr]">
+          {/* Chronologie */}
+          <div>
+            {PARCOURS.map((p) => (
+              <div
+                key={p.year}
+                className="flex gap-6 border-t border-[#E4E2DA] py-6 first:border-t-0 first:pt-0"
+              >
+                <div className="w-16 shrink-0 font-cormorant text-[30px] font-semibold leading-none text-rose">
+                  {p.year}
+                </div>
+                <p className="m-0 font-mulish text-[15px] leading-[1.8] text-[#4f574f]">{p.text}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Formation + engagements */}
+          <div className="flex flex-col gap-10">
+            <div>
+              <p className="mb-4 font-mulish text-xs uppercase tracking-[3px] text-rose">
+                Formation
+              </p>
+              <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
+                {FORMATION.map((f) => (
+                  <li key={f} className="font-mulish text-[14px] leading-[1.6] text-[#4f574f]">
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="mb-4 font-mulish text-xs uppercase tracking-[3px] text-rose">
+                Engagements
+              </p>
+              <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
+                {ENGAGEMENTS.map((e) => (
+                  <li key={e} className="font-mulish text-[14px] leading-[1.6] text-[#4f574f]">
+                    {e}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>

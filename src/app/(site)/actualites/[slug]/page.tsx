@@ -5,7 +5,13 @@ import { notFound } from 'next/navigation'
 import type { ReactElement, ReactNode } from 'react'
 import { BreadcrumbNav } from '@/components/seo/BreadcrumbNav'
 import { JsonLd } from '@/components/seo/JsonLd'
-import { formatFrenchDate, getAllArticles, getArticle, getArticleSlugs } from '@/lib/articles'
+import {
+  extractFaq,
+  formatFrenchDate,
+  getAllArticles,
+  getArticle,
+  getArticleSlugs,
+} from '@/lib/articles'
 import { ENTITY } from '@/lib/jsonld'
 import { pageMetadata } from '@/lib/metadata'
 import { SITE } from '@/lib/site'
@@ -100,6 +106,8 @@ export default async function ArticlePage({ params }: PageProps) {
   if (!article) notFound()
 
   const others = (await getAllArticles()).filter((a) => a.slug !== slug).slice(0, 2)
+  // FAQPage dérivé de la section « FAQ » du corps (le cas échéant) — levier GEO.
+  const faq = extractFaq(article.content)
 
   return (
     <>
@@ -223,6 +231,21 @@ export default async function ArticlePage({ params }: PageProps) {
           articleSection: article.category,
         }}
       />
+
+      {/* FAQPage : émis seulement si l'article contient une section FAQ. */}
+      {faq.length > 0 && (
+        <JsonLd
+          data={{
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faq.map((qa) => ({
+              '@type': 'Question',
+              name: qa.question,
+              acceptedAnswer: { '@type': 'Answer', text: qa.answer },
+            })),
+          }}
+        />
+      )}
     </>
   )
 }
