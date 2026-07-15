@@ -1,3 +1,4 @@
+import Script from 'next/script'
 import type { ReactNode } from 'react'
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
@@ -16,6 +17,15 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
       <Header />
       <main id="contenu">{children}</main>
       <Footer />
+      {/* Analytics cookieless GoatCounter (open source) — pas de cookie → pas de bandeau.
+          ponytail: compte les chargements de page (entrées SEO/directes). Les navigations
+          internes App Router (soft nav) ne sont pas recomptées. Upgrade si besoin : composant
+          client appelant goatcounter.count() sur changement de pathname. */}
+      <Script
+        data-goatcounter="https://behaghel.goatcounter.com/count"
+        src="https://gc.zgo.at/count.js"
+        strategy="afterInteractive"
+      />
     </>
   )
 }
