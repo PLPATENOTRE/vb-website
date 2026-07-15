@@ -50,6 +50,7 @@ function yesterdayWindow(): { start: string; end: string; day: string } {
 }
 
 const round1 = (n: number): number => Math.round(n * 10) / 10
+const sum = (arr: number[]): number => arr.reduce((a, b) => a + b, 0)
 
 // ---------------------------------------------------------------------------
 // Modèle de snapshot (normalisé, indépendant des fournisseurs)
@@ -68,7 +69,7 @@ interface SearchDay {
 }
 interface Snapshot {
   date: string // jour de trafic mesuré (J-1, UTC)
-  metrics: { pageviews: number }
+  metrics: { pageviews: number; conversions: number }
   topPages: TopItem[]
   topReferrers: TopItem[]
   topCountries: TopItem[]
@@ -109,9 +110,13 @@ async function fetchGoatCounter(
   const hits = hitsSchema.parse(await get('stats/hits', { limit: '10' }))
   const refs = gcStatsSchema.parse(await get('stats/toprefs', { limit: '10' }))
   const locs = gcStatsSchema.parse(await get('stats/locations', { limit: '10' }))
+  // Conversions = event nommé 'contact-envoi' (formulaire envoyé), relu par nom.
+  const conv = hitsSchema.parse(
+    await get('stats/hits', { include_paths: 'contact-envoi', path_by_name: 'true' }),
+  )
 
   return {
-    metrics: { pageviews: total.total },
+    metrics: { pageviews: total.total, conversions: sum(conv.hits.map((h) => h.count)) },
     topPages: hits.hits.map((h) => ({ label: h.path, count: h.count })),
     topReferrers: refs.stats.map((s) => ({ label: s.name || s.id || '(direct)', count: s.count })),
     topCountries: locs.stats.map((s) => ({ label: s.name || s.id || '?', count: s.count })),
@@ -253,7 +258,6 @@ interface Trend {
   momPct: number | null
 }
 
-const sum = (arr: number[]): number => arr.reduce((a, b) => a + b, 0)
 const pct = (cur: number, prev: number): number | null =>
   prev === 0 ? null : Math.round(((cur - prev) / prev) * 100)
 
@@ -303,6 +307,8 @@ interface Summary {
   jusquau: string
   jours: number
   pageviews: Trend
+  conversions: Trend
+  tauxConversion7j: number | null
   topPages: TopItem[]
   topReferrers: TopItem[]
   topCountries: TopItem[]
@@ -314,10 +320,14 @@ function buildSummary(
   topQueries: SeoSummary['topRequetes'],
 ): Summary {
   const hasSeo = history.some((s) => s.search) || topQueries.length > 0
+  const pageviews = trend(history, (s) => s.metrics.pageviews)
+  const conversions = trend(history, (s) => s.metrics.conversions)
   return {
     jusquau: history.at(-1)?.date ?? '(aucune donnée)',
     jours: history.length,
-    pageviews: trend(history, (s) => s.metrics.pageviews),
+    pageviews,
+    conversions,
+    tauxConversion7j: pageviews.last7 > 0 ? round1((conversions.last7 / pageviews.last7) * 100) : null,
     topPages: aggregateTop(history, 'topPages', 7),
     topReferrers: aggregateTop(history, 'topReferrers', 7),
     topCountries: aggregateTop(history, 'topCountries', 7),
@@ -349,8 +359,8 @@ const INSIGHT_JSON_SCHEMA = {
   additionalProperties: false,
 } as const
 
-const INSIGHT_SYSTEM = `Tu analyses l'audience hebdomadaire du site vitrine d'une avocate en droit des baux commerciaux (Lyon). Objectif du site : convertir en prise de rendez-vous. On te donne des chiffres réels : trafic (pages vues, top pages, top référents, top pays) et SEO Search Console (clics, impressions, position moyenne, top requêtes), avec variations semaine/mois.
-Règles : appuie CHAQUE observation sur un chiffre fourni (ex. « /honoraires : X vues, +Y% » ; « requête "bail commercial Lyon" : position 8,2 »). Signale hausses/baisses notables, référents intéressants (moteurs, IA génératives comme chatgpt.com/perplexity.ai), et requêtes SEO à fort potentiel (beaucoup d'impressions mais position >10 = page à renforcer). Propose des recommandations ACTIONNABLES et spécifiques à ces données ; bannis les généralités (« publiez plus »). Si le recul est insuffisant (peu de jours, variations nulles, SEO absent), dis-le franchement plutôt que d'inventer.`
+const INSIGHT_SYSTEM = `Tu analyses l'audience hebdomadaire du site vitrine d'une avocate en droit des baux commerciaux (Lyon). Objectif du site : convertir en prise de rendez-vous. On te donne des chiffres réels : conversions (demandes de contact via le formulaire — LA métrique métier, le site vise la prise de RDV, avec le taux demandes/pages vues), trafic (pages vues, top pages, top référents, top pays) et SEO Search Console (clics, impressions, position moyenne, top requêtes), avec variations semaine/mois.
+Règles : appuie CHAQUE observation sur un chiffre fourni (ex. « /honoraires : X vues, +Y% » ; « requête "bail commercial Lyon" : position 8,2 »). Signale hausses/baisses notables, référents intéressants (moteurs, IA génératives comme chatgpt.com/perplexity.ai), et requêtes SEO à fort potentiel (beaucoup d'impressions mais position >10 = page à renforcer). Priorise les conversions et leur taux — c'est l'objectif du site : un trafic ou un SEO en hausse SANS conversion est un signal à souligner. Propose des recommandations ACTIONNABLES et spécifiques à ces données ; bannis les généralités (« publiez plus »). Si le recul est insuffisant (peu de jours, variations nulles, SEO absent), dis-le franchement plutôt que d'inventer.`
 
 async function analyze(summary: Summary): Promise<Insight> {
   requireEnv('OPENAI_API_KEY') // le SDK la lit seul
@@ -387,6 +397,8 @@ function seoHtml(seo: SeoSummary | null): string {
 
 function digestHtml(s: Summary, insight: Insight): string {
   return `<p>Digest audience — données jusqu'au ${s.jusquau} (${s.jours} jour(s) d'historique).</p>
+<h3>Demandes de contact (conversions)</h3>
+<p>7 derniers jours : <strong>${s.conversions.last7}</strong> (${pctStr(s.conversions.wowPct)} sur 1 sem.) — taux : <strong>${s.tauxConversion7j ?? '—'} %</strong> des pages vues.</p>
 <h3>Pages vues</h3>
 <p>7 derniers jours : <strong>${s.pageviews.last7}</strong> (préc. ${s.pageviews.prev7}, ${pctStr(s.pageviews.wowPct)} sur 1 sem., ${pctStr(s.pageviews.momPct)} sur 4 sem.).</p>
 <h3>Top pages (7 j)</h3><ul>${topHtml(s.topPages)}</ul>
@@ -404,6 +416,8 @@ function digestText(s: Summary, insight: Insight): string {
     ? `SEO — clics 7j ${s.seo.clicks.last7} (${pctStr(s.seo.clicks.wowPct)}), impressions ${s.seo.impressions.last7} (${pctStr(s.seo.impressions.wowPct)}), position moy. ${s.seo.positionMoyenne7j ?? '—'}\nTop requêtes :\n${s.seo.topRequetes.map((q) => `  ${q.query} — ${q.clicks} clic(s), pos. ${q.position}`).join('\n') || '  —'}`
     : 'SEO — Search Console pas encore configuré.'
   return `Digest audience — jusqu'au ${s.jusquau} (${s.jours} j d'historique)
+
+Demandes de contact (7 j) : ${s.conversions.last7} (${pctStr(s.conversions.wowPct)} 1sem) — taux ${s.tauxConversion7j ?? '—'} %
 
 Pages vues (7 j) : ${s.pageviews.last7} (préc. ${s.pageviews.prev7}, ${pctStr(s.pageviews.wowPct)} 1sem, ${pctStr(s.pageviews.momPct)} 4sem)
 
@@ -489,9 +503,9 @@ async function runDigest(): Promise<void> {
 // ---------------------------------------------------------------------------
 
 function selftest(): void {
-  const base = (date: string, pageviews: number, clicks?: number): Snapshot => ({
+  const base = (date: string, pageviews: number, clicks?: number, conversions = 1): Snapshot => ({
     date,
-    metrics: { pageviews },
+    metrics: { pageviews, conversions },
     topPages: [{ label: '/', count: pageviews }],
     topReferrers: [],
     topCountries: [],
@@ -511,6 +525,9 @@ function selftest(): void {
   assert.equal(tc.last7, 28, 'somme clics SEO 7 j')
   assert.equal(tc.wowPct, 100, 'variation semaine SEO')
   assert.equal(avgPosition(hist, 7), 8, 'position moyenne')
+
+  assert.equal(trend(hist, (s) => s.metrics.conversions).last7, 7, 'somme conversions 7 j')
+  assert.equal(buildSummary(hist, []).tauxConversion7j, 5, 'taux de conversion 7/140')
 
   // Append : même date remplace, nouvelle date ajoute.
   assert.equal(appendSnapshot(hist.slice(), base('2026-01-14', 99)).length, 14, 'dédup même jour')

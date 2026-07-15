@@ -22,6 +22,13 @@ const INITIAL_STATE: FormState = {
   message: '',
 }
 
+// Ping GoatCounter d'une conversion (event nommé, pas une page → n'inflate pas les pages vues).
+// No-op si le beacon est absent (bloqueur de pub, SSR) : la mesure est best-effort, jamais bloquante.
+function trackConversion() {
+  const gc = (window as unknown as { goatcounter?: { count?: (v: object) => void } }).goatcounter
+  gc?.count?.({ path: 'contact-envoi', title: 'Formulaire de contact envoyé', event: true })
+}
+
 export function ContactForm() {
   const [fields, setFields] = useState<FormState>(INITIAL_STATE)
   const [token, setToken] = useState<string>('')
@@ -74,6 +81,7 @@ export function ContactForm() {
       const data = raw as ContactApiResponse
 
       if (data.ok) {
+        trackConversion()
         setStatus('sent')
       } else {
         setStatus('error')
