@@ -1,16 +1,20 @@
-// Observabilité trafic — snapshot quotidien → historique JSON → digest hebdo email.
+// Observabilité — snapshot quotidien → historique JSON → digest hebdo email.
 //
-// Deux modes (argv) :
-//   --snapshot : lit GoatCounter (+ GSC si dispo) pour la veille, append à data/analytics-history.json.
-//   --digest   : lit tout l'historique, calcule les tendances, fait analyser par LLM, envoie l'email.
-//   --selftest : vérifie la maths de tendance + la déduplication, sans réseau. Exit 0/1.
+// Modes (argv) :
+//   --snapshot : trafic GoatCounter (veille J-1) + SEO Search Console (jour finalisé J-3),
+//                append à data/analytics-history.json.
+//   --digest   : lit tout l'historique, calcule les tendances 7 j / 28 j, fait analyser par
+//                LLM, envoie l'email (Resend). Interroge aussi GSC en direct pour les top requêtes.
+//   --selftest : maths de tendance + déduplication + agrégation, sans réseau. Exit 0/1.
 // Option : ANALYTICS_DRY_RUN=1 (log au lieu d'écrire/envoyer).
 //
-// Pourquoi un historique JSON commité : GoatCounter garde tout, mais on veut UNE série cohérente
-// (trafic + SEO) pour la tendance long terme, lisible aussi par un futur dashboard. Git = base
-// time-series : versionnée, gratuite, ~100 Ko/an. Tourne dans GitHub Actions, jamais dans Next.js.
+// Décalage GSC : les données SEO ne sont finalisées qu'après ~3 j. D'où le SEO à J-3 dans le
+// snapshot (le trafic, lui, est complet dès J-1). Les deux séries persistent dans le même JSON
+// committé — base time-series versionnée, ~100 Ko/an, lisible par un futur dashboard.
+// Tourne dans GitHub Actions, jamais dans Next.js.
 
 import assert from 'node:assert/strict'
+import { createSign } from 'node:crypto'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import OpenAI from 'openai'
 import { Resend } from 'resend'
@@ -30,13 +34,22 @@ const isoDay = (d: Date): string => d.toISOString().slice(0, 10)
 const DRY_RUN = process.env.ANALYTICS_DRY_RUN === '1'
 const HISTORY_FILE = 'data/analytics-history.json'
 
-/** Fenêtre = la veille entière, en UTC, bornes arrondies à l'heure (exigence GoatCounter). */
+/** Jour (UTC) situé n jours avant aujourd'hui, format YYYY-MM-DD. */
+function daysAgo(n: number): string {
+  const d = new Date()
+  d.setUTCDate(d.getUTCDate() - n)
+  return isoDay(d)
+}
+
+/** Fenêtre GoatCounter = la veille entière (UTC), bornes arrondies à l'heure. */
 function yesterdayWindow(): { start: string; end: string; day: string } {
   const now = new Date()
   const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0))
   const start = new Date(end.getTime() - 24 * 3600 * 1000)
   return { start: start.toISOString(), end: end.toISOString(), day: isoDay(start) }
 }
+
+const round1 = (n: number): number => Math.round(n * 10) / 10
 
 // ---------------------------------------------------------------------------
 // Modèle de snapshot (normalisé, indépendant des fournisseurs)
@@ -46,20 +59,20 @@ interface TopItem {
   label: string
   count: number
 }
-interface SearchData {
+/** SEO d'un jour finalisé. `date` (le jour GSC, ~J-3) diffère de la date du snapshot (J-1). */
+interface SearchDay {
+  date: string
   clicks: number
   impressions: number
-  ctr: number
   position: number
-  topQueries: { query: string; clicks: number; impressions: number; position: number }[]
 }
 interface Snapshot {
-  date: string // jour mesuré (YYYY-MM-DD, UTC)
+  date: string // jour de trafic mesuré (J-1, UTC)
   metrics: { pageviews: number }
   topPages: TopItem[]
   topReferrers: TopItem[]
   topCountries: TopItem[]
-  search: SearchData | null
+  search: SearchDay | null // null tant que GSC n'est pas configuré
 }
 
 // ---------------------------------------------------------------------------
@@ -70,8 +83,7 @@ const totalSchema = z.looseObject({ total: z.number() })
 const hitsSchema = z.looseObject({
   hits: z.array(z.looseObject({ path: z.string(), count: z.number() })).default([]),
 })
-// toprefs / locations partagent la forme { stats: [{ id?, name?, count }] }.
-const statsSchema = z.looseObject({
+const gcStatsSchema = z.looseObject({
   stats: z
     .array(z.looseObject({ id: z.string().nullish(), name: z.string().nullish(), count: z.number() }))
     .default([]),
@@ -95,8 +107,8 @@ async function fetchGoatCounter(
 
   const total = totalSchema.parse(await get('stats/total'))
   const hits = hitsSchema.parse(await get('stats/hits', { limit: '10' }))
-  const refs = statsSchema.parse(await get('stats/toprefs', { limit: '10' }))
-  const locs = statsSchema.parse(await get('stats/locations', { limit: '10' }))
+  const refs = gcStatsSchema.parse(await get('stats/toprefs', { limit: '10' }))
+  const locs = gcStatsSchema.parse(await get('stats/locations', { limit: '10' }))
 
   return {
     metrics: { pageviews: total.total },
@@ -107,19 +119,114 @@ async function fetchGoatCounter(
 }
 
 // ---------------------------------------------------------------------------
-// Search Console — SEO. Optionnel : câblé quand GSC_SA_KEY + type de propriété
-// sont confirmés. Absent → null, et le digest s'adapte (greffe additive, zéro reprise).
-// ponytail: stub volontaire. Upgrade = JWT service account (node:crypto) + Search Analytics API.
+// Search Console — SEO. Auth = JWT service account signé maison (node:crypto),
+// aucune dépendance Google. Actif dès que GSC_SA_KEY est présent.
 // ---------------------------------------------------------------------------
 
-async function fetchSearchConsole(_start: string, _end: string): Promise<SearchData | null> {
-  if (!process.env.GSC_SA_KEY) return null
-  console.log('GSC_SA_KEY présent mais collecteur SEO pas encore câblé — ignoré.')
-  return null
+const GSC_SITE = process.env.GSC_SITE_URL || 'sc-domain:behaghel-avocat.com'
+const GSC_SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly'
+
+interface SaKey {
+  client_email: string
+  private_key: string
+}
+interface GscTotals {
+  clicks: number
+  impressions: number
+  position: number
+}
+
+const gscRowSchema = z.looseObject({
+  keys: z.array(z.string()).nullish(),
+  clicks: z.number(),
+  impressions: z.number(),
+  ctr: z.number().nullish(),
+  position: z.number(),
+})
+const gscResponseSchema = z.looseObject({ rows: z.array(gscRowSchema).default([]) })
+type GscRow = z.infer<typeof gscRowSchema>
+
+/** Échange le JWT signé contre un access_token OAuth (flux service account). */
+async function gscToken(sa: SaKey): Promise<string> {
+  const now = Math.floor(Date.now() / 1000)
+  const b64 = (o: unknown): string => Buffer.from(JSON.stringify(o)).toString('base64url')
+  const unsigned = `${b64({ alg: 'RS256', typ: 'JWT' })}.${b64({
+    iss: sa.client_email,
+    scope: GSC_SCOPE,
+    aud: 'https://oauth2.googleapis.com/token',
+    iat: now,
+    exp: now + 3600,
+  })}`
+  const signature = createSign('RSA-SHA256').update(unsigned).sign(sa.private_key, 'base64url')
+
+  const res = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+      assertion: `${unsigned}.${signature}`,
+    }),
+  })
+  if (!res.ok) throw new Error(`OAuth Google ${res.status} : ${await res.text()}`)
+  return z.object({ access_token: z.string() }).parse(await res.json()).access_token
+}
+
+async function gscQuery(token: string, body: Record<string, unknown>): Promise<GscRow[]> {
+  const url = `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(GSC_SITE)}/searchAnalytics/query`
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+  if (!res.ok) throw new Error(`GSC query ${res.status} : ${await res.text()}`)
+  return gscResponseSchema.parse(await res.json()).rows
+}
+
+function readSaKey(): SaKey | null {
+  const raw = process.env.GSC_SA_KEY
+  if (!raw) return null
+  return JSON.parse(raw) as SaKey
+}
+
+/** SEO du jour finalisé J-3 (totaux), pour le snapshot quotidien. Null si GSC non configuré. */
+async function fetchGscDay(): Promise<SearchDay | null> {
+  const sa = readSaKey()
+  if (!sa) return null
+  const token = await gscToken(sa)
+  const day = daysAgo(3)
+  const rows = await gscQuery(token, { startDate: day, endDate: day, dimensions: [], rowLimit: 1 })
+  const r = rows[0]
+  return {
+    date: day,
+    clicks: r?.clicks ?? 0,
+    impressions: r?.impressions ?? 0,
+    position: r ? round1(r.position) : 0,
+  }
+}
+
+/** Top requêtes sur 28 j finalisés, pour le digest (données courantes, non persistées). */
+async function fetchTopQueries(): Promise<
+  { query: string; clicks: number; impressions: number; position: number }[]
+> {
+  const sa = readSaKey()
+  if (!sa) return []
+  const token = await gscToken(sa)
+  const rows = await gscQuery(token, {
+    startDate: daysAgo(30),
+    endDate: daysAgo(3),
+    dimensions: ['query'],
+    rowLimit: 10,
+  })
+  return rows.map((r) => ({
+    query: r.keys?.[0] ?? '?',
+    clicks: r.clicks,
+    impressions: r.impressions,
+    position: round1(r.position),
+  }))
 }
 
 // ---------------------------------------------------------------------------
-// Historique (fichier JSON commité)
+// Historique (fichier JSON committé)
 // ---------------------------------------------------------------------------
 
 function readHistory(): Snapshot[] {
@@ -128,7 +235,7 @@ function readHistory(): Snapshot[] {
   return Array.isArray(parsed) ? (parsed as Snapshot[]) : []
 }
 
-/** Append idempotent : un re-run le même jour remplace la ligne, ne la double pas. Trié par date. */
+/** Append idempotent : un re-run le même jour remplace la ligne. Trié par date. */
 function appendSnapshot(history: Snapshot[], snap: Snapshot): Snapshot[] {
   const rest = history.filter((s) => s.date !== snap.date)
   return [...rest, snap].sort((a, b) => a.date.localeCompare(b.date))
@@ -146,11 +253,12 @@ interface Trend {
   momPct: number | null
 }
 
+const sum = (arr: number[]): number => arr.reduce((a, b) => a + b, 0)
+const pct = (cur: number, prev: number): number | null =>
+  prev === 0 ? null : Math.round(((cur - prev) / prev) * 100)
+
 function trend(history: Snapshot[], pick: (s: Snapshot) => number): Trend {
   const v = history.map(pick)
-  const sum = (arr: number[]): number => arr.reduce((a, b) => a + b, 0)
-  const pct = (cur: number, prev: number): number | null =>
-    prev === 0 ? null : Math.round(((cur - prev) / prev) * 100)
   const last7 = sum(v.slice(-7))
   const prev7 = sum(v.slice(-14, -7))
   const last28 = sum(v.slice(-28))
@@ -158,11 +266,20 @@ function trend(history: Snapshot[], pick: (s: Snapshot) => number): Trend {
   return { last7, prev7, wowPct: pct(last7, prev7), last28, momPct: pct(last28, prev28) }
 }
 
+/** Position moyenne (métrique non additive) sur les N derniers jours où le SEO est présent. */
+function avgPosition(history: Snapshot[], days: number): number | null {
+  const vals = history
+    .slice(-days)
+    .map((s) => s.search?.position)
+    .filter((p): p is number => typeof p === 'number' && p > 0)
+  return vals.length === 0 ? null : round1(sum(vals) / vals.length)
+}
+
 /** Agrège un top (pages/référents/pays) sur les N derniers jours par label. */
-function aggregateTop(history: Snapshot[], key: keyof Snapshot, days: number): TopItem[] {
+function aggregateTop(history: Snapshot[], key: 'topPages' | 'topReferrers' | 'topCountries', days: number): TopItem[] {
   const totals = new Map<string, number>()
   for (const snap of history.slice(-days)) {
-    for (const item of snap[key] as TopItem[]) {
+    for (const item of snap[key]) {
       totals.set(item.label, (totals.get(item.label) ?? 0) + item.count)
     }
   }
@@ -176,6 +293,12 @@ function aggregateTop(history: Snapshot[], key: keyof Snapshot, days: number): T
 // Digest : résumé chiffré → analyse LLM → email
 // ---------------------------------------------------------------------------
 
+interface SeoSummary {
+  clicks: Trend
+  impressions: Trend
+  positionMoyenne7j: number | null
+  topRequetes: { query: string; clicks: number; impressions: number; position: number }[]
+}
 interface Summary {
   jusquau: string
   jours: number
@@ -183,9 +306,14 @@ interface Summary {
   topPages: TopItem[]
   topReferrers: TopItem[]
   topCountries: TopItem[]
+  seo: SeoSummary | null
 }
 
-function buildSummary(history: Snapshot[]): Summary {
+function buildSummary(
+  history: Snapshot[],
+  topQueries: SeoSummary['topRequetes'],
+): Summary {
+  const hasSeo = history.some((s) => s.search) || topQueries.length > 0
   return {
     jusquau: history.at(-1)?.date ?? '(aucune donnée)',
     jours: history.length,
@@ -193,6 +321,14 @@ function buildSummary(history: Snapshot[]): Summary {
     topPages: aggregateTop(history, 'topPages', 7),
     topReferrers: aggregateTop(history, 'topReferrers', 7),
     topCountries: aggregateTop(history, 'topCountries', 7),
+    seo: hasSeo
+      ? {
+          clicks: trend(history, (s) => s.search?.clicks ?? 0),
+          impressions: trend(history, (s) => s.search?.impressions ?? 0),
+          positionMoyenne7j: avgPosition(history, 7),
+          topRequetes: topQueries,
+        }
+      : null,
   }
 }
 
@@ -213,8 +349,8 @@ const INSIGHT_JSON_SCHEMA = {
   additionalProperties: false,
 } as const
 
-const INSIGHT_SYSTEM = `Tu analyses le trafic hebdomadaire du site vitrine d'une avocate en droit des baux commerciaux (Lyon). Objectif du site : convertir en prise de rendez-vous. On te donne des chiffres réels (pages vues, variations semaine/mois, top pages, top référents, top pays).
-Règles : appuie CHAQUE observation sur un chiffre fourni (ex. « /honoraires : X vues, +Y% »). Signale les hausses/baisses notables et les référents intéressants (moteurs, IA génératives comme chatgpt.com/perplexity.ai, réseaux). Propose des recommandations ACTIONNABLES et spécifiques à ces données ; bannis les conseils génériques (« publiez plus »). Si le recul est insuffisant (peu de jours, variations nulles), dis-le franchement plutôt que d'inventer une tendance.`
+const INSIGHT_SYSTEM = `Tu analyses l'audience hebdomadaire du site vitrine d'une avocate en droit des baux commerciaux (Lyon). Objectif du site : convertir en prise de rendez-vous. On te donne des chiffres réels : trafic (pages vues, top pages, top référents, top pays) et SEO Search Console (clics, impressions, position moyenne, top requêtes), avec variations semaine/mois.
+Règles : appuie CHAQUE observation sur un chiffre fourni (ex. « /honoraires : X vues, +Y% » ; « requête "bail commercial Lyon" : position 8,2 »). Signale hausses/baisses notables, référents intéressants (moteurs, IA génératives comme chatgpt.com/perplexity.ai), et requêtes SEO à fort potentiel (beaucoup d'impressions mais position >10 = page à renforcer). Propose des recommandations ACTIONNABLES et spécifiques à ces données ; bannis les généralités (« publiez plus »). Si le recul est insuffisant (peu de jours, variations nulles, SEO absent), dis-le franchement plutôt que d'inventer.`
 
 async function analyze(summary: Summary): Promise<Insight> {
   requireEnv('OPENAI_API_KEY') // le SDK la lit seul
@@ -238,26 +374,36 @@ async function analyze(summary: Summary): Promise<Insight> {
 
 const pctStr = (p: number | null): string => (p === null ? '—' : `${p >= 0 ? '+' : ''}${p} %`)
 const topHtml = (items: TopItem[]): string =>
-  items.length === 0
-    ? '<li>—</li>'
-    : items.map((i) => `<li>${i.label} — <strong>${i.count}</strong></li>`).join('')
+  items.length === 0 ? '<li>—</li>' : items.map((i) => `<li>${i.label} — <strong>${i.count}</strong></li>`).join('')
+
+function seoHtml(seo: SeoSummary | null): string {
+  if (!seo) return '<h3>SEO</h3><p>Search Console pas encore configuré.</p>'
+  const queries =
+    seo.topRequetes.map((q) => `<li>${q.query} — ${q.clicks} clic(s), pos. ${q.position}</li>`).join('') || '<li>—</li>'
+  return `<h3>SEO (Search Console)</h3>
+<p>Clics 7 j : <strong>${seo.clicks.last7}</strong> (${pctStr(seo.clicks.wowPct)}) · Impressions 7 j : <strong>${seo.impressions.last7}</strong> (${pctStr(seo.impressions.wowPct)}) · Position moyenne 7 j : <strong>${seo.positionMoyenne7j ?? '—'}</strong></p>
+<h4>Top requêtes (28 j)</h4><ul>${queries}</ul>`
+}
 
 function digestHtml(s: Summary, insight: Insight): string {
-  return `<p>Digest trafic — données jusqu'au ${s.jusquau} (${s.jours} jour(s) d'historique).</p>
+  return `<p>Digest audience — données jusqu'au ${s.jusquau} (${s.jours} jour(s) d'historique).</p>
 <h3>Pages vues</h3>
-<p>7 derniers jours : <strong>${s.pageviews.last7}</strong> (semaine préc. ${s.pageviews.prev7}, ${pctStr(s.pageviews.wowPct)} sur 1 sem., ${pctStr(s.pageviews.momPct)} sur 4 sem.).</p>
+<p>7 derniers jours : <strong>${s.pageviews.last7}</strong> (préc. ${s.pageviews.prev7}, ${pctStr(s.pageviews.wowPct)} sur 1 sem., ${pctStr(s.pageviews.momPct)} sur 4 sem.).</p>
 <h3>Top pages (7 j)</h3><ul>${topHtml(s.topPages)}</ul>
 <h3>Top référents (7 j)</h3><ul>${topHtml(s.topReferrers)}</ul>
 <h3>Top pays (7 j)</h3><ul>${topHtml(s.topCountries)}</ul>
+${seoHtml(s.seo)}
 <h3>Analyse</h3><p>${insight.analyse}</p>
 <h3>Recommandations</h3><ul>${insight.recommandations.map((r) => `<li>${r}</li>`).join('') || '<li>—</li>'}</ul>
-<p style="color:#666;font-size:13px">Analyse générée par IA à partir de données GoatCounter (cookieless). À prendre comme piste, pas comme vérité.</p>`
+<p style="color:#666;font-size:13px">Trafic GoatCounter (cookieless) + SEO Search Console. Analyse IA — piste, pas vérité.</p>`
 }
 
 function digestText(s: Summary, insight: Insight): string {
-  const top = (items: TopItem[]): string =>
-    items.map((i) => `  ${i.label} — ${i.count}`).join('\n') || '  —'
-  return `Digest trafic — jusqu'au ${s.jusquau} (${s.jours} j d'historique)
+  const top = (items: TopItem[]): string => items.map((i) => `  ${i.label} — ${i.count}`).join('\n') || '  —'
+  const seo = s.seo
+    ? `SEO — clics 7j ${s.seo.clicks.last7} (${pctStr(s.seo.clicks.wowPct)}), impressions ${s.seo.impressions.last7} (${pctStr(s.seo.impressions.wowPct)}), position moy. ${s.seo.positionMoyenne7j ?? '—'}\nTop requêtes :\n${s.seo.topRequetes.map((q) => `  ${q.query} — ${q.clicks} clic(s), pos. ${q.position}`).join('\n') || '  —'}`
+    : 'SEO — Search Console pas encore configuré.'
+  return `Digest audience — jusqu'au ${s.jusquau} (${s.jours} j d'historique)
 
 Pages vues (7 j) : ${s.pageviews.last7} (préc. ${s.pageviews.prev7}, ${pctStr(s.pageviews.wowPct)} 1sem, ${pctStr(s.pageviews.momPct)} 4sem)
 
@@ -266,6 +412,8 @@ ${top(s.topPages)}
 
 Top référents (7 j) :
 ${top(s.topReferrers)}
+
+${seo}
 
 Analyse :
 ${insight.analyse}
@@ -282,7 +430,7 @@ async function sendDigest(s: Summary, insight: Insight): Promise<void> {
   const { error } = await resend.emails.send({
     from: 'Analytics behaghel <noreply@behaghel-avocat.com>',
     to,
-    subject: `Digest trafic — semaine du ${isoDay(new Date())}`,
+    subject: `Digest audience — semaine du ${isoDay(new Date())}`,
     html: digestHtml(s, insight),
     text: digestText(s, insight),
   })
@@ -294,12 +442,22 @@ async function sendDigest(s: Summary, insight: Insight): Promise<void> {
 // Modes
 // ---------------------------------------------------------------------------
 
+/** GSC ne doit jamais faire échouer la chaîne : on log et on continue sans SEO. */
+async function safeGsc<T>(label: string, fn: () => Promise<T>, fallback: T): Promise<T> {
+  try {
+    return await fn()
+  } catch (e) {
+    console.error(`GSC ${label} échec (ignoré) : ${e instanceof Error ? e.message : e}`)
+    return fallback
+  }
+}
+
 async function runSnapshot(): Promise<void> {
   const { start, end, day } = yesterdayWindow()
   const gc = await fetchGoatCounter(start, end)
-  const search = await fetchSearchConsole(start, end)
+  const search = await safeGsc('snapshot', fetchGscDay, null)
   const snap: Snapshot = { date: day, ...gc, search }
-  console.log(`Snapshot ${day} : ${snap.metrics.pageviews} pages vues`)
+  console.log(`Snapshot ${day} : ${snap.metrics.pageviews} pages vues, SEO ${search ? `J${search.date} ${search.clicks} clic(s)` : 'absent'}`)
   if (DRY_RUN) {
     console.log(JSON.stringify(snap, null, 2))
     return
@@ -311,12 +469,13 @@ async function runSnapshot(): Promise<void> {
 
 async function runDigest(): Promise<void> {
   const history = readHistory()
-  const summary = buildSummary(history)
-  // <2 jours : rien à comparer → on n'appelle pas le LLM, on envoie quand même (signal de vie).
+  const topQueries = await safeGsc('top requêtes', fetchTopQueries, [])
+  const summary = buildSummary(history, topQueries)
+  // <2 jours ET pas de SEO : rien à comparer → pas d'appel LLM, on envoie quand même (signal de vie).
   const insight: Insight =
-    history.length >= 2
+    history.length >= 2 || summary.seo
       ? await analyze(summary)
-      : { analyse: "Pas encore assez de recul pour dégager une tendance.", recommandations: [] }
+      : { analyse: 'Pas encore assez de recul pour dégager une tendance.', recommandations: [] }
   if (DRY_RUN) {
     console.log(JSON.stringify(summary, null, 2))
     console.log(digestText(summary, insight))
@@ -330,22 +489,28 @@ async function runDigest(): Promise<void> {
 // ---------------------------------------------------------------------------
 
 function selftest(): void {
-  const base = (date: string, pageviews: number): Snapshot => ({
+  const base = (date: string, pageviews: number, clicks?: number): Snapshot => ({
     date,
     metrics: { pageviews },
     topPages: [{ label: '/', count: pageviews }],
     topReferrers: [],
     topCountries: [],
-    search: null,
+    search: clicks === undefined ? null : { date, clicks, impressions: clicks * 10, position: 8 },
   })
-  // 14 jours : 10/j puis 20/j → semaine courante 140 vs préc. 70 → +100 %.
+
+  // 14 jours : trafic 10/j puis 20/j → 7j courants 140 vs préc. 70 → +100 %.
   const hist = Array.from({ length: 14 }, (_, i) =>
-    base(`2026-01-${String(i + 1).padStart(2, '0')}`, i < 7 ? 10 : 20),
+    base(`2026-01-${String(i + 1).padStart(2, '0')}`, i < 7 ? 10 : 20, i < 7 ? 2 : 4),
   )
   const t = trend(hist, (s) => s.metrics.pageviews)
   assert.equal(t.last7, 140, 'somme 7 j courants')
   assert.equal(t.prev7, 70, 'somme 7 j précédents')
-  assert.equal(t.wowPct, 100, 'variation semaine')
+  assert.equal(t.wowPct, 100, 'variation semaine trafic')
+
+  const tc = trend(hist, (s) => s.search?.clicks ?? 0)
+  assert.equal(tc.last7, 28, 'somme clics SEO 7 j')
+  assert.equal(tc.wowPct, 100, 'variation semaine SEO')
+  assert.equal(avgPosition(hist, 7), 8, 'position moyenne')
 
   // Append : même date remplace, nouvelle date ajoute.
   assert.equal(appendSnapshot(hist.slice(), base('2026-01-14', 99)).length, 14, 'dédup même jour')
@@ -355,6 +520,9 @@ function selftest(): void {
   const agg = aggregateTop(hist, 'topPages', 7)
   assert.equal(agg[0]?.label, '/', 'top page agrégée')
   assert.equal(agg[0]?.count, 140, 'top page cumulée 7 j')
+
+  // SEO absent → seo null.
+  assert.equal(buildSummary([base('2026-03-01', 5)], []).seo, null, 'seo null sans données')
 
   console.log('selftest OK')
 }
