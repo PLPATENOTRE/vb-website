@@ -9,9 +9,9 @@ import { pageMetadata } from '@/lib/metadata'
 export const dynamic = 'force-static'
 
 export const metadata = pageMetadata({
-  title: 'Contentieux du bail commercial — Avocate à Lyon | Victoire Behaghel',
+  title: 'Contentieux du bail commercial — Avocate au Barreau de Lyon | Victoire Behaghel',
   description:
-    'Fixation judiciaire du loyer, impayés et clause résolutoire, indemnités : défense de vos intérêts devant le juge des loyers commerciaux et le tribunal. Avocate dédiée, Lyon et partout en France.',
+    'Fixation judiciaire du loyer, impayés et clause résolutoire, indemnités : défense de vos intérêts devant le juge des loyers commerciaux et le tribunal. Avocate dédiée au Barreau de Lyon. Partout en France.',
   path: '/baux-commerciaux/contentieux',
   ogType: 'article',
   ogImage: '/assets/og-contentieux.jpg',

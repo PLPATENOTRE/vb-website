@@ -7,9 +7,10 @@ import { pageMetadata } from '@/lib/metadata'
 export const dynamic = 'force-static'
 
 export const metadata = pageMetadata({
-  title: 'Avocate en baux commerciaux à Lyon — Conseil & contentieux | Victoire Behaghel',
+  title:
+    'Avocate en baux commerciaux au Barreau de Lyon — Conseil & contentieux | Victoire Behaghel',
   description:
-    'Cabinet Victoire Behaghel, avocate dédiée au bail commercial : négociation, vie du bail, contentieux, renouvellement et congé. Basée à Lyon, intervention partout en France. Prise de rendez-vous.',
+    'Cabinet Victoire Behaghel, avocate dédiée au bail commercial, au Barreau de Lyon : négociation, vie du bail, contentieux, renouvellement et congé. Intervention partout en France. Prise de rendez-vous.',
   path: '/',
   ogType: 'website',
   ogImage: '/assets/og-accueil.jpg',

@@ -7,7 +7,7 @@ export const dynamic = 'force-static'
 export const metadata = pageMetadata({
   title: 'À propos — Victoire Behaghel, Avocate',
   description:
-    'Découvrez Victoire Behaghel, avocate dédiée au droit des baux commerciaux à Lyon. Conseil et contentieux pour commerçants, artisans, bailleurs et investisseurs, partout en France.',
+    'Découvrez Victoire Behaghel, avocate dédiée au droit des baux commerciaux au Barreau de Lyon. Conseil et contentieux pour commerçants, artisans, bailleurs et investisseurs, partout en France.',
   path: '/a-propos',
   ogImage: '/assets/og-a-propos.jpg',
 })

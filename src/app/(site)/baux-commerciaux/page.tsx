@@ -11,7 +11,7 @@ export const dynamic = 'force-static'
 export const metadata = pageMetadata({
   title: 'Baux commerciaux — Expertises | Victoire Behaghel, Avocate',
   description:
-    'Accompagnement complet en droit des baux commerciaux : négociation, vie du bail, contentieux, fin de bail, cession de fonds et formations. Lyon.',
+    'Accompagnement complet en droit des baux commerciaux : négociation, vie du bail, contentieux, fin de bail, cession de fonds et formations, par une avocate au Barreau de Lyon. Partout en France.',
   path: '/baux-commerciaux',
   ogImage: '/assets/og-baux-commerciaux.jpg',
 })

@@ -9,9 +9,9 @@ import { pageMetadata } from '@/lib/metadata'
 export const dynamic = 'force-static'
 
 export const metadata = pageMetadata({
-  title: 'Négociation du bail commercial — Avocate à Lyon | Victoire Behaghel',
+  title: 'Négociation du bail commercial — Avocate au Barreau de Lyon | Victoire Behaghel',
   description:
-    'Sécuriser votre bail commercial avant la signature : destination, charges (loi Pinel), indexation, garanties, durée. Conseil et rédaction par une avocate dédiée. Lyon, partout en France.',
+    'Sécuriser votre bail commercial avant la signature : destination, charges (loi Pinel), indexation, garanties, durée. Conseil et rédaction par une avocate dédiée au Barreau de Lyon. Partout en France.',
   path: '/baux-commerciaux/negociation',
   ogType: 'article',
   ogImage: '/assets/og-negociation.jpg',
