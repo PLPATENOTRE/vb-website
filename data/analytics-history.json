@@ -1,1 +1,45 @@
-[]
+[
+  {
+    "date": "2026-07-15",
+    "metrics": {
+      "visitors": 3,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 3
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "(direct)",
+        "count": 2
+      },
+      {
+        "label": "Google",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      },
+      {
+        "label": "Mauritius",
+        "count": 1
+      },
+      {
+        "label": "United States",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-07-13",
+      "clicks": 0,
+      "impressions": 11,
+      "position": 18.1
+    }
+  }
+]
