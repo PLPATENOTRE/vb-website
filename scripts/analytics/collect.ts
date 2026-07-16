@@ -97,21 +97,22 @@ async function fetchGoatCounter(
   const base = `${requireEnv('GOATCOUNTER_SITE').replace(/\/$/, '')}/api/v0`
   const token = requireEnv('GOATCOUNTER_TOKEN')
 
-  // DIAG temporaire : valider auth + base URL avant les stats.
-  const me = await fetch(`${base}/me`, {
-    headers: { authorization: `Bearer ${token}`, accept: 'application/json' },
-  })
-  console.log(`DIAG base="${base}" tokenLen=${token.length} | /me -> ${me.status} | ${(await me.text()).slice(0, 200)}`)
-
+  // GoatCounter a un rate limit serré (~sous-seconde) ; on enchaîne 5 endpoints.
+  // ponytail: retry sur 429/5xx, attente fixe 1 s (le hint est en centaines de ms).
   async function get(path: string, extra: Record<string, string> = {}): Promise<unknown> {
-    const params = new URLSearchParams({ start, end, ...extra })
-    const url = `${base}/${path}?${params}`
-    const res = await fetch(url, {
-      headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
-    })
-    console.log(`DIAG GET ${url} -> ${res.status}`)
-    if (!res.ok) throw new Error(`GoatCounter ${path} ${res.status} : ${await res.text()}`)
-    return res.json()
+    const url = `${base}/${path}?${new URLSearchParams({ start, end, ...extra })}`
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const res = await fetch(url, {
+        headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
+      })
+      if ((res.status === 429 || res.status >= 500) && attempt < 4) {
+        await new Promise((r) => setTimeout(r, 1000))
+        continue
+      }
+      if (!res.ok) throw new Error(`GoatCounter ${path} ${res.status} : ${await res.text()}`)
+      return res.json()
+    }
+    throw new Error(`GoatCounter ${path} : échec après retries`)
   }
 
   const total = totalSchema.parse(await get('stats/total'))
