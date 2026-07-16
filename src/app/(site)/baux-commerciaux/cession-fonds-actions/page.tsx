@@ -9,8 +9,8 @@ import { pageMetadata } from '@/lib/metadata'
 export const dynamic = 'force-static'
 
 export const metadata = pageMetadata({
-  title: `Cession de fonds de commerce et cession d'actions — Avocate Lyon | Victoire Behaghel`,
-  description: `Cession de fonds de commerce ou cession de titres (actions, parts sociales) : enjeux pour le bail commercial, garanties, sort des contrats. Conseil par une avocate experte. Lyon, partout en France.`,
+  title: `Cession de fonds de commerce et cession d'actions — Avocate au Barreau de Lyon | Victoire Behaghel`,
+  description: `Cession de fonds de commerce ou cession de titres (actions, parts sociales) : enjeux pour le bail commercial, garanties, sort des contrats. Conseil par une avocate experte au Barreau de Lyon. Partout en France.`,
   path: '/baux-commerciaux/cession-fonds-actions',
   ogType: 'article',
   ogImage: '/assets/og-cession-fonds-actions.jpg',

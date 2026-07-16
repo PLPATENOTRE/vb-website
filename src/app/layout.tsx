@@ -6,11 +6,12 @@ import '@/styles/globals.css'
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: 'Avocate en baux commerciaux à Lyon — Conseil & contentieux | Victoire Behaghel',
+    default:
+      'Avocate en baux commerciaux au Barreau de Lyon — Conseil & contentieux | Victoire Behaghel',
     template: '%s — Victoire Behaghel, Avocate',
   },
   description:
-    'Cabinet Victoire Behaghel, avocate dédiée au bail commercial : conseil et contentieux à chaque étape. Lyon, partout en France.',
+    'Cabinet Victoire Behaghel, avocate dédiée au bail commercial, au Barreau de Lyon : conseil et contentieux à chaque étape. Partout en France.',
   openGraph: { type: 'website', locale: 'fr_FR', siteName: SITE.name },
   twitter: { card: 'summary_large_image' },
 }

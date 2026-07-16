@@ -9,9 +9,10 @@ import { pageMetadata } from '@/lib/metadata'
 export const dynamic = 'force-static'
 
 export const metadata = pageMetadata({
-  title: "Renouvellement, congé et indemnité d'éviction — Avocate Lyon | Victoire Behaghel",
+  title:
+    "Renouvellement, congé et indemnité d'éviction — Avocate au Barreau de Lyon | Victoire Behaghel",
   description:
-    "Fin de bail commercial : renouvellement, congé, refus de renouvellement et indemnité d'éviction (art. L.145-14). Anticiper les délais et sécuriser la procédure. Avocate à Lyon, partout en France.",
+    "Fin de bail commercial : renouvellement, congé, refus de renouvellement et indemnité d'éviction (art. L.145-14). Anticiper les délais et sécuriser la procédure. Avocate au Barreau de Lyon. Partout en France.",
   path: '/baux-commerciaux/fin-de-bail',
   ogType: 'article',
   ogImage: '/assets/og-fin-de-bail.jpg',

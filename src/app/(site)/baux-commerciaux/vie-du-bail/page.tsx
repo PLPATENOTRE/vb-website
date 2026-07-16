@@ -11,9 +11,10 @@ export const dynamic = 'force-static'
 const PATH = '/baux-commerciaux/vie-du-bail'
 
 export const metadata = pageMetadata({
-  title: 'Révision, indexation et cession du bail commercial — Avocate Lyon | Victoire Behaghel',
+  title:
+    'Révision, indexation et cession du bail commercial — Avocate au Barreau de Lyon | Victoire Behaghel',
   description:
-    "Révision triennale, clause d'indexation (ILC, ILAT), cession de bail, sous-location, déspécialisation : accompagnement juridique à chaque étape de la vie de votre bail commercial. Lyon, partout en France.",
+    "Révision triennale, clause d'indexation (ILC, ILAT), cession de bail, sous-location, déspécialisation : accompagnement juridique à chaque étape de la vie de votre bail commercial, par une avocate au Barreau de Lyon. Partout en France.",
   path: PATH,
   ogType: 'article',
   ogImage: '/assets/og-vie-du-bail.jpg',

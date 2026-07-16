@@ -7,7 +7,8 @@ export const dynamic = 'force-static'
 
 export const metadata: Metadata = pageMetadata({
   title: 'Mentions légales | Victoire Behaghel, Avocate',
-  description: 'Mentions légales du cabinet Victoire Behaghel, avocate en baux commerciaux à Lyon.',
+  description:
+    'Mentions légales du cabinet Victoire Behaghel, avocate en baux commerciaux au Barreau de Lyon.',
   path: '/mentions-legales',
 })
 
