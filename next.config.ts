@@ -21,6 +21,17 @@ const nextConfig: NextConfig = {
         destination: '/actualites',
         permanent: true,
       },
+      // Anciennes pages OVH encore indexées par Google (404 depuis la bascule) → hub expertises.
+      {
+        source: '/droit-des-baux-commerciaux',
+        destination: '/baux-commerciaux',
+        permanent: true,
+      },
+      {
+        source: '/avocate-des-locataires-commerciaux-conseil-contentieux',
+        destination: '/baux-commerciaux',
+        permanent: true,
+      },
     ]
   },
 }
