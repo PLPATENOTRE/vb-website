@@ -22,7 +22,7 @@ const INITIAL_STATE: FormState = {
   message: '',
 }
 
-// Ping GoatCounter d'une conversion (event nommé, pas une page → n'inflate pas les pages vues).
+// Ping GoatCounter d'une conversion (event nommé, pas une page → n'inflate pas le compteur de visiteurs).
 // No-op si le beacon est absent (bloqueur de pub, SSR) : la mesure est best-effort, jamais bloquante.
 function trackConversion() {
   const gc = (window as unknown as { goatcounter?: { count?: (v: object) => void } }).goatcounter
