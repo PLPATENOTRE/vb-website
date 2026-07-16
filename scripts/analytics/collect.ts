@@ -97,11 +97,19 @@ async function fetchGoatCounter(
   const base = `${requireEnv('GOATCOUNTER_SITE').replace(/\/$/, '')}/api/v0`
   const token = requireEnv('GOATCOUNTER_TOKEN')
 
+  // DIAG temporaire : valider auth + base URL avant les stats.
+  const me = await fetch(`${base}/me`, {
+    headers: { authorization: `Bearer ${token}`, accept: 'application/json' },
+  })
+  console.log(`DIAG base="${base}" tokenLen=${token.length} | /me -> ${me.status} | ${(await me.text()).slice(0, 200)}`)
+
   async function get(path: string, extra: Record<string, string> = {}): Promise<unknown> {
     const params = new URLSearchParams({ start, end, ...extra })
-    const res = await fetch(`${base}/${path}?${params}`, {
+    const url = `${base}/${path}?${params}`
+    const res = await fetch(url, {
       headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
     })
+    console.log(`DIAG GET ${url} -> ${res.status}`)
     if (!res.ok) throw new Error(`GoatCounter ${path} ${res.status} : ${await res.text()}`)
     return res.json()
   }
