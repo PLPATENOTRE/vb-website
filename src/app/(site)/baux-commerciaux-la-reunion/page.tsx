@@ -84,8 +84,8 @@ export default function ReunionPage() {
         </h1>
         <p className="mb-8 max-w-[760px] font-mulish text-[17px] leading-[1.7] text-[#4f574f] md:text-[19px]">
           À La Réunion comme en métropole, le bail commercial obéit au même droit. J&apos;accompagne
-          les commerçants, bailleurs et investisseurs réunionnais à chaque étape — de la négociation
-          du bail au contentieux — en tant qu&apos;avocate au Barreau de Lyon.
+          les commerçants, bailleurs et investisseurs réunionnais à chaque étape, de la négociation
+          du bail au contentieux, en tant qu&apos;avocate au Barreau de Lyon.
         </p>
         <div className="flex flex-wrap items-center gap-6">
           <a
@@ -119,8 +119,8 @@ export default function ReunionPage() {
             <p className="mb-5 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]">
               La Réunion est un <strong>département d&apos;outre-mer</strong> : le droit français y
               est le droit commun. Le statut des baux commerciaux (articles L.145-1 et suivants du
-              Code de commerce) — durée du bail, plafonnement, droit au renouvellement, indemnité
-              d&apos;éviction — s&apos;y applique donc <strong>à l&apos;identique</strong>, sans
+              Code de commerce): durée du bail, plafonnement, droit au renouvellement, indemnité
+              d&apos;éviction s&apos;y applique donc <strong>à l&apos;identique</strong>, sans
               régime dérogatoire propre au territoire.
             </p>
 
@@ -136,16 +136,6 @@ export default function ReunionPage() {
                 l&apos;ensemble des expertises
               </a>
               .
-            </p>
-
-            <h2 className="mb-4 mt-[46px] font-cormorant text-[28px] font-semibold leading-[1.15] text-forest md:text-[34px]">
-              Une avocate au Barreau de Lyon, dédiée à cette matière
-            </h2>
-            <p className="mb-5 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]">
-              Le bail commercial est une matière technique, identique sur tout le territoire.
-              Concentrer sa pratique sur ce seul domaine, c&apos;est en maîtriser les mécanismes et
-              la jurisprudence. Un premier échange gratuit permet de qualifier votre besoin et de
-              vous dire, sans engagement, comment je peux vous aider.
             </p>
 
             {/* FAQ */}
