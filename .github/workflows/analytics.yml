@@ -1,0 +1,74 @@
+# Observabilité trafic — snapshot quotidien (GoatCounter → historique JSON commité) +
+# digest hebdo analysé par LLM et envoyé par email (Resend). Le volet SEO (GSC) se greffe plus tard.
+# Secrets requis (Settings → Secrets → Actions) : GOATCOUNTER_SITE, GOATCOUNTER_TOKEN,
+# OPENAI_API_KEY, RESEND_API_KEY, ANALYTICS_TO. Optionnel (plus tard) : GSC_SA_KEY.
+name: Analytics
+
+on:
+  schedule:
+    - cron: '0 4 * * *' # quotidien 04:00 UTC → snapshot de la veille
+    - cron: '30 5 * * 1' # lundi 05:30 UTC → digest (après le snapshot du jour)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'snapshot ou digest'
+        type: choice
+        options: [snapshot, digest]
+        default: digest
+      dry_run:
+        description: 'Dry run (log au lieu d''écrire/envoyer) — défaut ON pour tester sans risque'
+        type: boolean
+        default: true
+
+jobs:
+  analytics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # committer le snapshot quotidien
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4 # version pnpm lue depuis packageManager
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # Le cron hebdo fait le digest ; tout autre cron (quotidien) fait le snapshot.
+      - name: Déterminer le mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "mode=${{ inputs.mode }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "30 5 * * 1" ]; then
+            echo "mode=digest" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=snapshot" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Collecte / digest
+        run: node --experimental-strip-types scripts/analytics/collect.ts --${{ steps.mode.outputs.mode }}
+        env:
+          GOATCOUNTER_SITE: ${{ secrets.GOATCOUNTER_SITE }}
+          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+          GSC_SA_KEY: ${{ secrets.GSC_SA_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          ANALYTICS_TO: ${{ secrets.ANALYTICS_TO }}
+          ANALYTICS_DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+
+      # Seuls les snapshots réels persistent la série. [skip ci] : un commit de données
+      # ne doit pas déclencher le workflow qualité.
+      - name: Commit de l'historique
+        if: steps.mode.outputs.mode == 'snapshot' && inputs.dry_run != true
+        run: |
+          if [ -n "$(git status --porcelain data/analytics-history.json)" ]; then
+            git config user.name "analytics-bot"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add data/analytics-history.json
+            git commit -m "chore(analytics): snapshot quotidien [skip ci]"
+            git push
+          else
+            echo "Aucun changement d'historique."
+          fi
