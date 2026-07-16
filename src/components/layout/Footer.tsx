@@ -39,6 +39,9 @@ export function Footer() {
           >
             LinkedIn
           </a>
+          <Link href="/baux-commerciaux-la-reunion" className="transition-colors hover:text-rose">
+            Baux commerciaux · La Réunion
+          </Link>
           <Link href="/honoraires" className="transition-colors hover:text-rose">
             Honoraires
           </Link>

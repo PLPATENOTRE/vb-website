@@ -16,6 +16,7 @@ const STATIC_PATHS = [
   '/baux-commerciaux/fin-de-bail',
   '/baux-commerciaux/cession-fonds-actions',
   '/baux-commerciaux/formations',
+  '/baux-commerciaux-la-reunion',
   '/honoraires',
   '/contact',
   '/actualites',
