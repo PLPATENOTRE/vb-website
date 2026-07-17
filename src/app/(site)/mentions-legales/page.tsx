@@ -53,9 +53,7 @@ export default function MentionsLegalesPage() {
             <h2 className="mb-2 font-cormorant text-[26px] font-semibold text-forest">
               Hébergement
             </h2>
-            <p className="m-0">
-              Google Firebase App Hosting (Google Cloud), [adresse de l&apos;hébergeur à compléter].
-            </p>
+            <p className="m-0">Google Firebase App Hosting (Google Cloud).</p>
           </div>
           <div>
             <h2 className="mb-2 font-cormorant text-[26px] font-semibold text-forest">

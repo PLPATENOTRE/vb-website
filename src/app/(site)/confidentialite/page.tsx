@@ -39,20 +39,11 @@ export default function ConfidentialitePage() {
           </div>
           <div>
             <h2 className="mb-2 font-cormorant text-[26px] font-semibold text-forest">
-              Durée de conservation
-            </h2>
-            <p className="m-0">
-              [À compléter par le cabinet : durée de conservation des échanges.]
-            </p>
-          </div>
-          <div>
-            <h2 className="mb-2 font-cormorant text-[26px] font-semibold text-forest">
               Vos droits
             </h2>
             <p className="m-0">
               Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès, de rectification et
-              d&apos;effacement de vos données. Pour l&apos;exercer : [adresse de contact RGPD à
-              compléter].
+              d&apos;effacement de vos données.
             </p>
           </div>
           <div>
@@ -60,7 +51,7 @@ export default function ConfidentialitePage() {
             <p className="m-0">
               Le site utilise un dispositif anti-spam (Cloudflare Turnstile) et une mesure
               d&apos;audience respectueuse de la vie privée. Aucun cookie publicitaire n&apos;est
-              déposé. [Détail à compléter selon la configuration analytics retenue.]
+              déposé.
             </p>
           </div>
         </div>
