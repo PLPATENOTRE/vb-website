@@ -41,5 +41,52 @@
       "impressions": 11,
       "position": 18.1
     }
+  },
+  {
+    "date": "2026-07-16",
+    "metrics": {
+      "visitors": 14,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 14
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "(direct)",
+        "count": 7
+      },
+      {
+        "label": "Google",
+        "count": 6
+      },
+      {
+        "label": "Email",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 13
+      },
+      {
+        "label": "Mauritius",
+        "count": 1
+      },
+      {
+        "label": "United States",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-07-14",
+      "clicks": 0,
+      "impressions": 18,
+      "position": 13.1
+    }
   }
 ]
