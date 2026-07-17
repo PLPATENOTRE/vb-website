@@ -39,11 +39,24 @@ export default function ConfidentialitePage() {
           </div>
           <div>
             <h2 className="mb-2 font-cormorant text-[26px] font-semibold text-forest">
+              Durée de conservation
+            </h2>
+            <p className="m-0">
+              Les informations transmises via le formulaire de contact sont conservées le temps
+              nécessaire au traitement de votre demande, puis supprimées. Si une relation
+              professionnelle s&apos;engage, elles sont conservées au titre du dossier, pour la
+              durée légale applicable.
+            </p>
+          </div>
+          <div>
+            <h2 className="mb-2 font-cormorant text-[26px] font-semibold text-forest">
               Vos droits
             </h2>
             <p className="m-0">
               Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès, de rectification et
-              d&apos;effacement de vos données.
+              d&apos;effacement de vos données. Pour les exercer, contactez le cabinet via le
+              formulaire de contact. Vous pouvez également introduire une réclamation auprès de la
+              CNIL.
             </p>
           </div>
           <div>

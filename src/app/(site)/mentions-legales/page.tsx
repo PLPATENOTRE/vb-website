@@ -53,7 +53,10 @@ export default function MentionsLegalesPage() {
             <h2 className="mb-2 font-cormorant text-[26px] font-semibold text-forest">
               Hébergement
             </h2>
-            <p className="m-0">Google Firebase App Hosting (Google Cloud).</p>
+            <p className="m-0">
+              Google Firebase App Hosting — Google Ireland Limited, Gordon House, Barrow Street,
+              Dublin 4, Irlande.
+            </p>
           </div>
           <div>
             <h2 className="mb-2 font-cormorant text-[26px] font-semibold text-forest">
