@@ -42,7 +42,10 @@ export default function ConfidentialitePage() {
               Durée de conservation
             </h2>
             <p className="m-0">
-              [À compléter par le cabinet : durée de conservation des échanges.]
+              Les informations transmises via le formulaire de contact sont conservées le temps
+              nécessaire au traitement de votre demande, puis supprimées. Si une relation
+              professionnelle s&apos;engage, elles sont conservées au titre du dossier, pour la
+              durée légale applicable.
             </p>
           </div>
           <div>
@@ -51,8 +54,9 @@ export default function ConfidentialitePage() {
             </h2>
             <p className="m-0">
               Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès, de rectification et
-              d&apos;effacement de vos données. Pour l&apos;exercer : [adresse de contact RGPD à
-              compléter].
+              d&apos;effacement de vos données. Pour les exercer, contactez le cabinet via le
+              formulaire de contact. Vous pouvez également introduire une réclamation auprès de la
+              CNIL.
             </p>
           </div>
           <div>
@@ -60,7 +64,7 @@ export default function ConfidentialitePage() {
             <p className="m-0">
               Le site utilise un dispositif anti-spam (Cloudflare Turnstile) et une mesure
               d&apos;audience respectueuse de la vie privée. Aucun cookie publicitaire n&apos;est
-              déposé. [Détail à compléter selon la configuration analytics retenue.]
+              déposé.
             </p>
           </div>
         </div>
