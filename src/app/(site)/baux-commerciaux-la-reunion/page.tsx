@@ -85,7 +85,7 @@ export default function ReunionPage() {
         <p className="mb-8 max-w-[760px] font-mulish text-[17px] leading-[1.7] text-[#4f574f] md:text-[19px]">
           À La Réunion comme en métropole, le bail commercial obéit au même droit. J&apos;accompagne
           les commerçants, bailleurs et investisseurs réunionnais à chaque étape, de la négociation
-          du bail au contentieux, en tant qu&apos;avocate au Barreau de Lyon.
+          du bail au contentieux.
         </p>
         <div className="flex flex-wrap items-center gap-6">
           <a
