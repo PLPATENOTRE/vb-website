@@ -88,5 +88,64 @@
       "impressions": 18,
       "position": 13.1
     }
+  },
+  {
+    "date": "2026-07-20",
+    "metrics": {
+      "visitors": 10,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 6
+      },
+      {
+        "label": "/actualites",
+        "count": 1
+      },
+      {
+        "label": "/baux-commerciaux/cession-fonds-actions",
+        "count": 1
+      },
+      {
+        "label": "/baux-commerciaux/contentieux",
+        "count": 1
+      },
+      {
+        "label": "/baux-commerciaux/fin-de-bail",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "(direct)",
+        "count": 7
+      },
+      {
+        "label": "Google",
+        "count": 2
+      },
+      {
+        "label": "Email",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 6
+      },
+      {
+        "label": "United States",
+        "count": 4
+      }
+    ],
+    "search": {
+      "date": "2026-07-18",
+      "clicks": 2,
+      "impressions": 14,
+      "position": 14.8
+    }
   }
 ]
