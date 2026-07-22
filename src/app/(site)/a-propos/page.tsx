@@ -41,11 +41,7 @@ const PARCOURS = [
   },
   {
     year: '2023',
-    text: 'Crée son cabinet à Lyon, dédié au droit des baux commerciaux, en conseil comme en contentieux.',
-  },
-  {
-    year: '2024',
-    text: 'Inscription au Barreau de Lyon.',
+    text: 'Inscription au Barreau de Lyon et création de son cabinet, dédié au droit des baux commerciaux, en conseil comme en contentieux.',
   },
 ]
 
