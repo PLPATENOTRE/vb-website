@@ -168,5 +168,44 @@
       "impressions": 13,
       "position": 30.7
     }
+  },
+  {
+    "date": "2026-07-29",
+    "metrics": {
+      "visitors": 4,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 4
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "(direct)",
+        "count": 4
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "Mauritius",
+        "count": 2
+      },
+      {
+        "label": "France",
+        "count": 1
+      },
+      {
+        "label": "Seychelles",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-07-27",
+      "clicks": 1,
+      "impressions": 46,
+      "position": 20.7
+    }
   }
 ]
