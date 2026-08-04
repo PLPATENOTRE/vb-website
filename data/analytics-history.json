@@ -238,5 +238,36 @@
       "impressions": 20,
       "position": 22.8
     }
+  },
+  {
+    "date": "2026-08-03",
+    "metrics": {
+      "visitors": 1,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/baux-commerciaux",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "search.brave.com",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "Mauritius",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-08-01",
+      "clicks": 1,
+      "impressions": 35,
+      "position": 26
+    }
   }
 ]
