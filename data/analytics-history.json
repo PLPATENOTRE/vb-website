@@ -269,5 +269,36 @@
       "impressions": 35,
       "position": 26
     }
+  },
+  {
+    "date": "2026-08-06",
+    "metrics": {
+      "visitors": 1,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-08-04",
+      "clicks": 0,
+      "impressions": 35,
+      "position": 23.5
+    }
   }
 ]
