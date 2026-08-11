@@ -39,6 +39,8 @@ export default function MentionsLegalesPage() {
               Téléphone : {SITE.phoneDisplay}
               <br />
               Barreau : Avocate au Barreau de Lyon
+              <br />
+              SIRET : 829 980 986 00030
             </p>
           </div>
           <div>
