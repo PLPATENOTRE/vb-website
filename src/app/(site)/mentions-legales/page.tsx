@@ -38,9 +38,7 @@ export default function MentionsLegalesPage() {
               <br />
               Téléphone : {SITE.phoneDisplay}
               <br />
-              Barreau et numéro d&apos;inscription : [À compléter]
-              <br />
-              SIRET / TVA intracommunautaire : [À compléter]
+              Barreau : Avocate au Barreau de Lyon
             </p>
           </div>
           <div>
