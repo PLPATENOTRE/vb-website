@@ -38,9 +38,9 @@ export default function MentionsLegalesPage() {
               <br />
               Téléphone : {SITE.phoneDisplay}
               <br />
-              Barreau et numéro d&apos;inscription : [À compléter]
+              Barreau : Avocate au Barreau de Lyon
               <br />
-              SIRET / TVA intracommunautaire : [À compléter]
+              SIRET : 829 980 986 00030
             </p>
           </div>
           <div>
