@@ -316,5 +316,36 @@
       "impressions": 13,
       "position": 32.3
     }
+  },
+  {
+    "date": "2026-08-13",
+    "metrics": {
+      "visitors": 1,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/a-propos",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "chatgpt.com",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "Vietnam",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-08-11",
+      "clicks": 2,
+      "impressions": 26,
+      "position": 22.4
+    }
   }
 ]
