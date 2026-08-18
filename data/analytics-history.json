@@ -363,5 +363,21 @@
       "impressions": 22,
       "position": 31.5
     }
+  },
+  {
+    "date": "2026-08-17",
+    "metrics": {
+      "visitors": 0,
+      "conversions": 0
+    },
+    "topPages": [],
+    "topReferrers": [],
+    "topCountries": [],
+    "search": {
+      "date": "2026-08-15",
+      "clicks": 1,
+      "impressions": 14,
+      "position": 32.2
+    }
   }
 ]
