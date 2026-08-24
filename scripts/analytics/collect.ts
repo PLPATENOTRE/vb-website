@@ -90,6 +90,18 @@ const gcStatsSchema = z.looseObject({
     .default([]),
 })
 
+/**
+ * GoatCounter hébergé renvoie par intermittence un 404 `{"error":"not found"}` sur des routes
+ * valides et authentifiées (constaté ~1 jour sur 2 en août 2026, épisodes de plusieurs heures ;
+ * le même appel passe plus tard sans changement de secret ni de paramètres). On le traite donc
+ * comme transitoire. 401/403 restent fatals : un token révoqué doit faire rougir la CI.
+ */
+const isTransientGc = (status: number): boolean =>
+  status === 404 || status === 429 || status >= 500
+
+/** Panne amont tolérable : le jour est sauté, pas de sortie en erreur. */
+class GcTransientError extends Error {}
+
 async function fetchGoatCounter(
   start: string,
   end: string,
@@ -98,21 +110,23 @@ async function fetchGoatCounter(
   const token = requireEnv('GOATCOUNTER_TOKEN')
 
   // GoatCounter a un rate limit serré (~sous-seconde) ; on enchaîne 5 endpoints.
-  // ponytail: retry sur 429/5xx, attente fixe 1 s (le hint est en centaines de ms).
+  // ponytail: retry sur 404/429/5xx, backoff 1-2-4-8 s (~15 s). Les épisodes amont durent
+  // parfois des heures : le rattrapage réel est le second cron quotidien, pas ce backoff.
   async function get(path: string, extra: Record<string, string> = {}): Promise<unknown> {
     const url = `${base}/${path}?${new URLSearchParams({ start, end, ...extra })}`
     for (let attempt = 0; attempt < 5; attempt++) {
       const res = await fetch(url, {
         headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
       })
-      if ((res.status === 429 || res.status >= 500) && attempt < 4) {
-        await new Promise((r) => setTimeout(r, 1000))
+      if (res.ok) return res.json()
+      if (isTransientGc(res.status) && attempt < 4) {
+        await new Promise((r) => setTimeout(r, 1000 * 2 ** attempt))
         continue
       }
-      if (!res.ok) throw new Error(`GoatCounter ${path} ${res.status} : ${await res.text()}`)
-      return res.json()
+      const detail = `GoatCounter ${path} ${res.status} : ${await res.text()}`
+      throw isTransientGc(res.status) ? new GcTransientError(detail) : new Error(detail)
     }
-    throw new Error(`GoatCounter ${path} : échec après retries`)
+    throw new GcTransientError(`GoatCounter ${path} : échec après retries`)
   }
 
   const total = totalSchema.parse(await get('stats/total'))
@@ -477,7 +491,15 @@ async function safeGsc<T>(label: string, fn: () => Promise<T>, fallback: T): Pro
 
 async function runSnapshot(): Promise<void> {
   const { start, end, day } = yesterdayWindow()
-  const gc = await fetchGoatCounter(start, end)
+  let gc: Awaited<ReturnType<typeof fetchGoatCounter>>
+  try {
+    gc = await fetchGoatCounter(start, end)
+  } catch (e) {
+    if (!(e instanceof GcTransientError)) throw e
+    // Job vert volontairement : rougir un jour sur deux sur une panne amont rend la CI aveugle.
+    console.log(`::warning::GoatCounter indisponible (${e.message}) — jour ${day} non enregistré, rattrapage au prochain run.`)
+    return
+  }
   const search = await safeGsc('snapshot', fetchGscDay, null)
   const snap: Snapshot = { date: day, ...gc, search }
   console.log(`Snapshot ${day} : ${snap.metrics.visitors} visiteur(s), SEO ${search ? `J${search.date} ${search.clicks} clic(s)` : 'absent'}`)
@@ -549,6 +571,14 @@ function selftest(): void {
 
   // SEO absent → seo null.
   assert.equal(buildSummary([base('2026-03-01', 5)], []).seo, null, 'seo null sans données')
+
+  // Classification GoatCounter : flakiness amont tolérée, problème d'auth fatal.
+  assert.equal(isTransientGc(404), true, '404 transitoire')
+  assert.equal(isTransientGc(429), true, '429 transitoire')
+  assert.equal(isTransientGc(503), true, '5xx transitoire')
+  assert.equal(isTransientGc(401), false, '401 fatal')
+  assert.equal(isTransientGc(403), false, '403 fatal')
+  assert.equal(isTransientGc(400), false, '400 fatal')
 
   console.log('selftest OK')
 }

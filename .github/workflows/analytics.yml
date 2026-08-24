@@ -7,6 +7,9 @@ name: Analytics
 on:
   schedule:
     - cron: '0 4 * * *' # quotidien 04:00 UTC → snapshot de la veille
+    # Rattrapage : GoatCounter tombe en 404 par épisodes de plusieurs heures. appendSnapshot
+    # dédoublonne par date → ce second passage est idempotent (aucun commit si rien de neuf).
+    - cron: '0 12 * * *' # quotidien 12:00 UTC → rattrape le jour si le run de 04:00 a été sauté
     - cron: '30 5 * * 1' # lundi 05:30 UTC → digest (après le snapshot du jour)
   workflow_dispatch:
     inputs:
