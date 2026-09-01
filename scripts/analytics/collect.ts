@@ -300,10 +300,49 @@ async function inspectUrl(token: string, url: string): Promise<z.infer<typeof in
   return inspectSchema.parse(await res.json())
 }
 
+const sitemapsSchema = z.looseObject({
+  sitemap: z
+    .array(
+      z.looseObject({
+        path: z.string(),
+        lastDownloaded: z.string().nullish(),
+        lastSubmitted: z.string().nullish(),
+        errors: z.union([z.string(), z.number()]).nullish(),
+        warnings: z.union([z.string(), z.number()]).nullish(),
+        contents: z.array(z.looseObject({ submitted: z.union([z.string(), z.number()]).nullish() })).default([]),
+      }),
+    )
+    .default([]),
+})
+
+/** Le sitemap est-il connu et téléchargé par Google ? Un sitemap seulement déclaré dans
+ *  robots.txt peut n'avoir jamais été récupéré — ce qui laisse la découverte au seul
+ *  suivi de liens, très lent sur un domaine neuf. */
+async function reportSitemaps(token: string): Promise<void> {
+  const url = `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(GSC_SITE)}/sitemaps`
+  const res = await fetch(url, { headers: { authorization: `Bearer ${token}` } })
+  if (!res.ok) {
+    console.log(`Rapport Sitemaps indisponible (${res.status}) : ${await res.text()}`)
+    return
+  }
+  const { sitemap } = sitemapsSchema.parse(await res.json())
+  if (sitemap.length === 0) {
+    console.log('AUCUN sitemap connu de Google pour cette propriete — jamais soumis ni telecharge.\n')
+    return
+  }
+  for (const sm of sitemap) {
+    console.log(
+      `sitemap ${sm.path} | soumis ${sm.lastSubmitted?.slice(0, 10) ?? 'jamais'} | telecharge ${sm.lastDownloaded?.slice(0, 10) ?? 'jamais'} | URL declarees ${sm.contents[0]?.submitted ?? '?'} | erreurs ${sm.errors ?? 0} | avertissements ${sm.warnings ?? 0}`,
+    )
+  }
+  console.log('')
+}
+
 async function runCoverage(): Promise<void> {
   const sa = readSaKey()
   if (!sa) throw new Error("GSC_SA_KEY absent : audit d'indexation impossible")
   const token = await gscToken(sa)
+  await reportSitemaps(token)
 
   const sitemap = await fetch(`${SITE_URL}/sitemap.xml`)
   if (!sitemap.ok) throw new Error(`sitemap ${sitemap.status}`)
