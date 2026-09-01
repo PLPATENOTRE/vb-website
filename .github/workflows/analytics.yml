@@ -16,7 +16,7 @@ on:
       mode:
         description: 'snapshot ou digest'
         type: choice
-        options: [snapshot, digest]
+        options: [snapshot, digest, coverage]
         default: digest
       dry_run:
         description: 'Dry run (log au lieu d''écrire/envoyer) — défaut ON pour tester sans risque'
