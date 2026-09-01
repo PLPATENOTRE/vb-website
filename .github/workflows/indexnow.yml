@@ -1,0 +1,66 @@
+# Soumission IndexNow (Bing, Yandex, Naver…). Enjeu principal : ChatGPT s'appuie largement
+# sur l'index Bing, et le nôtre est périmé (titre en cache antérieur à la refonte). Aucun
+# compte Bing Webmaster n'est requis : la propriété est prouvée par le fichier-clé servi à
+# la racine du site (public/<clé>.txt), qui est publique par conception — pas un secret.
+name: IndexNow
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/content/articles/**'
+      - 'src/app/**'
+  workflow_dispatch:
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      # ponytail: attente fixe le temps du rollout App Hosting, plutôt qu'un polling du
+      # déploiement. Plafond connu : si un rollout dépasse ~6 min, on soumet la version
+      # précédente — relancer alors le workflow à la main (workflow_dispatch).
+      - name: Attendre le rollout App Hosting
+        if: github.event_name == 'push'
+        run: sleep 360
+
+      - name: Soumettre les URL du sitemap
+        run: |
+          python3 - <<'PY'
+          import glob, json, os, re, urllib.request
+
+          HOST = 'behaghel-avocat.com'
+
+          # Source de vérité unique : le nom du fichier-clé committé dans public/.
+          keys = [os.path.basename(p)[:-4] for p in glob.glob('public/*.txt')]
+          assert len(keys) == 1, f'attendu exactement un fichier-clé dans public/, trouvé {keys}'
+          key = keys[0]
+          key_location = f'https://{HOST}/{key}.txt'
+
+          def get(url):
+              with urllib.request.urlopen(url, timeout=30) as r:
+                  return r.read().decode()
+
+          # Garde-fou : sans fichier-clé servi en ligne, IndexNow rejette tout le lot.
+          served = get(key_location).strip()
+          assert served == key, f'fichier-clé en ligne incohérent ({served[:12]}… != {key[:12]}…)'
+
+          urls = re.findall(r'<loc>([^<]+)</loc>', get(f'https://{HOST}/sitemap.xml'))
+          assert urls, 'sitemap vide — soumission annulée'
+
+          payload = {'host': HOST, 'key': key, 'keyLocation': key_location, 'urlList': urls}
+          req = urllib.request.Request(
+              'https://api.indexnow.org/IndexNow',
+              data=json.dumps(payload).encode(),
+              headers={'Content-Type': 'application/json; charset=utf-8'},
+          )
+          with urllib.request.urlopen(req, timeout=30) as r:
+              # 200 = accepté, 202 = clé en cours de validation (les deux sont des succès).
+              print(f'IndexNow HTTP {r.status} — {len(urls)} URL soumises')
+          PY
