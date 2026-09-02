@@ -254,6 +254,122 @@ async function fetchTopQueries(): Promise<
 }
 
 // ---------------------------------------------------------------------------
+// Indexation — URL Inspection API (mode --coverage). Répond à « Google indexe-t-il
+// vraiment ces pages ? », page par page, là où le rapport Pages de l'UI n'agrège.
+// Prérequis GSC : le service account doit être Propriétaire ou Utilisateur avec
+// autorisation complète — l'API refuse les accès restreints (403).
+// ---------------------------------------------------------------------------
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://behaghel-avocat.com'
+
+const inspectSchema = z.looseObject({
+  inspectionResult: z.looseObject({
+    indexStatusResult: z
+      .looseObject({
+        verdict: z.string().nullish(),
+        coverageState: z.string().nullish(),
+        robotsTxtState: z.string().nullish(),
+        pageFetchState: z.string().nullish(),
+        lastCrawlTime: z.string().nullish(),
+        googleCanonical: z.string().nullish(),
+      })
+      .nullish(),
+  }),
+})
+
+/** Compte les URL par état de couverture, du plus fréquent au moins fréquent. */
+function summarizeStates(states: string[]): [string, number][] {
+  const counts = new Map<string, number>()
+  for (const st of states) counts.set(st, (counts.get(st) ?? 0) + 1)
+  return [...counts.entries()].sort((a, b) => b[1] - a[1])
+}
+
+async function inspectUrl(token: string, url: string): Promise<z.infer<typeof inspectSchema>> {
+  const res = await fetch('https://searchconsole.googleapis.com/v1/urlInspection/index:inspect', {
+    method: 'POST',
+    headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
+    body: JSON.stringify({ inspectionUrl: url, siteUrl: GSC_SITE, languageCode: 'fr' }),
+  })
+  if (res.status === 403) {
+    throw new Error(
+      `URL Inspection refusée (403) : le service account doit être Propriétaire ou Utilisateur ` +
+        `avec autorisation complète sur ${GSC_SITE}. Détail : ${await res.text()}`,
+    )
+  }
+  if (!res.ok) throw new Error(`URL Inspection ${res.status} : ${await res.text()}`)
+  return inspectSchema.parse(await res.json())
+}
+
+const sitemapsSchema = z.looseObject({
+  sitemap: z
+    .array(
+      z.looseObject({
+        path: z.string(),
+        lastDownloaded: z.string().nullish(),
+        lastSubmitted: z.string().nullish(),
+        errors: z.union([z.string(), z.number()]).nullish(),
+        warnings: z.union([z.string(), z.number()]).nullish(),
+        contents: z.array(z.looseObject({ submitted: z.union([z.string(), z.number()]).nullish() })).default([]),
+      }),
+    )
+    .default([]),
+})
+
+/** Le sitemap est-il connu et téléchargé par Google ? Un sitemap seulement déclaré dans
+ *  robots.txt peut n'avoir jamais été récupéré — ce qui laisse la découverte au seul
+ *  suivi de liens, très lent sur un domaine neuf. */
+async function reportSitemaps(token: string): Promise<void> {
+  const url = `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(GSC_SITE)}/sitemaps`
+  const res = await fetch(url, { headers: { authorization: `Bearer ${token}` } })
+  if (!res.ok) {
+    console.log(`Rapport Sitemaps indisponible (${res.status}) : ${await res.text()}`)
+    return
+  }
+  const { sitemap } = sitemapsSchema.parse(await res.json())
+  if (sitemap.length === 0) {
+    console.log('AUCUN sitemap connu de Google pour cette propriete — jamais soumis ni telecharge.\n')
+    return
+  }
+  for (const sm of sitemap) {
+    console.log(
+      `sitemap ${sm.path} | soumis ${sm.lastSubmitted?.slice(0, 10) ?? 'jamais'} | telecharge ${sm.lastDownloaded?.slice(0, 10) ?? 'jamais'} | URL declarees ${sm.contents[0]?.submitted ?? '?'} | erreurs ${sm.errors ?? 0} | avertissements ${sm.warnings ?? 0}`,
+    )
+  }
+  console.log('')
+}
+
+async function runCoverage(): Promise<void> {
+  const sa = readSaKey()
+  if (!sa) throw new Error("GSC_SA_KEY absent : audit d'indexation impossible")
+  const token = await gscToken(sa)
+  await reportSitemaps(token)
+
+  const sitemap = await fetch(`${SITE_URL}/sitemap.xml`)
+  if (!sitemap.ok) throw new Error(`sitemap ${sitemap.status}`)
+  const urls = [...(await sitemap.text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1])
+  if (urls.length === 0) throw new Error('sitemap vide')
+  console.log(`${urls.length} URL au sitemap — interrogation de l'API URL Inspection\n`)
+
+  const states: string[] = []
+  for (const url of urls) {
+    const r = (await inspectUrl(token, url)).inspectionResult.indexStatusResult
+    const state = r?.coverageState ?? '(inconnu)'
+    states.push(state)
+    const path = url.replace(SITE_URL, '') || '/'
+    const crawl = r?.lastCrawlTime ? r.lastCrawlTime.slice(0, 10) : 'jamais'
+    // Canonique divergente = signal fort (Google a choisi une autre page comme référence).
+    const canon =
+      r?.googleCanonical && r.googleCanonical !== url ? ` | canonique Google : ${r.googleCanonical}` : ''
+    console.log(`${path.padEnd(38)} ${(r?.verdict ?? '?').padEnd(10)} ${state.padEnd(38)} crawl ${crawl}${canon}`)
+    // ponytail: pause fixe, le quota est de 600 requêtes/min — largement au-dessus de nos ~30.
+    await new Promise((res) => setTimeout(res, 150))
+  }
+
+  console.log('\n--- récapitulatif ---')
+  for (const [state, n] of summarizeStates(states)) console.log(`${String(n).padStart(3)}  ${state}`)
+}
+
+// ---------------------------------------------------------------------------
 // Historique (fichier JSON committé)
 // ---------------------------------------------------------------------------
 
@@ -572,6 +688,11 @@ function selftest(): void {
   // SEO absent → seo null.
   assert.equal(buildSummary([base('2026-03-01', 5)], []).seo, null, 'seo null sans données')
 
+  // Récapitulatif d'indexation : tri par fréquence décroissante.
+  const sm = summarizeStates(['indexée', 'non indexée', 'indexée', 'découverte', 'indexée'])
+  assert.deepEqual(sm[0], ['indexée', 3], 'état le plus fréquent en tête')
+  assert.equal(sm.length, 3, 'états distincts regroupés')
+
   // Classification GoatCounter : flakiness amont tolérée, problème d'auth fatal.
   assert.equal(isTransientGc(404), true, '404 transitoire')
   assert.equal(isTransientGc(429), true, '429 transitoire')
@@ -588,11 +709,14 @@ function selftest(): void {
 // ---------------------------------------------------------------------------
 
 async function main(): Promise<void> {
-  const arg = process.argv.find((a) => ['--snapshot', '--digest', '--selftest'].includes(a))
+  const arg = process.argv.find((a) =>
+    ['--snapshot', '--digest', '--coverage', '--selftest'].includes(a),
+  )
   if (arg === '--selftest') return selftest()
   if (arg === '--snapshot') return runSnapshot()
   if (arg === '--digest') return runDigest()
-  throw new Error('Usage : collect.ts --snapshot | --digest | --selftest')
+  if (arg === '--coverage') return runCoverage()
+  throw new Error('Usage : collect.ts --snapshot | --digest | --coverage | --selftest')
 }
 
 main().catch((err) => {
