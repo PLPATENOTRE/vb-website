@@ -504,5 +504,48 @@
       "impressions": 22,
       "position": 33.3
     }
+  },
+  {
+    "date": "2026-09-02",
+    "metrics": {
+      "visitors": 3,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites",
+        "count": 1
+      },
+      {
+        "label": "/baux-commerciaux",
+        "count": 1
+      },
+      {
+        "label": "/",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 2
+      },
+      {
+        "label": "chatgpt.com",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 3
+      }
+    ],
+    "search": {
+      "date": "2026-08-31",
+      "clicks": 1,
+      "impressions": 23,
+      "position": 31.3
+    }
   }
 ]
