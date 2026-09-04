@@ -30,7 +30,7 @@ export function CtaBox({
             Prise de rendez-vous
           </Link>
           <span className="text-center font-mulish text-sm text-[#3f4d44]">
-            {SITE.phoneDisplay} · {SITE.address.city} 3ᵉ
+            {SITE.phoneDisplay} · {SITE.address.city} 6ᵉ
           </span>
         </div>
       </div>
