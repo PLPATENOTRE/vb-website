@@ -50,9 +50,7 @@ export default function ContactPage() {
                 Adresse
               </p>
               <address className="not-italic font-cormorant text-[24px] leading-[1.4] text-forest">
-                ALGYR Centre d'affaires
-                <br />
-                20, boulevard Eugène Deruelle
+                {SITE.address.street}
                 <br />
                 {SITE.address.postalCode} {SITE.address.city}
               </address>

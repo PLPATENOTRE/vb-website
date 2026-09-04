@@ -13,13 +13,13 @@ export const SITE = {
   phoneDisplay: '06 50 05 89 73',
   linkedin: 'https://www.linkedin.com/in/victoire-behaghel-avocat/',
   address: {
-    street: "ALGYR Centre d'affaires, 20 boulevard Eugène Deruelle",
-    postalCode: '69003',
+    street: '141 rue Cuvier',
+    postalCode: '69006',
     city: 'Lyon',
     region: 'Auvergne-Rhône-Alpes',
     country: 'FR',
   },
-  geo: { latitude: 45.7608, longitude: 4.8571 },
+  geo: { latitude: 45.7677483, longitude: 4.8537083 },
   areaServed: 'France',
 } as const
 

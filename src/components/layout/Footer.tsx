@@ -19,9 +19,7 @@ export function Footer() {
         </div>
 
         <address className="font-mulish text-sm not-italic leading-8 text-[#9fb0a4]">
-          ALGYR Centre d&apos;affaires
-          <br />
-          20, boulevard Eugène Deruelle
+          {SITE.address.street}
           <br />
           {SITE.address.postalCode} {SITE.address.city}
           <br />

@@ -1,3 +1,5 @@
+import { SITE } from '@/lib/site'
+
 export const dynamic = 'force-static'
 
 // llms.txt — porté de la maquette, URLs alignées sur les routes réelles (§4),
@@ -11,7 +13,7 @@ const BODY = `# Victoire Behaghel — Avocate en baux commerciaux
 - Expertise : bail commercial, exclusivement
 - Public : entreprises de tous secteurs — artisans, commerçants, industriels, investisseurs
 - Zone : Lyon (siège) — intervention dans toute la France
-- Adresse : ALGYR Centre d'affaires, 20 boulevard Eugène Deruelle, 69003 Lyon
+- Adresse : ${SITE.address.street}, ${SITE.address.postalCode} ${SITE.address.city}
 - Téléphone : +33 6 50 05 89 73
 - LinkedIn : https://www.linkedin.com/in/victoire-behaghel-avocat/
 - Prise de rendez-vous : https://behaghel-avocat.com/contact
