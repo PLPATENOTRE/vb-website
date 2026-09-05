@@ -22,11 +22,23 @@ const nextConfig: NextConfig = {
       // Vérifié deux fois à 20 minutes d'intervalle — comportement stable, pas de la propagation.
       // Placée en tête pour que l'hôte soit normalisé avant les règles de chemin ci-dessous
       // (une ancienne URL sur www fait donc deux sauts : www/x -> nu/x -> nu/cible).
-      // Prérequis : désactiver l'option de redirection côté console, sinon son 302 s'applique
-      // en périphérie et cette règle ne voit jamais passer les requêtes de chemin.
+      // On teste `x-forwarded-host` et non `host` : derrière le proxy App Hosting (Cloud Run),
+      // le conteneur reçoit `Host: 0.0.0.0:8080` et l'hôte public arrive dans l'en-tête
+      // forwarded — même constat que dans la route Keystatic, qui réécrit l'origine OAuth
+      // pour la même raison. Une règle sur `host` ne peut jamais correspondre : vérifié en
+      // production, www servait le site en 200 au lieu de rediriger.
+      // Le port interne peut être présent dans l'en-tête, d'où le suffixe optionnel.
+      // Prérequis : l'option de redirection de la console doit rester désactivée, sinon son
+      // 302 s'applique en périphérie et cette règle ne voit jamais passer les requêtes.
       {
         source: '/:path*',
-        has: [{ type: 'host', value: 'www.behaghel-avocat.com' }],
+        has: [
+          {
+            type: 'header',
+            key: 'x-forwarded-host',
+            value: 'www\\.behaghel-avocat\\.com(?::\\d+)?',
+          },
+        ],
         destination: 'https://behaghel-avocat.com/:path*',
         permanent: true,
       },
