@@ -16,6 +16,20 @@ const nextConfig: NextConfig = {
   // loyer-du-bail-renouvele, et bail-commercial-mutations-digitalisation-et-valeur-verte.
   async redirects() {
     return [
+      // Consolidation d'hôte : www -> domaine nu, en 308 permanent.
+      // La redirection intégrée d'App Hosting ne convient pas : elle répond 302 (temporaire,
+      // donc sans transfert de réputation) et ne couvre pas la racine, qui restait en 200.
+      // Vérifié deux fois à 20 minutes d'intervalle — comportement stable, pas de la propagation.
+      // Placée en tête pour que l'hôte soit normalisé avant les règles de chemin ci-dessous
+      // (une ancienne URL sur www fait donc deux sauts : www/x -> nu/x -> nu/cible).
+      // Prérequis : désactiver l'option de redirection côté console, sinon son 302 s'applique
+      // en périphérie et cette règle ne voit jamais passer les requêtes de chemin.
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.behaghel-avocat.com' }],
+        destination: 'https://behaghel-avocat.com/:path*',
+        permanent: true,
+      },
       {
         source: '/actualites-droit-immobilier',
         destination: '/actualites',
