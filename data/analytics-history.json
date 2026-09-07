@@ -648,5 +648,40 @@
       "impressions": 39,
       "position": 31.4
     }
+  },
+  {
+    "date": "2026-09-06",
+    "metrics": {
+      "visitors": 2,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/baux-commerciaux/contentieux",
+        "count": 1
+      },
+      {
+        "label": "/",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 2
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      }
+    ],
+    "search": {
+      "date": "2026-09-04",
+      "clicks": 1,
+      "impressions": 23,
+      "position": 27.3
+    }
   }
 ]
