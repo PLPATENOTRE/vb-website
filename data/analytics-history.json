@@ -695,7 +695,11 @@
     "topCountries": [
       {
         "label": "France",
-        "count": 2
+        "count": 4
+      },
+      {
+        "label": "Andorra",
+        "count": 3
       }
     ],
     "search": {
