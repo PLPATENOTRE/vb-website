@@ -708,5 +708,60 @@
       "impressions": 17,
       "position": 32.6
     }
+  },
+  {
+    "date": "2026-09-08",
+    "metrics": {
+      "visitors": 7,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/bail-commercial-restaurateur",
+        "count": 2
+      },
+      {
+        "label": "/baux-commerciaux/negociation",
+        "count": 1
+      },
+      {
+        "label": "/actualites/plafond-loyer-3-5-revision-triennale",
+        "count": 1
+      },
+      {
+        "label": "/bail-commercial-hotelier",
+        "count": 1
+      },
+      {
+        "label": "/baux-commerciaux/cession-fonds-actions",
+        "count": 1
+      },
+      {
+        "label": "/",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 5
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 4
+      },
+      {
+        "label": "Andorra",
+        "count": 3
+      }
+    ],
+    "search": {
+      "date": "2026-09-06",
+      "clicks": 1,
+      "impressions": 28,
+      "position": 28.5
+    }
   }
 ]
