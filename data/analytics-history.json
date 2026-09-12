@@ -800,5 +800,44 @@
       "impressions": 98,
       "position": 27.8
     }
+  },
+  {
+    "date": "2026-09-11",
+    "metrics": {
+      "visitors": 2,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/bail-commercial-profession-liberale",
+        "count": 1
+      },
+      {
+        "label": "/",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 2
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "Algeria",
+        "count": 1
+      },
+      {
+        "label": "France",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-09-09",
+      "clicks": 0,
+      "impressions": 116,
+      "position": 32.3
+    }
   }
 ]
