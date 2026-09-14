@@ -855,5 +855,26 @@
       "impressions": 83,
       "position": 23.6
     }
+  },
+  {
+    "date": "2026-09-13",
+    "metrics": {
+      "visitors": 0,
+      "conversions": 0
+    },
+    "topPages": [],
+    "topReferrers": [],
+    "topCountries": [
+      {
+        "label": "United States",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-09-11",
+      "clicks": 2,
+      "impressions": 87,
+      "position": 27.8
+    }
   }
 ]
