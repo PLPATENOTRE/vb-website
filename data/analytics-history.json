@@ -884,5 +884,60 @@
       "impressions": 87,
       "position": 27.8
     }
+  },
+  {
+    "date": "2026-09-14",
+    "metrics": {
+      "visitors": 5,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 3
+      },
+      {
+        "label": "/bail-commercial-profession-liberale",
+        "count": 1
+      },
+      {
+        "label": "/actualites/plafond-loyer-3-5-revision-triennale",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 3
+      },
+      {
+        "label": "(direct)",
+        "count": 1
+      },
+      {
+        "label": "chatgpt.com",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      },
+      {
+        "label": "United Kingdom",
+        "count": 2
+      },
+      {
+        "label": "United States",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-09-12",
+      "clicks": 0,
+      "impressions": 86,
+      "position": 29.8
+    }
   }
 ]
