@@ -948,7 +948,12 @@
     },
     "topPages": [],
     "topReferrers": [],
-    "topCountries": [],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 1
+      }
+    ],
     "search": {
       "date": "2026-09-13",
       "clicks": 0,
