@@ -960,5 +960,36 @@
       "impressions": 87,
       "position": 28.8
     }
+  },
+  {
+    "date": "2026-09-16",
+    "metrics": {
+      "visitors": 1,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/bail-commercial-entrepot-logistique",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "www.bing.com",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-09-14",
+      "clicks": 3,
+      "impressions": 121,
+      "position": 26
+    }
   }
 ]
