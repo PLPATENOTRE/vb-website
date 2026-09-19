@@ -1022,5 +1022,56 @@
       "impressions": 101,
       "position": 28.2
     }
+  },
+  {
+    "date": "2026-09-18",
+    "metrics": {
+      "visitors": 4,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/revision-triennale-loyer-commercial",
+        "count": 1
+      },
+      {
+        "label": "/contact",
+        "count": 1
+      },
+      {
+        "label": "/bail-commercial-entrepot-logistique",
+        "count": 1
+      },
+      {
+        "label": "/honoraires",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 2
+      },
+      {
+        "label": "chatgpt.com",
+        "count": 1
+      },
+      {
+        "label": "chatgpt.com",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 4
+      }
+    ],
+    "search": {
+      "date": "2026-09-16",
+      "clicks": 0,
+      "impressions": 87,
+      "position": 23.1
+    }
   }
 ]
