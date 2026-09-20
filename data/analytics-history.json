@@ -1077,5 +1077,36 @@
       "impressions": 87,
       "position": 23.1
     }
+  },
+  {
+    "date": "2026-09-19",
+    "metrics": {
+      "visitors": 1,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "(direct)",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "Canada",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-09-17",
+      "clicks": 1,
+      "impressions": 88,
+      "position": 15.8
+    }
   }
 ]
