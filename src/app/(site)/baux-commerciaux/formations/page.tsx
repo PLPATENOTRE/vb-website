@@ -11,9 +11,8 @@ export const dynamic = 'force-static'
 export const metadata = pageMetadata({
   title: 'Formations sur le bail commercial — Avocate au Barreau de Lyon | Victoire Behaghel',
   description:
-    'Formations sur mesure sur le bail commercial pour équipes, réseaux et gestionnaires : statut, clauses sensibles, révision du loyer, fin de bail. Cas pratiques, en intra ou à distance, par une avocate au Barreau de Lyon. Partout en France.',
+    'Formations sur mesure au bail commercial pour équipes et réseaux : statut, clauses sensibles, révision du loyer, fin de bail. Avocate au Barreau de Lyon.',
   path: '/baux-commerciaux/formations',
-  ogType: 'article',
 })
 
 const EN_BREF_ITEMS = [

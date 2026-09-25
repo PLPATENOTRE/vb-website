@@ -11,9 +11,8 @@ export const dynamic = 'force-static'
 export const metadata = pageMetadata({
   title: 'Baux commerciaux à La Réunion — Avocate au Barreau de Lyon | Victoire Behaghel',
   description:
-    "Le statut des baux commerciaux s'applique à La Réunion comme en métropole. Négociation, révision du loyer, contentieux, fin de bail : avocate au Barreau de Lyon, partout en France.",
+    "Le statut des baux commerciaux s'applique à La Réunion comme en métropole : révision du loyer, contentieux, fin de bail, cession. Avocate au Barreau de Lyon.",
   path: '/baux-commerciaux-la-reunion',
-  ogType: 'article',
 })
 
 const EN_BREF_ITEMS = [
