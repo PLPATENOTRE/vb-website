@@ -21,7 +21,7 @@ export const SECTEURS: Secteur[] = [
     slug: 'commercant',
     title: 'Bail commercial pour commerçants — Avocate au Barreau de Lyon | Victoire Behaghel',
     description:
-      "Bail commercial pour commerçants : destination, charges en galerie, clause de chiffre d'affaires, cession du fonds. Conseil et contentieux, Barreau de Lyon.",
+      "Bail commercial pour commerçants : destination, charges en galerie marchande, clause de chiffre d'affaires. Avocate au Barreau de Lyon, partout en France.",
     canonical: '/bail-commercial-commercant',
     surtitre: 'Profil · Commerçants',
     h1: 'Bail commercial pour commerçants',
@@ -85,7 +85,7 @@ export const SECTEURS: Secteur[] = [
     slug: 'hotelier',
     title: 'Bail commercial pour hôteliers — Avocate au Barreau de Lyon | Victoire Behaghel',
     description:
-      "Bail commercial pour hôteliers : fonds de commerce, cession, travaux de mise aux normes, indemnité d'éviction. Conseil et contentieux, Barreau de Lyon.",
+      "Bail commercial pour hôteliers : fonds de commerce, cession, travaux de mise aux normes, indemnité d'éviction. Avocate au Barreau de Lyon, partout en France.",
     canonical: '/bail-commercial-hotelier',
     surtitre: 'Profil · Hôteliers',
     h1: 'Bail commercial pour hôteliers',
@@ -149,7 +149,7 @@ export const SECTEURS: Secteur[] = [
     slug: 'industriel',
     title: 'Bail commercial pour industriels — Avocate au Barreau de Lyon | Victoire Behaghel',
     description:
-      'Bail commercial pour industriels : destination, travaux lourds, ILAT, bail à construire, ICPE. Conseil et contentieux, Barreau de Lyon, partout en France.',
+      'Bail commercial pour industriels : travaux lourds, ILAT, bail à construire, ICPE. Conseil et contentieux par une avocate au Barreau de Lyon. Partout en France.',
     canonical: '/bail-commercial-industriel',
     surtitre: 'Profil · Industriels',
     h1: 'Bail commercial pour industriels',
@@ -213,7 +213,7 @@ export const SECTEURS: Secteur[] = [
     slug: 'investisseur',
     title: 'Bail commercial pour investisseurs — Avocate au Barreau de Lyon | Victoire Behaghel',
     description:
-      'Bail commercial pour investisseurs et bailleurs : rédaction, clauses protectrices, loyer et charges, refus de renouvellement. Conseil et contentieux, Lyon.',
+      'Bail commercial pour investisseurs et bailleurs : clauses protectrices, loyer, refus de renouvellement. Avocate au Barreau de Lyon, partout en France.',
     canonical: '/bail-commercial-investisseur',
     surtitre: 'Profil · Investisseurs & bailleur',
     h1: 'Bail commercial pour investisseurs & bailleur',
@@ -277,7 +277,7 @@ export const SECTEURS: Secteur[] = [
     slug: 'entrepot-logistique',
     title: 'Bail commercial entrepôt logistique — Avocate au Barreau de Lyon | Victoire Behaghel',
     description:
-      "Bail commercial pour entrepôts et logistique : destination, ILAT, travaux d'adaptation, clauses de sortie, ICPE. Conseil et contentieux, Barreau de Lyon.",
+      "Bail commercial pour logisticiens et entrepôts : destination, ILAT, travaux d'adaptation, clause de sortie, ICPE. Avocate au Barreau de Lyon, partout en France.",
     canonical: '/bail-commercial-entrepot-logistique',
     surtitre: 'Profil · Logisticiens & entrepôt',
     h1: 'Bail commercial pour logisticiens & entrepôt',
@@ -342,7 +342,7 @@ export const SECTEURS: Secteur[] = [
     title:
       'Bail commercial pour professions libérales — Avocate au Barreau de Lyon | Victoire Behaghel',
     description:
-      "Bail commercial ou professionnel pour professions libérales : différences, droit au renouvellement, indemnité d'éviction. Conseil et contentieux, Lyon.",
+      "Bail commercial ou professionnel pour professions libérales : droit au renouvellement, indemnité d'éviction. Avocate au Barreau de Lyon, partout en France.",
     canonical: '/bail-commercial-profession-liberale',
     surtitre: 'Profil · Professions libérales',
     h1: 'Bail commercial et professions libérales',
@@ -402,7 +402,7 @@ export const SECTEURS: Secteur[] = [
     slug: 'restaurateur',
     title: 'Bail commercial pour restaurateurs — Avocate au Barreau de Lyon | Victoire Behaghel',
     description:
-      'Bail commercial pour restaurateurs : destination, travaux de cuisine et extraction, terrasse, bail dérogatoire. Conseil et contentieux, Barreau de Lyon.',
+      'Bail commercial pour restaurateurs : destination, travaux de cuisine et extraction, terrasse, bail dérogatoire. Avocate au Barreau de Lyon, partout en France.',
     canonical: '/bail-commercial-restaurateur',
     surtitre: 'Profil · Restaurateurs',
     h1: 'Bail commercial pour restaurateurs',
