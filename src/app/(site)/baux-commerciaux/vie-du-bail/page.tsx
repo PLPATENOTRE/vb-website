@@ -17,7 +17,6 @@ export const metadata = pageMetadata({
     "Révision triennale, clause d'indexation (ILC, ILAT), cession de bail, sous-location, déspécialisation : accompagnement juridique à chaque étape de la vie de votre bail commercial, par une avocate au Barreau de Lyon. Partout en France.",
   path: PATH,
   ogType: 'article',
-  ogImage: '/assets/og-vie-du-bail.jpg',
 })
 
 const enBrefItems = [

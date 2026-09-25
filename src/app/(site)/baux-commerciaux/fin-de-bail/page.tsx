@@ -15,7 +15,6 @@ export const metadata = pageMetadata({
     "Fin de bail commercial : renouvellement, congé, refus de renouvellement et indemnité d'éviction (art. L.145-14). Anticiper les délais et sécuriser la procédure. Avocate au Barreau de Lyon. Partout en France.",
   path: '/baux-commerciaux/fin-de-bail',
   ogType: 'article',
-  ogImage: '/assets/og-fin-de-bail.jpg',
 })
 
 const EN_BREF_ITEMS = [

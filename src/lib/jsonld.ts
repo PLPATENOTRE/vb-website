@@ -101,7 +101,7 @@ export function localBusinessJsonLd() {
         description:
           'Avocate dédiée au droit des baux commerciaux : conseil et contentieux, à chaque étape de la vie du bail.',
         url: SITE.url,
-        image: `${SITE.url}/assets/og-accueil.jpg`,
+        image: `${SITE.url}/assets/og-default.jpg`,
         telephone: SITE.phone,
         priceRange: 'Sur devis',
         address: postalAddress,

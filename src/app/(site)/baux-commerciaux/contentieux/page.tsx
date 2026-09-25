@@ -14,7 +14,6 @@ export const metadata = pageMetadata({
     'Fixation judiciaire du loyer, impayés et clause résolutoire, indemnités : défense de vos intérêts devant le juge des loyers commerciaux et le tribunal. Avocate dédiée au Barreau de Lyon. Partout en France.',
   path: '/baux-commerciaux/contentieux',
   ogType: 'article',
-  ogImage: '/assets/og-contentieux.jpg',
 })
 
 const EN_BREF_ITEMS = [

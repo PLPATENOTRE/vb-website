@@ -12,7 +12,6 @@ export const metadata = pageMetadata({
     'Décrivez votre situation en quelques lignes : premier échange gratuit, sans engagement. Avocate en baux commerciaux au Barreau de Lyon, intervention partout en France.',
   path: '/contact',
   ogType: 'website',
-  ogImage: '/assets/og-contact.jpg',
 })
 
 export default function ContactPage() {
