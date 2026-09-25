@@ -113,10 +113,13 @@ export function localBusinessJsonLd() {
         areaServed: { '@type': 'Country', name: SITE.areaServed },
         founder: { '@id': ENTITY.person },
         knowsAbout: KNOWS_ABOUT,
-        // Pas de sameAs ici : aucun profil tiers vérifié ne décrit la structure
-        // d'exercice elle-même (Barreau/Avocat.fr/LinkedIn identifient la personne,
-        // pas le cabinet). Y recopier le LinkedIn de la fondatrice relierait
-        // l'entité cabinet au profil personnel — approximation à ne pas « réparer ».
+        // Les fiches Barreau et Avocat.fr publient l'adresse professionnelle et les
+        // domaines d'intervention : elles identifient donc l'exercice autant que la
+        // personne. Elles figurent sur les deux entités à dessein — c'est un exercice
+        // individuel, et ce nœud est celui que référencent tous les `Service.provider`
+        // et tous les `BlogPosting.publisher` du site. Le LinkedIn reste exclusif à la
+        // personne : c'est un profil `/in/`, pas une page d'organisation.
+        sameAs: [SITE.barreauLyon, SITE.avocatFr],
       },
       {
         '@type': 'Person',

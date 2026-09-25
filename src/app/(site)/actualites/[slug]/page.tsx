@@ -226,7 +226,14 @@ export default async function ArticlePage({ params }: PageProps) {
             jobTitle: SITE.jobTitle,
             url: `${SITE.url}/a-propos`,
           },
-          publisher: { '@type': 'Organization', '@id': ENTITY.cabinet, name: SITE.name },
+          // Même @type que la déclaration canonique du graphe (accueil) : un @id fusionné
+          // qui change de type d'une page à l'autre laisse le consommateur arbitrer.
+          // LegalService et Attorney dérivent d'Organization, donc l'emploi reste valide ici.
+          publisher: {
+            '@type': ['LegalService', 'Attorney'],
+            '@id': ENTITY.cabinet,
+            name: SITE.name,
+          },
           mainEntityOfPage: `${SITE.url}/actualites/${slug}`,
           articleSection: article.category,
         }}
