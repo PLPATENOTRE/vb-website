@@ -12,7 +12,6 @@ export const metadata = pageMetadata({
     "Transparence sur les honoraires du cabinet Victoire Behaghel : modalités de facturation, convention d'honoraires, premier échange. Avocate dédiée aux baux commerciaux au Barreau de Lyon. Partout en France.",
   path: '/honoraires',
   ogType: 'article',
-  ogImage: '/assets/og-honoraires.jpg',
 })
 
 const enBrefItems = [

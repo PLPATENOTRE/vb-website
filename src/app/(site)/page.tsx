@@ -14,7 +14,6 @@ export const metadata = pageMetadata({
     'Cabinet Victoire Behaghel, avocate dédiée au bail commercial, au Barreau de Lyon : négociation, vie du bail, contentieux, renouvellement et congé. Intervention partout en France. Prise de rendez-vous.',
   path: '/',
   ogType: 'website',
-  ogImage: '/assets/og-accueil.jpg',
 })
 
 // Aperçu compact des expertises (remplace la bande photo) — labels courts + 1 ligne.

@@ -13,7 +13,6 @@ export const metadata = pageMetadata({
   description: `Cession de fonds de commerce ou cession de titres (actions, parts sociales) : enjeux pour le bail commercial, garanties, sort des contrats. Conseil par une avocate experte au Barreau de Lyon. Partout en France.`,
   path: '/baux-commerciaux/cession-fonds-actions',
   ogType: 'article',
-  ogImage: '/assets/og-cession-fonds-actions.jpg',
 })
 
 const EN_BREF_ITEMS = [

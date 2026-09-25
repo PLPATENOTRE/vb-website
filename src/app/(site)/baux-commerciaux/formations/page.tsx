@@ -14,7 +14,6 @@ export const metadata = pageMetadata({
     'Formations sur mesure sur le bail commercial pour équipes, réseaux et gestionnaires : statut, clauses sensibles, révision du loyer, fin de bail. Cas pratiques, en intra ou à distance, par une avocate au Barreau de Lyon. Partout en France.',
   path: '/baux-commerciaux/formations',
   ogType: 'article',
-  ogImage: '/assets/og-formations.jpg',
 })
 
 const EN_BREF_ITEMS = [

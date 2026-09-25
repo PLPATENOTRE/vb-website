@@ -14,7 +14,6 @@ export const metadata = pageMetadata({
     'Sécuriser votre bail commercial avant la signature : destination, charges (loi Pinel), indexation, garanties, durée. Conseil et rédaction par une avocate dédiée au Barreau de Lyon. Partout en France.',
   path: '/baux-commerciaux/negociation',
   ogType: 'article',
-  ogImage: '/assets/og-negociation.jpg',
 })
 
 const EN_BREF_ITEMS = [

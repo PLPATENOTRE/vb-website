@@ -11,7 +11,6 @@ export const metadata: Metadata = pageMetadata({
   description:
     'Analyses des évolutions récentes du droit des baux commerciaux, pour comprendre ce qui change pour votre activité.',
   path: '/actualites',
-  ogImage: '/assets/og-actualites.jpg',
 })
 
 export default async function ActualitesPage() {

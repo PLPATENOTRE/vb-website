@@ -12,7 +12,6 @@ export const metadata: Metadata = pageMetadata({
   description: secteur.description,
   path: secteur.canonical,
   ogType: 'article',
-  ogImage: `/assets/og-${secteur.slug}.jpg`,
 })
 
 export default function Page() {

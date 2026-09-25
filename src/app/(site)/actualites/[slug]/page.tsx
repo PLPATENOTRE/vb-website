@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description: article.excerpt,
     path: `/actualites/${slug}`,
     ogType: 'article',
-    ogImage: article.coverImage ?? '/assets/og-actualites.jpg',
+    ogImage: article.coverImage ?? '/assets/og-default.jpg',
   })
 }
 
@@ -214,7 +214,7 @@ export default async function ArticlePage({ params }: PageProps) {
           '@type': 'BlogPosting',
           headline: article.title,
           description: article.excerpt,
-          image: `${SITE.url}${article.coverImage ?? '/assets/og-actualites.jpg'}`,
+          image: `${SITE.url}${article.coverImage ?? '/assets/og-default.jpg'}`,
           datePublished: article.publishedDate,
           // Pas de champ « modifié » en base → on reflète la date de publication.
           dateModified: article.publishedDate,
