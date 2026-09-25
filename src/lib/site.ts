@@ -12,6 +12,9 @@ export const SITE = {
   phone: '+33650058973',
   phoneDisplay: '06 50 05 89 73',
   linkedin: 'https://www.linkedin.com/in/victoire-behaghel-avocat/',
+  // Profils tiers vérifiés (fiche personne, pas structure) — cf. commentaire sameAs dans jsonld.ts.
+  barreauLyon: 'https://www.barreaulyon.com/annuaire/avocat/behaghel-victoire/',
+  avocatFr: 'https://consultation.avocat.fr/avocat-lyon/victoire-behaghel-54965.html',
   address: {
     street: '141 rue Cuvier',
     postalCode: '69006',

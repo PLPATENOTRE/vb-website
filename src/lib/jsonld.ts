@@ -113,7 +113,13 @@ export function localBusinessJsonLd() {
         areaServed: { '@type': 'Country', name: SITE.areaServed },
         founder: { '@id': ENTITY.person },
         knowsAbout: KNOWS_ABOUT,
-        sameAs: [SITE.linkedin],
+        // Les fiches Barreau et Avocat.fr publient l'adresse professionnelle et les
+        // domaines d'intervention : elles identifient donc l'exercice autant que la
+        // personne. Elles figurent sur les deux entités à dessein — c'est un exercice
+        // individuel, et ce nœud est celui que référencent tous les `Service.provider`
+        // et tous les `BlogPosting.publisher` du site. Le LinkedIn reste exclusif à la
+        // personne : c'est un profil `/in/`, pas une page d'organisation.
+        sameAs: [SITE.barreauLyon, SITE.avocatFr],
       },
       {
         '@type': 'Person',
@@ -124,7 +130,7 @@ export function localBusinessJsonLd() {
         hasOccupation: { '@type': 'Occupation', name: 'Avocate' },
         worksFor: { '@id': ENTITY.cabinet },
         knowsAbout: KNOWS_ABOUT,
-        sameAs: [SITE.linkedin],
+        sameAs: [SITE.linkedin, SITE.barreauLyon, SITE.avocatFr],
       },
     ],
   }

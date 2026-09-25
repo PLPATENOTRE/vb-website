@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { CtaBox } from '@/components/ui/CtaBox'
+import { formatFrenchDate, getAllArticles } from '@/lib/articles'
 import { localBusinessJsonLd } from '@/lib/jsonld'
 import { pageMetadata } from '@/lib/metadata'
 
@@ -56,15 +57,9 @@ const apercu = [
   },
 ]
 
-const ARTICLE_TITLES = [
-  'Expertise amiable et fixation judiciaire du loyer commercial : ce que deux arrêts récents changent pour vous',
-  "Le plafond du loyer du bail commercial à 3,5 % s'applique-t-il à la révision triennale ?",
-  "La clause d'indexation dans votre bail commercial",
-] as const
+export default async function HomePage() {
+  const latestArticles = (await getAllArticles()).slice(0, 3)
 
-const ARTICLE_DATES = ['15 avril 2026', '30 janvier 2026', '27 novembre 2025'] as const
-
-export default function HomePage() {
   return (
     <>
       <JsonLd data={localBusinessJsonLd()} />
@@ -99,9 +94,11 @@ export default function HomePage() {
         {/* Portrait — Victoire Behaghel (image portrait, bonnes dimensions) */}
         <img
           src="/assets/photo_accueil_portrait_2x.webp"
+          srcSet="/assets/photo_accueil_portrait_1x.webp 1000w, /assets/photo_accueil_portrait_2x.webp 2000w"
+          sizes="(min-width: 1280px) 445px, (min-width: 768px) 40vw, 100vw"
           alt="Victoire Behaghel, avocate en baux commerciaux à Lyon"
-          width={900}
-          height={1030}
+          width={1000}
+          height={1100}
           fetchPriority="high"
           className="mt-10 h-[420px] w-full rounded object-cover object-top md:mt-0 md:h-[520px]"
         />
@@ -209,22 +206,30 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="grid gap-9 md:grid-cols-3">
-          {ARTICLE_DATES.map((date, i) => (
-            <article key={date} className="flex flex-col gap-[18px]">
+          {latestArticles.map((article) => (
+            <article key={article.slug} className="flex flex-col gap-[18px]">
               {/* Vignette — asset non disponible */}
               <div className="flex h-[210px] items-center justify-center rounded bg-sand">
                 <span className="font-mulish text-[11px] uppercase tracking-[2px] text-[#9b9588]">
                   Vignette
                 </span>
               </div>
-              <time className="font-mulish text-[12px] uppercase tracking-[2px] text-rose">
-                {date}
-              </time>
+              {/* dateTime porte la valeur ISO : « 9 juillet 2026 » n'est pas lisible par une
+                  machine. Le champ étant optionnel côté CMS, on omet l'élément plutôt que
+                  d'émettre un <time> vide. */}
+              {article.publishedDate && (
+                <time
+                  dateTime={article.publishedDate}
+                  className="font-mulish text-[12px] uppercase tracking-[2px] text-rose"
+                >
+                  {formatFrenchDate(article.publishedDate)}
+                </time>
+              )}
               <h3 className="m-0 font-cormorant text-[22px] font-semibold leading-[1.25] text-forest md:text-[25px]">
-                {ARTICLE_TITLES[i]}
+                {article.title}
               </h3>
               <Link
-                href="/actualites"
+                href={`/actualites/${article.slug}`}
                 className="self-start border-b border-rose pb-[2px] font-mulish text-[13px] font-semibold tracking-[1px] text-forest transition-colors hover:text-rose"
               >
                 Lire l&apos;article
