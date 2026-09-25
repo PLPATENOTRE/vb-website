@@ -113,7 +113,10 @@ export function localBusinessJsonLd() {
         areaServed: { '@type': 'Country', name: SITE.areaServed },
         founder: { '@id': ENTITY.person },
         knowsAbout: KNOWS_ABOUT,
-        sameAs: [SITE.linkedin],
+        // Pas de sameAs ici : aucun profil tiers vérifié ne décrit la structure
+        // d'exercice elle-même (Barreau/Avocat.fr/LinkedIn identifient la personne,
+        // pas le cabinet). Y recopier le LinkedIn de la fondatrice relierait
+        // l'entité cabinet au profil personnel — approximation à ne pas « réparer ».
       },
       {
         '@type': 'Person',
@@ -124,7 +127,7 @@ export function localBusinessJsonLd() {
         hasOccupation: { '@type': 'Occupation', name: 'Avocate' },
         worksFor: { '@id': ENTITY.cabinet },
         knowsAbout: KNOWS_ABOUT,
-        sameAs: [SITE.linkedin],
+        sameAs: [SITE.linkedin, SITE.barreauLyon, SITE.avocatFr],
       },
     ],
   }
