@@ -1187,5 +1187,40 @@
       "impressions": 96,
       "position": 22.6
     }
+  },
+  {
+    "date": "2026-09-24",
+    "metrics": {
+      "visitors": 2,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/la-clause-d-indexation",
+        "count": 1
+      },
+      {
+        "label": "/bail-commercial-profession-liberale",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 2
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      }
+    ],
+    "search": {
+      "date": "2026-09-22",
+      "clicks": 0,
+      "impressions": 66,
+      "position": 18.4
+    }
   }
 ]
