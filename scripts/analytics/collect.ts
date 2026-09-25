@@ -410,8 +410,8 @@ function trend(history: Snapshot[], pick: (s: Snapshot) => number): Trend {
 }
 
 /**
- * Position moyenne (métrique non additive) sur les N derniers jours où le SEO est présent,
- * pondérée par les impressions du jour. Une moyenne simple des positions journalières fait
+ * Position moyenne (métrique non additive) sur les N derniers jours, chaque journée pesant
+ * ses impressions. Une moyenne simple des positions journalières ferait
  * peser une journée à 2 impressions autant qu'une journée à 200 : une bonne position sur un
  * jour creux masquerait alors une dégradation réelle sur les jours à fort volume. `null` (pas
  * `0`) quand aucune impression n'est disponible sur la fenêtre — cohérent avec `search: null`
@@ -421,7 +421,10 @@ function avgPosition(history: Snapshot[], days: number): number | null {
   const searchDays = history
     .slice(-days)
     .map((s) => s.search)
-    .filter((s): s is SearchDay => s !== null)
+    // `!= null` et non `!== null` : readHistory caste le JSON sans le valider, donc un
+    // snapshot ancien ou édité à la main peut ne pas porter `search` du tout. `undefined`
+    // passerait un test strict et ferait planter le digest sur `s.impressions`.
+    .filter((s): s is SearchDay => s != null)
   const totalImpressions = sum(searchDays.map((s) => s.impressions))
   if (totalImpressions === 0) return null
   const weightedSum = sum(searchDays.map((s) => s.position * s.impressions))
@@ -687,16 +690,27 @@ function selftest(): void {
   // à fort volume mal classé. Moyenne simple = (2+50)/2 = 26 ; pondérée = (2×10 + 50×1000)/1010 ≈ 49,5.
   // L'ancienne implémentation (moyenne simple) échouerait sur cette assertion.
   const skewed: Snapshot[] = [
-    { ...base('2026-04-01', 5, 0), search: { date: '2026-04-01', clicks: 1, impressions: 10, position: 2 } },
-    { ...base('2026-04-02', 5, 0), search: { date: '2026-04-02', clicks: 20, impressions: 1000, position: 50 } },
+    { ...base('2026-04-01', 5), search: { date: '2026-04-01', clicks: 1, impressions: 10, position: 2 } },
+    { ...base('2026-04-02', 5), search: { date: '2026-04-02', clicks: 20, impressions: 1000, position: 50 } },
   ]
   assert.equal(avgPosition(skewed, 7), 49.5, 'position pondérée par impressions')
 
   // Aucune impression sur la fenêtre → pas de donnée, jamais 0 par défaut.
   const noImpressions: Snapshot[] = [
-    { ...base('2026-05-01', 5, 0), search: { date: '2026-05-01', clicks: 0, impressions: 0, position: 12 } },
+    { ...base('2026-05-01', 5), search: { date: '2026-05-01', clicks: 0, impressions: 0, position: 12 } },
   ]
   assert.equal(avgPosition(noImpressions, 7), null, 'aucune impression → null, pas 0')
+
+  // Snapshot sans champ `search` : readHistory caste le JSON sans le valider, donc le cas
+  // arrive dès qu'un historique ancien ou édité à la main traverse la fonction. Un filtre
+  // strict laisserait passer `undefined` et ferait lever un TypeError sur `.impressions`.
+  const legacy = [
+    { ...base('2026-06-01', 5), search: { date: '2026-06-01', clicks: 3, impressions: 100, position: 9 } },
+    Object.fromEntries(
+      Object.entries(base('2026-06-02', 5)).filter(([k]) => k !== 'search'),
+    ) as Snapshot,
+  ]
+  assert.equal(avgPosition(legacy, 7), 9, 'snapshot sans champ search ignoré sans planter')
 
   assert.equal(trend(hist, (s) => s.metrics.conversions).last7, 7, 'somme conversions 7 j')
   assert.equal(buildSummary(hist, []).tauxConversion7j, 5, 'taux de conversion 7/140')
