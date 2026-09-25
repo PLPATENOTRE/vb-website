@@ -214,9 +214,17 @@ export default async function HomePage() {
                   Vignette
                 </span>
               </div>
-              <time className="font-mulish text-[12px] uppercase tracking-[2px] text-rose">
-                {formatFrenchDate(article.publishedDate)}
-              </time>
+              {/* dateTime porte la valeur ISO : « 9 juillet 2026 » n'est pas lisible par une
+                  machine. Le champ étant optionnel côté CMS, on omet l'élément plutôt que
+                  d'émettre un <time> vide. */}
+              {article.publishedDate && (
+                <time
+                  dateTime={article.publishedDate}
+                  className="font-mulish text-[12px] uppercase tracking-[2px] text-rose"
+                >
+                  {formatFrenchDate(article.publishedDate)}
+                </time>
+              )}
               <h3 className="m-0 font-cormorant text-[22px] font-semibold leading-[1.25] text-forest md:text-[25px]">
                 {article.title}
               </h3>
