@@ -214,7 +214,7 @@ export default async function ArticlePage({ params }: PageProps) {
           '@type': 'BlogPosting',
           headline: article.title,
           description: article.excerpt,
-          image: `${SITE.url}${article.coverImage ?? '/assets/og-default.jpg'}`,
+          image: `${SITE.url}${article.coverImage ?? '/assets/photo_accueil_portrait_1x.webp'}`,
           datePublished: article.publishedDate,
           // Pas de champ « modifié » en base → on reflète la date de publication.
           dateModified: article.publishedDate,

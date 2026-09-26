@@ -11,9 +11,8 @@ export const dynamic = 'force-static'
 export const metadata = pageMetadata({
   title: 'Contentieux du bail commercial — Avocate au Barreau de Lyon | Victoire Behaghel',
   description:
-    'Fixation judiciaire du loyer, impayés et clause résolutoire, indemnités : défense de vos intérêts devant le juge des loyers commerciaux et le tribunal. Avocate dédiée au Barreau de Lyon. Partout en France.',
+    'Fixation judiciaire du loyer, impayés, clause résolutoire, indemnités : défense devant le juge des loyers. Avocate au Barreau de Lyon, partout en France.',
   path: '/baux-commerciaux/contentieux',
-  ogType: 'article',
 })
 
 const EN_BREF_ITEMS = [

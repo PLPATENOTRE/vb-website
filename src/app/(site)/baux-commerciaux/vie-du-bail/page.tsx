@@ -14,9 +14,8 @@ export const metadata = pageMetadata({
   title:
     'Révision, indexation et cession du bail commercial — Avocate au Barreau de Lyon | Victoire Behaghel',
   description:
-    "Révision triennale, clause d'indexation (ILC, ILAT), cession de bail, sous-location, déspécialisation : accompagnement juridique à chaque étape de la vie de votre bail commercial, par une avocate au Barreau de Lyon. Partout en France.",
+    'Révision triennale, indexation ILC et ILAT, cession, sous-location, déspécialisation : chaque étape de la vie du bail commercial. Avocate au Barreau de Lyon.',
   path: PATH,
-  ogType: 'article',
 })
 
 const enBrefItems = [

@@ -11,7 +11,6 @@ export const metadata: Metadata = pageMetadata({
   title: secteur.title,
   description: secteur.description,
   path: secteur.canonical,
-  ogType: 'article',
 })
 
 export default function Page() {

@@ -12,9 +12,8 @@ export const metadata = pageMetadata({
   title:
     "Renouvellement, congé et indemnité d'éviction — Avocate au Barreau de Lyon | Victoire Behaghel",
   description:
-    "Fin de bail commercial : renouvellement, congé, refus de renouvellement et indemnité d'éviction (art. L.145-14). Anticiper les délais et sécuriser la procédure. Avocate au Barreau de Lyon. Partout en France.",
+    "Renouvellement, congé, refus et indemnité d'éviction (L.145-14) : anticiper les délais, sécuriser la procédure. Avocate au Barreau de Lyon, partout en France.",
   path: '/baux-commerciaux/fin-de-bail',
-  ogType: 'article',
 })
 
 const EN_BREF_ITEMS = [

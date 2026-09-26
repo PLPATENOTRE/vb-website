@@ -9,9 +9,8 @@ export const dynamic = 'force-static'
 export const metadata = pageMetadata({
   title: 'Honoraires — Avocate en baux commerciaux au Barreau de Lyon | Victoire Behaghel',
   description:
-    "Transparence sur les honoraires du cabinet Victoire Behaghel : modalités de facturation, convention d'honoraires, premier échange. Avocate dédiée aux baux commerciaux au Barreau de Lyon. Partout en France.",
+    'Honoraires du cabinet : modalités de facturation, convention, premier échange gratuit et sans engagement. Avocate au Barreau de Lyon, partout en France.',
   path: '/honoraires',
-  ogType: 'article',
 })
 
 const enBrefItems = [
