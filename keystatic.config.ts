@@ -61,6 +61,9 @@ export default config({
           formatting: true,
           dividers: true,
           links: true,
+          // Le collage markdown de Keystatic ne convertit PAS les tableaux : il faut
+          // passer par le bouton de la barre d'outils et remplir cellule par cellule.
+          tables: true,
         }),
       },
     }),
