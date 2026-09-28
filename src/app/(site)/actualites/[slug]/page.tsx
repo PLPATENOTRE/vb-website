@@ -42,6 +42,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   })
 }
 
+interface TableCell {
+  children: ReactNode
+  colSpan?: number
+  rowSpan?: number
+}
+
 // Renderers Tailwind pour le contenu Keystatic (calqués sur la maquette Article).
 // inline.link + block.list sont explicites : le reset Tailwind supprime le style
 // par défaut des liens et des puces.
@@ -74,6 +80,50 @@ const renderers = {
       <blockquote className="my-9 rounded-r-md border-l-[3px] border-rose bg-sand px-8 py-6 font-cormorant text-[25px] italic leading-[1.4] text-forest">
         {children}
       </blockquote>
+    ),
+    // Comme list et link : le reset Tailwind supprime bordures et espacements des
+    // tableaux, il n'y a donc rien à hériter. Le conteneur défile horizontalement
+    // plutôt que de faire déborder la page sur mobile.
+    table: ({ head, body }: { head?: TableCell[]; body: TableCell[][] }) => (
+      <div className="mb-[22px] overflow-x-auto">
+        <table className="w-full border-collapse font-mulish text-[16px] leading-[1.6] text-[#3f4d44]">
+          {head && (
+            <thead>
+              <tr>
+                {head.map((cell, i) => (
+                  <th
+                    // biome-ignore lint/suspicious/noArrayIndexKey: cellules sans id (rendu Keystatic)
+                    key={i}
+                    colSpan={cell.colSpan}
+                    rowSpan={cell.rowSpan}
+                    className="border border-forest/15 bg-sand px-4 py-3 text-left font-semibold text-forest"
+                  >
+                    {cell.children}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+          )}
+          <tbody>
+            {body.map((row, i) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: lignes sans id (rendu Keystatic)
+              <tr key={i}>
+                {row.map((cell, j) => (
+                  <td
+                    // biome-ignore lint/suspicious/noArrayIndexKey: cellules sans id (rendu Keystatic)
+                    key={j}
+                    colSpan={cell.colSpan}
+                    rowSpan={cell.rowSpan}
+                    className="border border-forest/15 px-4 py-3 align-top"
+                  >
+                    {cell.children}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     ),
     list: ({ type, children }: { type: 'ordered' | 'unordered'; children: ReactElement[] }) => {
       const base = 'mb-[22px] space-y-2 pl-6 font-mulish text-[17px] leading-[1.85] text-[#3f4d44]'
