@@ -26,6 +26,17 @@ export default config({
       schema: {
         title: fields.slug({
           name: { label: 'Titre', validation: { length: { min: 1 } } },
+          // Le slug devient le nom du fichier ET l'URL. Un espace ou une majuscule
+          // produit une page introuvable : Next génère bien le HTML, mais la requête
+          // encodée (%20) ne retrouve plus la route. Le motif l'interdit à la saisie.
+          slug: {
+            validation: {
+              pattern: {
+                regex: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+                message: 'Minuscules, chiffres et tirets uniquement — un espace casse l’URL.',
+              },
+            },
+          },
         }),
         publishedDate: fields.date({
           label: 'Date de publication',
