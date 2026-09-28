@@ -1290,6 +1290,10 @@
       {
         "label": "France",
         "count": 2
+      },
+      {
+        "label": "United States",
+        "count": 1
       }
     ],
     "search": {
