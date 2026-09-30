@@ -1353,5 +1353,44 @@
       "impressions": 32,
       "position": 21.8
     }
+  },
+  {
+    "date": "2026-09-29",
+    "metrics": {
+      "visitors": 2,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/plafond-loyer-3-5-revision-triennale",
+        "count": 1
+      },
+      {
+        "label": "/",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 2
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "Belgium",
+        "count": 1
+      },
+      {
+        "label": "France",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-09-27",
+      "clicks": 0,
+      "impressions": 68,
+      "position": 18.7
+    }
   }
 ]
