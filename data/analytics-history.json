@@ -1378,11 +1378,11 @@
     ],
     "topCountries": [
       {
-        "label": "Belgium",
-        "count": 1
+        "label": "France",
+        "count": 3
       },
       {
-        "label": "France",
+        "label": "Belgium",
         "count": 1
       }
     ],
