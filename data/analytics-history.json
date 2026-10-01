@@ -1392,5 +1392,40 @@
       "impressions": 68,
       "position": 18.7
     }
+  },
+  {
+    "date": "2026-09-30",
+    "metrics": {
+      "visitors": 2,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/plafond-loyer-3-5-revision-triennale",
+        "count": 1
+      },
+      {
+        "label": "/baux-commerciaux/cession-fonds-actions",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 2
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 4
+      }
+    ],
+    "search": {
+      "date": "2026-09-28",
+      "clicks": 2,
+      "impressions": 76,
+      "position": 24.4
+    }
   }
 ]
