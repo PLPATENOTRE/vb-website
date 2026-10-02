@@ -1427,5 +1427,56 @@
       "impressions": 76,
       "position": 24.4
     }
+  },
+  {
+    "date": "2026-10-01",
+    "metrics": {
+      "visitors": 5,
+      "conversions": 1
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 2
+      },
+      {
+        "label": "/contact",
+        "count": 1
+      },
+      {
+        "label": "/actualites/plafond-loyer-3-5-revision-triennale",
+        "count": 1
+      },
+      {
+        "label": "contact-envoi",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "(direct)",
+        "count": 2
+      },
+      {
+        "label": "Google",
+        "count": 2
+      },
+      {
+        "label": "chatgpt.com",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 6
+      }
+    ],
+    "search": {
+      "date": "2026-09-29",
+      "clicks": 2,
+      "impressions": 28,
+      "position": 18.6
+    }
   }
 ]
