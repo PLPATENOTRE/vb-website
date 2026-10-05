@@ -1525,5 +1525,40 @@
       "impressions": 0,
       "position": 0
     }
+  },
+  {
+    "date": "2026-10-04",
+    "metrics": {
+      "visitors": 2,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/baux-commerciaux/formations",
+        "count": 1
+      },
+      {
+        "label": "/bail-commercial-profession-liberale",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 2
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      }
+    ],
+    "search": {
+      "date": "2026-10-02",
+      "clicks": 0,
+      "impressions": 42,
+      "position": 25.3
+    }
   }
 ]
