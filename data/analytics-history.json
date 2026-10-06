@@ -1560,5 +1560,30 @@
       "impressions": 42,
       "position": 25.3
     }
+  },
+  {
+    "date": "2026-10-05",
+    "metrics": {
+      "visitors": 0,
+      "conversions": 0
+    },
+    "topPages": [],
+    "topReferrers": [],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 1
+      },
+      {
+        "label": "Mauritius",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-10-03",
+      "clicks": 0,
+      "impressions": 43,
+      "position": 27.3
+    }
   }
 ]
