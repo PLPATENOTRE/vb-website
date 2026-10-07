@@ -1585,5 +1585,44 @@
       "impressions": 43,
       "position": 27.3
     }
+  },
+  {
+    "date": "2026-10-06",
+    "metrics": {
+      "visitors": 3,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 2
+      },
+      {
+        "label": "/actualites/plafond-loyer-3-5-revision-triennale",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 3
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      },
+      {
+        "label": "Mauritius",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-10-04",
+      "clicks": 2,
+      "impressions": 59,
+      "position": 24.3
+    }
   }
 ]
