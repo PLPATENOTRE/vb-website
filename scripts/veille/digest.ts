@@ -263,7 +263,13 @@ function attachmentName(d: Decision): string {
   return `${base.replace(/[^\w.-]+/g, '_')}.txt`
 }
 
-function digestHtml(scored: Scored[], examined: number): string {
+/** Mention « brouillon » d'une décision : joint en .md seulement s'il vient d'être créé. */
+function draftNote(d: Scored, attached: Set<string>): string {
+  if (attached.has(draftSlug(d))) return '→ brouillon créé dans Keystatic (à relire) — joint en .md'
+  return d.score > DRAFT_MIN_SCORE ? '→ brouillon dans Keystatic (à relire)' : ''
+}
+
+function digestHtml(scored: Scored[], examined: number, attached: Set<string>): string {
   if (scored.length === 0) {
     return `<p>Rien de pertinent cette semaine — 0 décision retenue sur ${examined} examinée(s) (Cass. civ. 3e + com., Bulletin).</p>`
   }
@@ -274,7 +280,7 @@ function digestHtml(scored: Scored[], examined: number): string {
   <strong>[${d.score}/10]</strong> ${CHAMBRES[d.chamber ?? ''] ?? d.chamber ?? '?'} — ${d.decision_date ?? '?'} —
   <a href="${decisionUrl(d)}">n° ${d.number ?? d.id}</a> — texte intégral en pièce jointe<br>
   ${d.pourquoi}<br>
-  <em>Angle d'article : ${d.angle}</em>${d.score > DRAFT_MIN_SCORE ? '<br><strong>→ brouillon créé dans Keystatic (à relire)</strong>' : ''}
+  <em>Angle d'article : ${d.angle}</em>${draftNote(d, attached) ? `<br><strong>${draftNote(d, attached)}</strong>` : ''}
 </li>`,
     )
     .join('\n')
@@ -288,7 +294,7 @@ function digestHtml(scored: Scored[], examined: number): string {
 <p style="color:#666;font-size:13px">Veille automatique Judilibre (Cass. civ. 3e + com., Bulletin) — scores et angles générés par IA, à vérifier avant toute rédaction.</p>`
 }
 
-function digestText(scored: Scored[], examined: number): string {
+function digestText(scored: Scored[], examined: number, attached: Set<string>): string {
   if (scored.length === 0) {
     return `Rien de pertinent cette semaine — 0 décision retenue sur ${examined} examinée(s).`
   }
@@ -296,31 +302,39 @@ function digestText(scored: Scored[], examined: number): string {
   const body = shown
     .map(
       (d) =>
-        `[${d.score}/10] ${d.chamber ?? '?'} ${d.decision_date ?? '?'} n° ${d.number ?? d.id}\n${decisionUrl(d)}\n${d.pourquoi}\nAngle : ${d.angle}${d.score > DRAFT_MIN_SCORE ? '\n→ brouillon créé dans Keystatic (à relire)' : ''}`,
+        `[${d.score}/10] ${d.chamber ?? '?'} ${d.decision_date ?? '?'} n° ${d.number ?? d.id}\n${decisionUrl(d)}\n${d.pourquoi}\nAngle : ${d.angle}${draftNote(d, attached) ? `\n${draftNote(d, attached)}` : ''}`,
     )
     .join('\n\n')
   const extra = scored.length - shown.length
   return extra > 0 ? `${body}\n\n+${extra} autre(s) décision(s) retenue(s), non détaillée(s).` : body
 }
 
-async function sendDigest(scored: Scored[], examined: number): Promise<void> {
+async function sendDigest(scored: Scored[], examined: number, drafts: Draft[]): Promise<void> {
   const resend = new Resend(requireEnv('RESEND_API_KEY'))
   const to = requireEnv('VEILLE_TO').split(',').map((s) => s.trim())
   const semaine = isoDate(new Date())
 
   // PJ .txt : uniquement les décisions détaillées dans le corps (les MAX_LISTED premières),
   // et seulement si le texte intégral est disponible (Judilibre le fournit dans /export).
-  const attachments = scored
+  const decisions = scored
     .slice(0, MAX_LISTED)
     .filter((d) => d.text?.trim())
     .map((d) => ({ filename: attachmentName(d), content: Buffer.from(d.text as string, 'utf8') }))
+  // PJ .md : les brouillons créés cette semaine, corps seul — Victoire les retravaille
+  // dans TextEdit puis les colle dans Keystatic (Cmd+Shift+V).
+  const brouillons = drafts.map((b) => ({
+    filename: `brouillon-${b.slug}.md`,
+    content: Buffer.from(mdocBody(b.mdoc), 'utf8'),
+  }))
+  const attachments = [...brouillons, ...decisions]
+  const attached = new Set(drafts.map((b) => b.slug))
 
   const { error } = await resend.emails.send({
     from: 'Veille baux commerciaux <noreply@behaghel-avocat.com>',
     to,
     subject: `Veille jurisprudence — ${scored.length} décision(s) — semaine du ${semaine}`,
-    html: digestHtml(scored, examined),
-    text: digestText(scored, examined),
+    html: digestHtml(scored, examined, attached),
+    text: digestText(scored, examined, attached),
     ...(attachments.length > 0 ? { attachments } : {}),
   })
   if (error) throw new Error(`Resend : ${error.message}`)
@@ -347,6 +361,16 @@ function slugify(s: string): string {
 
 /** Scalaire YAML sûr (double-quoted : échappe " \\ et les sauts de ligne). */
 const yamlStr = (s: string): string => JSON.stringify(s)
+
+/** Slug stable par décision (chambre+numéro) : nom du brouillon ET clé de dédoublonnage. */
+const draftSlug = (d: Decision): string => slugify(`${d.chamber ?? 'cass'}-${d.number ?? d.id}`)
+
+/**
+ * Corps d'un .mdoc sans son en-tête YAML : c'est ce que Victoire colle dans le champ
+ * Contenu de Keystatic. Titre et chapô sont déjà dans les champs du brouillon, et le
+ * `Cmd+A` de la procédure doit pouvoir tout copier sans rien trier.
+ */
+export const mdocBody = (mdoc: string): string => mdoc.replace(/^---\n[\s\S]*?\n---\n+/, '')
 
 // -- Rédaction de l'article (LLM, ancrée sur le texte intégral de l'arrêt) --
 
@@ -388,7 +412,9 @@ Règles de fond (impératives) :
 Format de sortie :
 - title : la QUESTION concrète que l'arrêt tranche (pas « Commentaire de l'arrêt… »).
 - excerpt : la réponse directe, 1-2 phrases.
-- body_markdown : Markdown SIMPLE UNIQUEMENT — titres ## et ###, **gras**, *italique*, listes à puces, liens [texte](/chemin), citations avec >, séparateur ---. INTERDIT : tableaux, images, blocs de code (\`\`\`), titres de niveau 1 (#).
+- body_markdown : Markdown SIMPLE UNIQUEMENT — titres ## et ###, **gras**, *italique*, listes à puces, liens [texte](/chemin), citations avec >, séparateur ---.
+  Tableau autorisé quand une comparaison s'y prête (avant/après, deux positions jurisprudentielles, bailleur/preneur), au format strict : une ligne d'en-tête, puis la ligne de séparation | --- | --- |, puis les lignes ; chaque ligne commence et finit par | ; aucune ligne vide à l'intérieur du tableau ; une ligne vide avant et après ; pas de saut de ligne dans une cellule. Au plus un ou deux tableaux, jamais pour une simple énumération.
+  INTERDIT : images, blocs de code (\`\`\`), titres de niveau 1 (#).
   Structure : réponse directe d'entrée de jeu, puis « Ce que dit l'arrêt », puis « Ce que ça change en pratique », et termine par 1 à 2 liens internes vers la page service la plus pertinente parmi : ${SERVICE_PAGES.join(', ')}.`
 
 async function generateArticle(openai: OpenAI, d: Scored): Promise<Article> {
@@ -516,20 +542,25 @@ ${source}
 `
 }
 
+interface Draft {
+  slug: string
+  mdoc: string
+}
+
 /**
  * Pour chaque décision score>7 : rédige l'article (ancré sur le texte de l'arrêt) + vérifie,
  * puis écrit le .mdoc (draft:true). En dry-run : génère + affiche, n'écrit rien.
- * Ne clobbe jamais un fichier existant. Retourne les slugs créés.
+ * Ne clobbe jamais un fichier existant. Retourne les brouillons créés (joints au digest).
  */
-async function writeDrafts(draftable: Scored[], dryRun: boolean): Promise<string[]> {
+async function writeDrafts(draftable: Scored[], dryRun: boolean): Promise<Draft[]> {
   if (draftable.length === 0) return []
   const openai = new OpenAI()
-  const created: string[] = []
+  const created: Draft[] = []
   for (const d of draftable) {
     // ponytail: slug stable par décision (chambre+numéro) → dédup par existence de fichier
     // (fenêtre 8 j > cron 7 j = chevauchement possible). Limite : si Victoire renomme le slug
     // à la publication, un doublon peut réapparaître (suppression d'un clic).
-    const slug = slugify(`${d.chamber ?? 'cass'}-${d.number ?? d.id}`)
+    const slug = draftSlug(d)
     const file = join(ARTICLES_DIR, `${slug}.mdoc`)
     if (!dryRun && existsSync(file)) {
       console.log(`  brouillon déjà présent, ignoré : ${slug}`)
@@ -546,7 +577,7 @@ async function writeDrafts(draftable: Scored[], dryRun: boolean): Promise<string
       continue
     }
     writeFileSync(file, mdoc, 'utf8')
-    created.push(slug)
+    created.push({ slug, mdoc })
     console.log(`  brouillon créé : ${file} (vérif : ${checks?.verdict ?? 'squelette'})`)
   }
   return created
@@ -566,6 +597,10 @@ function selftest(): void {
   if (!isRelevant(oui)) throw new Error('selftest : apostrophe typographique non matchée')
   if (!isRelevant(ouiTexte)) throw new Error('selftest : référence L. 145- non matchée')
   if (isRelevant(non)) throw new Error('selftest : faux positif')
+  const mdoc = '---\ntitle: "T"\ndraft: true\n---\n\n## Titre\n\n| A | B |\n| --- | --- |\n'
+  if (mdocBody(mdoc) !== '## Titre\n\n| A | B |\n| --- | --- |\n') {
+    throw new Error('selftest : en-tête YAML non retiré du brouillon joint')
+  }
   console.log('selftest OK')
 }
 
@@ -598,13 +633,13 @@ async function main(): Promise<void> {
     )
     await writeDrafts(draftable, true)
     console.log('\nAperçu texte du mail :\n')
-    console.log(digestText(scored, decisions.length))
+    console.log(digestText(scored, decisions.length, new Set()))
     return
   }
 
   const created = await writeDrafts(draftable, false)
   console.log(`${created.length} brouillon(s) écrit(s) (score > ${DRAFT_MIN_SCORE}).`)
-  await sendDigest(scored, decisions.length)
+  await sendDigest(scored, decisions.length, created)
 }
 
 main().catch((err) => {
