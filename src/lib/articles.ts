@@ -1,5 +1,6 @@
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../../keystatic.config'
+import { pipeTablesToTables } from './pipe-tables'
 
 // Lecture build-time des articles Keystatic (stockage local).
 const reader = createReader(process.cwd(), keystaticConfig)
@@ -114,7 +115,9 @@ export async function getArticle(slug: string) {
   const entry = await reader.collections.articles.read(slug)
   if (!entry) return null
   if (entry.draft) return null // brouillon → 404 même si l'URL est devinée
-  const content = await entry.content()
+  // Les tableaux collés en texte brut dans Keystatic arrivent en lignes `| a | b |` :
+  // on les convertit ici, au rendu, pour que la publication reste un seul clic.
+  const content = pipeTablesToTables(await entry.content())
   return {
     slug,
     title: entry.title,

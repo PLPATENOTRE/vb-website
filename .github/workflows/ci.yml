@@ -39,6 +39,11 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      # Conversion des tableaux collés : une régression ne casse pas le build, elle
+      # affiche juste des lignes de barres sur le site. Seul ce test la voit.
+      - name: Tests unitaires
+        run: pnpm test:unit
+
       - name: Build
         # Keystatic passe en storage `github` en prod (NODE_ENV=production au build) et
         # valide la présence de ces 3 vars DÈS le build. Valeurs factices, CI uniquement

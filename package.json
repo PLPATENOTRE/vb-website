@@ -13,6 +13,7 @@
     "lint": "biome check src/",
     "format": "biome format --write src/",
     "typecheck": "tsc --noEmit",
+    "test:unit": "node --experimental-strip-types --test scripts/pipe-tables.test.mts",
     "test:e2e": "playwright test"
   },
   "dependencies": {
