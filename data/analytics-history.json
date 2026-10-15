@@ -1830,5 +1830,26 @@
       "impressions": 28,
       "position": 22.4
     }
+  },
+  {
+    "date": "2026-10-14",
+    "metrics": {
+      "visitors": 0,
+      "conversions": 0
+    },
+    "topPages": [],
+    "topReferrers": [],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      }
+    ],
+    "search": {
+      "date": "2026-10-12",
+      "clicks": 0,
+      "impressions": 55,
+      "position": 21.7
+    }
   }
 ]
