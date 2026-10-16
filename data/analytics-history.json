@@ -1851,5 +1851,44 @@
       "impressions": 55,
       "position": 21.7
     }
+  },
+  {
+    "date": "2026-10-15",
+    "metrics": {
+      "visitors": 2,
+      "conversions": 1
+    },
+    "topPages": [
+      {
+        "label": "contact-envoi",
+        "count": 1
+      },
+      {
+        "label": "/",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "(direct)",
+        "count": 2
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 3
+      },
+      {
+        "label": "Switzerland",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-10-13",
+      "clicks": 2,
+      "impressions": 58,
+      "position": 18.6
+    }
   }
 ]
