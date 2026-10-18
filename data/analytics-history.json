@@ -1933,5 +1933,21 @@
       "impressions": 53,
       "position": 20.2
     }
+  },
+  {
+    "date": "2026-10-17",
+    "metrics": {
+      "visitors": 0,
+      "conversions": 0
+    },
+    "topPages": [],
+    "topReferrers": [],
+    "topCountries": [],
+    "search": {
+      "date": "2026-10-15",
+      "clicks": 0,
+      "impressions": 60,
+      "position": 20.2
+    }
   }
 ]
