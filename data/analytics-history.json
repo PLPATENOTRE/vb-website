@@ -1942,7 +1942,12 @@
     },
     "topPages": [],
     "topReferrers": [],
-    "topCountries": [],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      }
+    ],
     "search": {
       "date": "2026-10-15",
       "clicks": 0,
