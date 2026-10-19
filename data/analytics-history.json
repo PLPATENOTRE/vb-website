@@ -1954,5 +1954,40 @@
       "impressions": 60,
       "position": 20.2
     }
+  },
+  {
+    "date": "2026-10-18",
+    "metrics": {
+      "visitors": 2,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/delai-contestation-vente-droit-preference",
+        "count": 1
+      },
+      {
+        "label": "/",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 2
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      }
+    ],
+    "search": {
+      "date": "2026-10-16",
+      "clicks": 0,
+      "impressions": 54,
+      "position": 20.9
+    }
   }
 ]
