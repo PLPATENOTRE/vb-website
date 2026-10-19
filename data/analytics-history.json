@@ -1980,7 +1980,11 @@
     "topCountries": [
       {
         "label": "France",
-        "count": 2
+        "count": 3
+      },
+      {
+        "label": "Spain",
+        "count": 1
       }
     ],
     "search": {
