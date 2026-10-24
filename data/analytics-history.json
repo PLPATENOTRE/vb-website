@@ -2123,5 +2123,40 @@
       "impressions": 79,
       "position": 18.8
     }
+  },
+  {
+    "date": "2026-10-23",
+    "metrics": {
+      "visitors": 2,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/cession-droit-au-bail-guide-pratique",
+        "count": 1
+      },
+      {
+        "label": "/actualites/frais-agence-locataire-commercial-droit-de-preemption",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 2
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      }
+    ],
+    "search": {
+      "date": "2026-10-21",
+      "clicks": 0,
+      "impressions": 68,
+      "position": 22.1
+    }
   }
 ]
