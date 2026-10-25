@@ -2158,5 +2158,21 @@
       "impressions": 68,
       "position": 22.1
     }
+  },
+  {
+    "date": "2026-10-24",
+    "metrics": {
+      "visitors": 0,
+      "conversions": 0
+    },
+    "topPages": [],
+    "topReferrers": [],
+    "topCountries": [],
+    "search": {
+      "date": "2026-10-22",
+      "clicks": 2,
+      "impressions": 66,
+      "position": 22.6
+    }
   }
 ]
