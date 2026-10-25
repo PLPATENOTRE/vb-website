@@ -2167,7 +2167,12 @@
     },
     "topPages": [],
     "topReferrers": [],
-    "topCountries": [],
+    "topCountries": [
+      {
+        "label": "Mauritius",
+        "count": 3
+      }
+    ],
     "search": {
       "date": "2026-10-22",
       "clicks": 2,
