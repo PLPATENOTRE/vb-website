@@ -2179,5 +2179,56 @@
       "impressions": 66,
       "position": 22.6
     }
+  },
+  {
+    "date": "2026-10-25",
+    "metrics": {
+      "visitors": 4,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/la-clause-d-indexation",
+        "count": 1
+      },
+      {
+        "label": "/actualites/revision-triennale-loyer-commercial",
+        "count": 1
+      },
+      {
+        "label": "/baux-commerciaux/cession-fonds-actions",
+        "count": 1
+      },
+      {
+        "label": "/",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "(direct)",
+        "count": 1
+      },
+      {
+        "label": "Google",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "Mauritius",
+        "count": 3
+      },
+      {
+        "label": "United States",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-10-23",
+      "clicks": 2,
+      "impressions": 73,
+      "position": 21.2
+    }
   }
 ]
