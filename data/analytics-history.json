@@ -2234,5 +2234,44 @@
       "impressions": 73,
       "position": 21.2
     }
+  },
+  {
+    "date": "2026-10-26",
+    "metrics": {
+      "visitors": 2,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/retractation-offre-vente-local-commercial",
+        "count": 1
+      },
+      {
+        "label": "/actualites/clause-augmentation-forfaitaire-loyer",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 1
+      },
+      {
+        "label": "www.bing.com",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 3
+      }
+    ],
+    "search": {
+      "date": "2026-10-24",
+      "clicks": 0,
+      "impressions": 61,
+      "position": 31
+    }
   }
 ]
