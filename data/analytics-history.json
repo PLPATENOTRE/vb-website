@@ -2273,5 +2273,44 @@
       "impressions": 61,
       "position": 31
     }
+  },
+  {
+    "date": "2026-10-27",
+    "metrics": {
+      "visitors": 2,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/bail-commercial-profession-liberale",
+        "count": 1
+      },
+      {
+        "label": "/",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 1
+      },
+      {
+        "label": "www.bing.com",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 3
+      }
+    ],
+    "search": {
+      "date": "2026-10-25",
+      "clicks": 1,
+      "impressions": 64,
+      "position": 23.3
+    }
   }
 ]
