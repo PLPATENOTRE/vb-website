@@ -2312,5 +2312,56 @@
       "impressions": 64,
       "position": 23.3
     }
+  },
+  {
+    "date": "2026-10-28",
+    "metrics": {
+      "visitors": 6,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 2
+      },
+      {
+        "label": "/confidentialite",
+        "count": 1
+      },
+      {
+        "label": "/actualites/loi-simplification-bail-commercial",
+        "count": 1
+      },
+      {
+        "label": "/actualites/delai-contestation-vente-droit-preference",
+        "count": 1
+      },
+      {
+        "label": "/baux-commerciaux/contentieux",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 5
+      },
+      {
+        "label": "(direct)",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 7
+      }
+    ],
+    "search": {
+      "date": "2026-10-26",
+      "clicks": 1,
+      "impressions": 56,
+      "position": 19.9
+    }
   }
 ]
