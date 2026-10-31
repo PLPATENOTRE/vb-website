@@ -2406,5 +2406,56 @@
       "impressions": 76,
       "position": 20.6
     }
+  },
+  {
+    "date": "2026-10-30",
+    "metrics": {
+      "visitors": 4,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 2
+      },
+      {
+        "label": "/actualites/loi-simplification-bail-commercial",
+        "count": 1
+      },
+      {
+        "label": "/bail-commercial-entrepot-logistique",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 3
+      },
+      {
+        "label": "(direct)",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 5
+      },
+      {
+        "label": "Netherlands",
+        "count": 1
+      },
+      {
+        "label": "New Zealand",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-10-28",
+      "clicks": 4,
+      "impressions": 100,
+      "position": 21.5
+    }
   }
 ]
