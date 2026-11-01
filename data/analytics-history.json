@@ -2461,5 +2461,56 @@
       "impressions": 100,
       "position": 21.5
     }
+  },
+  {
+    "date": "2026-10-31",
+    "metrics": {
+      "visitors": 4,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 3
+      },
+      {
+        "label": "/baux-commerciaux/cession-fonds-actions",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "(direct)",
+        "count": 2
+      },
+      {
+        "label": "chatgpt.com",
+        "count": 2
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 1
+      },
+      {
+        "label": "Netherlands",
+        "count": 1
+      },
+      {
+        "label": "New Zealand",
+        "count": 1
+      },
+      {
+        "label": "United States",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-10-29",
+      "clicks": 1,
+      "impressions": 79,
+      "position": 20.1
+    }
   }
 ]
