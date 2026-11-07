@@ -2689,5 +2689,36 @@
       "impressions": 100,
       "position": 23.9
     }
+  },
+  {
+    "date": "2026-11-06",
+    "metrics": {
+      "visitors": 1,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/frais-agence-locataire-commercial-droit-de-preemption",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-11-04",
+      "clicks": 1,
+      "impressions": 82,
+      "position": 30.7
+    }
   }
 ]
