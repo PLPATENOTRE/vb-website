@@ -2786,5 +2786,36 @@
       "impressions": 84,
       "position": 23.6
     }
+  },
+  {
+    "date": "2026-11-09",
+    "metrics": {
+      "visitors": 1,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/loi-simplification-bail-commercial",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      }
+    ],
+    "search": {
+      "date": "2026-11-07",
+      "clicks": 0,
+      "impressions": 63,
+      "position": 28.5
+    }
   }
 ]
