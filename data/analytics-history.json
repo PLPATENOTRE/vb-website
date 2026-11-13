@@ -2887,5 +2887,56 @@
       "impressions": 85,
       "position": 21.3
     }
+  },
+  {
+    "date": "2026-11-12",
+    "metrics": {
+      "visitors": 6,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 3
+      },
+      {
+        "label": "/actualites/loi-simplification-bail-commercial",
+        "count": 2
+      },
+      {
+        "label": "/actualites/frais-agence-locataire-commercial-droit-de-preemption",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 4
+      },
+      {
+        "label": "(direct)",
+        "count": 1
+      },
+      {
+        "label": "chatgpt.com",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 5
+      },
+      {
+        "label": "United States",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-11-10",
+      "clicks": 3,
+      "impressions": 111,
+      "position": 20.8
+    }
   }
 ]
