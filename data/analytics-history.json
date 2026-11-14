@@ -2938,5 +2938,44 @@
       "impressions": 111,
       "position": 20.8
     }
+  },
+  {
+    "date": "2026-11-13",
+    "metrics": {
+      "visitors": 3,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/cession-droit-au-bail-guide-pratique",
+        "count": 1
+      },
+      {
+        "label": "/actualites/frais-agence-locataire-commercial-droit-de-preemption",
+        "count": 1
+      },
+      {
+        "label": "/actualites/plafond-loyer-3-5-revision-triennale",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 3
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 3
+      }
+    ],
+    "search": {
+      "date": "2026-11-11",
+      "clicks": 0,
+      "impressions": 0,
+      "position": 0
+    }
   }
 ]
