@@ -3008,5 +3008,34 @@
       "impressions": 92,
       "position": 20.1
     }
+  },
+  {
+    "date": "2026-11-15",
+    "metrics": {
+      "visitors": 0,
+      "conversions": 0
+    },
+    "topPages": [],
+    "topReferrers": [],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 3
+      },
+      {
+        "label": "Ireland",
+        "count": 1
+      },
+      {
+        "label": "Pakistan",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-11-13",
+      "clicks": 4,
+      "impressions": 108,
+      "position": 30.9
+    }
   }
 ]
