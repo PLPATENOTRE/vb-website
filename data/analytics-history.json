@@ -3037,5 +3037,52 @@
       "impressions": 108,
       "position": 30.9
     }
+  },
+  {
+    "date": "2026-11-16",
+    "metrics": {
+      "visitors": 5,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/frais-agence-locataire-commercial-droit-de-preemption",
+        "count": 3
+      },
+      {
+        "label": "/actualites/loi-simplification-bail-commercial",
+        "count": 1
+      },
+      {
+        "label": "/actualites",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "(direct)",
+        "count": 5
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 3
+      },
+      {
+        "label": "Ireland",
+        "count": 1
+      },
+      {
+        "label": "Pakistan",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-11-14",
+      "clicks": 2,
+      "impressions": 56,
+      "position": 31.9
+    }
   }
 ]
