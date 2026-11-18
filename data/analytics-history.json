@@ -3118,7 +3118,15 @@
     "topCountries": [
       {
         "label": "France",
-        "count": 3
+        "count": 4
+      },
+      {
+        "label": "Brazil",
+        "count": 1
+      },
+      {
+        "label": "Chile",
+        "count": 1
       },
       {
         "label": "New Zealand",
