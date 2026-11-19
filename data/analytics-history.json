@@ -3139,5 +3139,48 @@
       "impressions": 68,
       "position": 31
     }
+  },
+  {
+    "date": "2026-11-18",
+    "metrics": {
+      "visitors": 4,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/frais-agence-locataire-commercial-droit-de-preemption",
+        "count": 3
+      },
+      {
+        "label": "/actualites/loi-simplification-bail-commercial",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "(direct)",
+        "count": 3
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      },
+      {
+        "label": "Brazil",
+        "count": 1
+      },
+      {
+        "label": "Chile",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-11-16",
+      "clicks": 0,
+      "impressions": 97,
+      "position": 33.6
+    }
   }
 ]
