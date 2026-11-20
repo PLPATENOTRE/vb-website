@@ -3182,5 +3182,36 @@
       "impressions": 97,
       "position": 33.6
     }
+  },
+  {
+    "date": "2026-11-19",
+    "metrics": {
+      "visitors": 1,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/actualites/cession-du-bail-au-depart-en-retraite-faut-il-signifier-le-projet-a-chaque-proprietaire-indivis",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 2
+      }
+    ],
+    "search": {
+      "date": "2026-11-17",
+      "clicks": 3,
+      "impressions": 76,
+      "position": 21.3
+    }
   }
 ]
