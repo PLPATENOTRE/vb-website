@@ -3457,14 +3457,14 @@
     "topCountries": [
       {
         "label": "France",
-        "count": 57
-      },
-      {
-        "label": "United Kingdom",
-        "count": 2
+        "count": 70
       },
       {
         "label": "Morocco",
+        "count": 5
+      },
+      {
+        "label": "United Kingdom",
         "count": 2
       },
       {
