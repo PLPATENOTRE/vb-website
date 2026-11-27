@@ -3419,5 +3419,64 @@
       "impressions": 111,
       "position": 19.8
     }
+  },
+  {
+    "date": "2026-11-26",
+    "metrics": {
+      "visitors": 7,
+      "conversions": 0
+    },
+    "topPages": [
+      {
+        "label": "/",
+        "count": 3
+      },
+      {
+        "label": "/actualites/frais-agence-locataire-commercial-droit-de-preemption",
+        "count": 2
+      },
+      {
+        "label": "/actualites/expertise-amiable-fixation-judiciaire-loyer",
+        "count": 1
+      },
+      {
+        "label": "/baux-commerciaux/contentieux",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "Google",
+        "count": 5
+      },
+      {
+        "label": "chatgpt.com",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 57
+      },
+      {
+        "label": "United Kingdom",
+        "count": 2
+      },
+      {
+        "label": "Morocco",
+        "count": 2
+      },
+      {
+        "label": "Spain",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-11-24",
+      "clicks": 2,
+      "impressions": 93,
+      "position": 17.6
+    }
   }
 ]
