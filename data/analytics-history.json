@@ -3478,5 +3478,100 @@
       "impressions": 93,
       "position": 17.6
     }
+  },
+  {
+    "date": "2026-11-27",
+    "metrics": {
+      "visitors": 76,
+      "conversions": 1
+    },
+    "topPages": [
+      {
+        "label": "/actualites/la-fixation-du-loyer-renouvele-d-un-hotel-comment-s-applique-la-methode-hoteliere",
+        "count": 62
+      },
+      {
+        "label": "/",
+        "count": 3
+      },
+      {
+        "label": "/contact",
+        "count": 2
+      },
+      {
+        "label": "/honoraires",
+        "count": 2
+      },
+      {
+        "label": "/mentions-legales",
+        "count": 1
+      },
+      {
+        "label": "/confidentialite",
+        "count": 1
+      },
+      {
+        "label": "/baux-commerciaux/vie-du-bail",
+        "count": 1
+      },
+      {
+        "label": "contact-envoi",
+        "count": 1
+      },
+      {
+        "label": "/actualites/expertise-amiable-fixation-judiciaire-loyer",
+        "count": 1
+      },
+      {
+        "label": "/a-propos",
+        "count": 1
+      }
+    ],
+    "topReferrers": [
+      {
+        "label": "www.linkedin.com",
+        "count": 32
+      },
+      {
+        "label": "(direct)",
+        "count": 30
+      },
+      {
+        "label": "com.linkedin.android",
+        "count": 9
+      },
+      {
+        "label": "Google",
+        "count": 2
+      },
+      {
+        "label": "chatgpt.com",
+        "count": 1
+      }
+    ],
+    "topCountries": [
+      {
+        "label": "France",
+        "count": 74
+      },
+      {
+        "label": "Morocco",
+        "count": 5
+      },
+      {
+        "label": "United Kingdom",
+        "count": 1
+      },
+      {
+        "label": "United States",
+        "count": 1
+      }
+    ],
+    "search": {
+      "date": "2026-11-25",
+      "clicks": 1,
+      "impressions": 103,
+      "position": 21.3
+    }
   }
 ]
